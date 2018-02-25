@@ -25,7 +25,6 @@ public class HomeActivity extends AppCompatActivity
     // TODO: Declare member variables here:
     FloatingActionButton fab;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +74,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.myDrawer);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.home);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -83,38 +82,49 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.feed) {
-            startActivity(new Intent(this,FeedingActivity.class));
-
-        } else if (id == R.id.diaper) {
-            startActivity(new Intent(this,DiaperChangeActivity.class));
-
-        } else if (id == R.id.sleep) {
-            startActivity(new Intent(this,SleepActivity.class));
-
-        } else if (id == R.id.chart) {
-            startActivity(new Intent(this,ChartActivity.class));
-
-        } else if (id == R.id.journal) {
-//            startActivity(new Intent(this,.class));
-
-        } else if (id == R.id.tt) {
-//            startActivity(new Intent(this,.class));
-
-        } else if (id == R.id.weightT) {
-//            startActivity(new Intent(this,.class));
-
+        //here is the main place where we need to work on.
+        int id=item.getItemId();
+        switch (id){
+            case R.id.home:
+                /*Intent intent = new Intent(this,HomeActivity.class);
+                startActivity(intent);*/
+                break;
+            case R.id.feed:
+                Intent h= new Intent(this,FeedingActivity.class);
+                startActivity(h);
+                break;
+            case R.id.sleep:
+                Intent i= new Intent(this,SleepActivity.class);
+                startActivity(i);
+                break;
+            case R.id.diaper:
+                Intent g= new Intent(this,DiaperChangeActivity.class);
+                startActivity(g);
+                break;
+            case R.id.chart:
+                Intent s= new Intent(this,ChartActivity.class);
+                startActivity(s);
+                break;
+            case R.id.journal:
+                /*Intent t= new Intent(this,.class);
+                startActivity(t);*/
+                break;
+            case R.id.tt:
+                /*Intent t= new Intent(this,.class);
+                startActivity(t);*/
+                break;
+            case R.id.weightT:
+                /*Intent t= new Intent(this,.class);
+                startActivity(t);*/
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.myDrawer);
         drawer.closeDrawer(GravityCompat.START);
-
         return true;
     }
-
 }

@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     tools:context=".HomeActivity"
     android:id="@+id/myDrawer"
     android:fitsSystemWindows="true"
@@ -23,8 +22,8 @@
         android:layout_gravity="start"
         android:background="#FFF"
         app:headerLayout="@layout/my_header"
-        app:itemIconTint="#000000"
-        app:itemTextColor="#000000"
+        app:itemIconTint="#000"
+        app:itemTextColor="#000"
         app:menu="@menu/my_menu"
         android:fitsSystemWindows="true">
     </android.support.design.widget.NavigationView>

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 
 public class Tab3 extends Fragment {
-    private static final String TAG = "Tab3Fragement";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
