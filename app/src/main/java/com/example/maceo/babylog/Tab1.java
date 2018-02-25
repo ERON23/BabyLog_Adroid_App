@@ -28,7 +28,7 @@ public class Tab1 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
 
 
-       /* mFeedingButton = (Button)view.findViewById(R.id.feeding_button);
+        mFeedingButton = (Button)view.findViewById(R.id.feeding_button);
         mSleepButton = (Button) view.findViewById(R.id.sleep_button);
         mDiaperChangeButton = (Button)view.findViewById(R.id.diaper_change_button);
         mChartButton = (Button) view.findViewById(R.id.chart_button);
@@ -63,7 +63,7 @@ public class Tab1 extends Fragment {
                 Intent x = new Intent(getActivity(),ChartActivity.class);
                 startActivity(x);
             }
-        });*/
+        });
 
         return view;
     }
