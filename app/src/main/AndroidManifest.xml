@@ -16,12 +16,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BabyInfoActivity" />
+        <activity android:name=".BabyInfoActivity"
+            android:parentActivityName=".HomeActivity" />
+        <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".FeedingActivity" />
-        <activity android:name=".SleepActivity" />
-        <activity android:name=".ChartActivity" />
-        <activity android:name=".DiaperChangeActivity"></activity>
+        <activity android:name=".FeedingActivity"
+            android:parentActivityName=".HomeActivity"/>
+        <activity android:name=".SleepActivity"
+            android:parentActivityName=".HomeActivity"/>
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".HomeActivity" />/>
+        <activity android:name=".ChartActivity"
+            android:parentActivityName=".HomeActivity"/>
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".HomeActivity" />/>
+        <activity android:name=".DiaperChangeActivity"
+            android:parentActivityName=".HomeActivity"/>
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".HomeActivity" />/>
     </application>
 
 </manifest>

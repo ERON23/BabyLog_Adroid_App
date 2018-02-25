@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">BabyLog</string>
     <string name="welcome">Welcome</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
 </resources>
