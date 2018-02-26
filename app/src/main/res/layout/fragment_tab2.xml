@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tab 2"
+        android:text="Summary"
         android:layout_centerInParent="true"
         android:textSize="60dp"
         />

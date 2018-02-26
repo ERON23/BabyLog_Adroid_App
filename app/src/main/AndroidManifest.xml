@@ -16,29 +16,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BabyInfoActivity"/>
+        <activity android:name=".BabyInfoActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".FeedingActivity"
+        <activity
+            android:name=".FeedingActivity"
             android:label="Feeding"
-            android:parentActivityName=".HomeActivity"/>
-        <activity android:name=".SleepActivity"
+            android:parentActivityName=".HomeActivity" />
+        <activity
+            android:name=".SleepActivity"
             android:label="Sleep"
-            android:parentActivityName=".HomeActivity"/>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />/>
-        <activity android:name=".ChartActivity"
+            android:parentActivityName=".HomeActivity" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".HomeActivity" />
+        />
+        <activity
+            android:name=".ChartActivity"
             android:label="Charts"
-            android:parentActivityName=".HomeActivity"/>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />/>
-        <activity android:name=".DiaperChangeActivity"
+            android:parentActivityName=".HomeActivity" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".HomeActivity" />
+        />
+        <activity
+            android:name=".DiaperChangeActivity"
             android:label="Diaper Change"
-            android:parentActivityName=".HomeActivity"/>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />/>
+            android:parentActivityName=".HomeActivity" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".HomeActivity" />
+        />
+        <activity android:name=".NotificationActivity"></activity>
     </application>
 
 </manifest>
