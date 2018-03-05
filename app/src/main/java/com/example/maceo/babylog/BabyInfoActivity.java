@@ -1,22 +1,21 @@
 package com.example.maceo.babylog;
+
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
-
-        import android.content.Intent;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.view.View;
-        import android.widget.Button;
-
-import com.example.maceo.babylog.HomeActivity;
-import com.example.maceo.babylog.R;
+import android.widget.Button;
+import android.widget.ImageView;
 
 public class BabyInfoActivity extends AppCompatActivity {
-    //DatePickerDialog.OnDateSetListener mDateSetListener;
-    Button mSaveButton;
-    //static final String TAG = "MainActivity";
 
-    //TextView mDisplayDate;
+
+    ImageView imageView;
+    Button mSaveButton;
+    private static final int PICK_IMAGE = 100;
+    Uri imageUri;
 
 
     @Override
@@ -24,48 +23,42 @@ public class BabyInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baby_info);
 
-        //mDisplayDate = (TextView) findViewById(R.id.baby_birthday);
+        imageView = (ImageView) findViewById(R.id.imageView);
         mSaveButton = (Button) findViewById(R.id.savebaby_info_button);
 
-
-        /*mDisplayDate.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(
-                        BabyInfoActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        mDateSetListener,
-                        year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
+            public void onClick(View v) {
+                openGallery();
             }
-        });*/
+        });
+    }
 
-        /*mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                //Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
+    private void openGallery() {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
 
-                String date = month + "/" + day + "/" + year;
-                mDisplayDate.setText(date);
-            }
-        };*/
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            imageUri = data.getData();
+            imageView.setImageURI(imageUri);
+        }
+    }
 
 
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view){
 
-                Intent r = new Intent(BabyInfoActivity.this,HomeActivity.class);
-                startActivity(r);
+        Intent r = new Intent(BabyInfoActivity.this, HomeActivity.class);
+        startActivity(r);
 
-            }
-        });
     }
-}
+    });
+
+    }
+
