@@ -60,7 +60,7 @@ public class BabyInfoActivity extends AppCompatActivity {
             imageView.setImageURI(imageUri);
         }
     }
-
+/////hhgggfffgg
 
 
     }
