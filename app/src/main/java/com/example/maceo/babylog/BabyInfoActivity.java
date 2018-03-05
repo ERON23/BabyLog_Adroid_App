@@ -14,6 +14,7 @@ import com.example.maceo.babylog.R;
 public class BabyInfoActivity extends AppCompatActivity {
     //DatePickerDialog.OnDateSetListener mDateSetListener;
     Button mSaveButton;
+    Button attempt;
     //static final String TAG = "MainActivity";
 
     //TextView mDisplayDate;
