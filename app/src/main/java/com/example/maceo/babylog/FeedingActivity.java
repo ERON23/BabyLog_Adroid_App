@@ -10,16 +10,48 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import com.nex3z.notificationbadge.NotificationBadge;
 
 public class FeedingActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    Toolbar toolbar = null;
+    NotificationBadge mBadge;
+    private int count = 0;
+    Button mIncrease, mDecrease, mClear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feeding);
+
+        mBadge = (NotificationBadge)findViewById(R.id.notification_badge);
+
+        mIncrease = (Button)findViewById(R.id.add_btn);
+        mDecrease = (Button)findViewById(R.id.less_btn);
+        mClear = (Button)findViewById(R.id.clear_btn);
+        mBadge = (NotificationBadge)findViewById(R.id.notification_badge);
+
+        mIncrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBadge.setNumber(count++);
+            }
+        });
+        mDecrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBadge.setNumber(count--);
+            }
+        });
+        mClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBadge.setNumber(0);
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
@@ -32,6 +64,32 @@ public class FeedingActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.notification, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.menu_notification) {
+//            mBadge.setNumber(++count);
+            Intent intent= new Intent(this,NotificationActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

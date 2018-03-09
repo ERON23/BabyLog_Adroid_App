@@ -24,6 +24,7 @@
         app:headerLayout="@layout/my_header"
         app:itemIconTint="#000"
         app:itemTextColor="#000"
-        app:menu="@menu/my_menu"></android.support.design.widget.NavigationView>
+        app:menu="@menu/my_menu">
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

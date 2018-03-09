@@ -10,10 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 public class Tab1 extends Fragment {
-    Button mFeedingButton;
-    Button mSleepButton;
-    Button mDiaperChangeButton;
-    Button mChartButton;
+    Button mFeedingButton, mSleepButton, mDiaperChangeButton, mChartButton;
 
     @Nullable
     @Override
@@ -21,7 +18,6 @@ public class Tab1 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
-
 
         mFeedingButton = (Button)view.findViewById(R.id.feeding_button);
         mSleepButton = (Button) view.findViewById(R.id.sleep_button);
