@@ -49,7 +49,7 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".HomeActivity" />
         />
-        <activity android:name=".NotificationActivity"></activity>
+        <activity android:name=".NotificationActivity" />
     </application>
 
 </manifest>
