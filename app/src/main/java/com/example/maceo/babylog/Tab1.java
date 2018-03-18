@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 public class Tab1 extends Fragment {
-    Button mFeedingButton, mSleepButton, mDiaperChangeButton, mChartButton, mTummyTime;
+    Button mFeedingButton, mSleepButton, mDiaperChangeButton, mChartButton, mTummyTime, mWeightTracking;
 
     @Nullable
     @Override
@@ -24,6 +24,7 @@ public class Tab1 extends Fragment {
         mDiaperChangeButton = (Button)view.findViewById(R.id.diaper_change_button);
         mChartButton = (Button) view.findViewById(R.id.chart_button);
         mTummyTime = (Button) view.findViewById(R.id.tummytime_button);
+        mWeightTracking = (Button) view.findViewById(R.id.weight_tracker_button);
 
         mFeedingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,11 +57,18 @@ public class Tab1 extends Fragment {
                 startActivity(x);
             }
         });
+        mWeightTracking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent x = new Intent(getActivity(), ChartActivity.class);
+                startActivity(x);
+                                            }
+                                        });
         mTummyTime.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /* In here put the java class you want it to go to*/
-                Intent x = new Intent(getActivity(),DiaperChangeActivity.class);
+                Intent x = new Intent(getActivity(),TummyTimeActivity.class);
                 startActivity(x);
             }
         }));
