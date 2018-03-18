@@ -26,15 +26,15 @@ public class FeedingActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feeding);
-
+/*
         mBadge = (NotificationBadge)findViewById(R.id.notification_badge);
 
         mIncrease = (Button)findViewById(R.id.add_btn);
         mDecrease = (Button)findViewById(R.id.less_btn);
         mClear = (Button)findViewById(R.id.clear_btn);
-        mBadge = (NotificationBadge)findViewById(R.id.notification_badge);
+        mBadge = (NotificationBadge)findViewById(R.id.notification_badge);*/
 
-        mIncrease.setOnClickListener(new View.OnClickListener() {
+        /*mIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mBadge.setNumber(count++);
@@ -51,7 +51,7 @@ public class FeedingActivity extends AppCompatActivity
             public void onClick(View view) {
                 mBadge.setNumber(0);
             }
-        });
+        });*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
