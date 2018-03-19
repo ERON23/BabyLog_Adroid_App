@@ -5,6 +5,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,14 +16,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-
+import android.widget.TextView;
 import com.github.clans.fab.FloatingActionMenu;
+import com.nex3z.notificationbadge.NotificationBadge;
 
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     // TODO: Declare member variables here:
+/*    NotificationBadge mBadge;
+    private int count = 0;*/
     // for FAB
     FloatingActionMenu floatingActionMenu;
     com.github.clans.fab.FloatingActionButton camera, sleep, feeding;
@@ -37,6 +41,8 @@ public class HomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+//        mBadge = (NotificationBadge)findViewById(R.id.notification_badge);
 
         // finds FAB menu
         floatingActionMenu = (FloatingActionMenu)findViewById(R.id.floatingActionMenu);
@@ -87,10 +93,12 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         /* start of the tab layout and navigation view */
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.notification, menu);
+
         return true;
     }
 
@@ -103,6 +111,7 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_notification) {
+//            mBadge.setNumber(++count);
             Intent intent= new Intent(this,NotificationActivity.class);
             startActivity(intent);
             return true;

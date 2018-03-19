@@ -11,7 +11,7 @@
     tools:showIn="@layout/fragment_tab1">
 
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -132,6 +132,6 @@
                 android:background="@drawable/weighttrackericon"
                 android:layout_marginRight="8dp" />
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.constraint.ConstraintLayout>

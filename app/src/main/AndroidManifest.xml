@@ -17,11 +17,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".BabyInfoActivity" />
-        <activity android:name=".HomeActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:parentActivityName=".BabyInfoActivity" />
         <activity
             android:name=".FeedingActivity"
             android:label="Feeding"
             android:parentActivityName=".HomeActivity" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".HomeActivity" />
+
         <activity
             android:name=".SleepActivity"
             android:label="Sleep"
@@ -49,7 +56,11 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".HomeActivity" />
         />
-        <activity android:name=".NotificationActivity"></activity>
+        <activity
+            android:name=".NotificationActivity"
+            android:label="Notifications" />
+        <activity android:name=".TummyTimeActivity" />
+        <activity android:name=".WeighyTrackingActivity"></activity>
     </application>
 
 </manifest>

@@ -1,42 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.maceo.babylog.FeedingPage">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".FeedingActivity"
+    android:id="@+id/content_feeding">
 
-
-<TextView
-       android:id="@+id/text_view_countdown"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_centerHorizontal="true"
-       android:layout_centerVertical="true"
-       android:text="@string/Timer"
-       android:textColor="@android:color/black"
-       android:textSize="60sp" />
-
-   <Button
-       android:id="@+id/button_start_pause"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_below="@+id/text_view_countdown"
-       android:layout_centerHorizontal="true"
-       android:text="@string/start" />
-
-   <Button
-       android:id="@+id/button_reset"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_below="@+id/text_view_countdown"
-       android:layout_marginStart="11dp"
-       android:layout_toEndOf="@+id/button_start_pause"
-       android:text="@string/reset"
-       android:visibility="invisible"
-       tools:visibility="visible"
-       android:layout_marginLeft="11dp"
-       android:layout_toRightOf="@+id/button_start_pause" />
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Feeding Screen"
+        android:layout_centerInParent="true"
+        android:textSize="20dp" />
+    <!--<Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerInParent="true"
+        android:text="Increase"
+        android:id="@+id/add_btn"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_btn"
+        android:layout_centerInParent="true"
+        android:text="Decrease"
+        android:id="@+id/less_btn"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/less_btn"
+        android:layout_centerInParent="true"
+        android:text="Clear"
+        android:id="@+id/clear_btn"/>-->
 
 </RelativeLayout>
