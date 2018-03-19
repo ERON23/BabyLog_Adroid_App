@@ -37,7 +37,6 @@ public class BabyInfoActivity extends AppCompatActivity {
     Uri imageUri;
 
     //declare firebase database
-    //comment
     FirebaseDatabase firebaseDatabaseInstance; //helps gets firebase intance
     DatabaseReference databaseReference; // helps us find the reference
 

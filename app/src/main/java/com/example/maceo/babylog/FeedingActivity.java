@@ -22,10 +22,47 @@ public class FeedingActivity extends AppCompatActivity
     private int count = 0;
     Button mIncrease, mDecrease, mClear;
 
+    Button image;
+    Button veg;
+    Button th;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feeding);
+
+        image = (Button) findViewById(R.id.btn);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), FeedingBottleActivity.class);
+                startActivity(i);
+
+
+            }
+        });
+
+        th =(Button) findViewById(R.id.btn2);
+        th.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), BreastFeedingActivity.class);
+                startActivity(i);
+            }
+        });
+
+        veg = (Button) findViewById(R.id.btn3);
+
+        veg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), NutritionActivity.class);
+                startActivity(i);
+            }
+        });
+
+
 /*
         mBadge = (NotificationBadge)findViewById(R.id.notification_badge);
 

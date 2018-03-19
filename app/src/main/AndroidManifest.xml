@@ -60,7 +60,11 @@
             android:name=".NotificationActivity"
             android:label="Notifications" />
         <activity android:name=".TummyTimeActivity" />
-        <activity android:name=".WeighyTrackingActivity"></activity>
+        <activity android:name=".WeighyTrackingActivity" />
+        <activity android:name=".FeedingBottleActivity" />
+        <activity android:name=".BreastFeedingActivity" />
+        <activity android:name=".NutritionActivity" />
+        <activity android:name=".CustomOnItemSelectedListener"></activity>
     </application>
 
 </manifest>
