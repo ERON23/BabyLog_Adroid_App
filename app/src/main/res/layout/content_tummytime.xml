@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray">
 
     <TextView
         android:id="@+id/countdown_text"
@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:textColor="@android:color/background_dark"
         android:textSize="60sp"
-        tools:text="0:00"
-        android:textColor="@android:color/background_dark"/>
+        tools:text="0:00" />
 
     <Button
         android:id="@+id/countdown_button"
@@ -24,7 +24,13 @@
         android:layout_alignStart="@+id/countdown_text"
         android:layout_below="@+id/countdown_text"
         android:layout_marginTop="49dp"
-        android:text="Start" />
+        android:fontFamily="sans-serif"
+        android:lineSpacingExtra="10sp"
+        android:text="Start"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/button_reset"
@@ -37,7 +43,21 @@
         android:layout_toEndOf="@+id/countdown_button"
         android:layout_toRightOf="@+id/countdown_button"
         android:text="Reset"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textStyle="bold"
         android:visibility="invisible"
         tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/tummytime"
+        android:text="Recommend at least 5 min a day"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
 </RelativeLayout>
