@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionMenu;
 import com.nex3z.notificationbadge.NotificationBadge;
 
-
+import com.example.maceo.babylog.Model.Baby;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -41,6 +41,10 @@ public class HomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        // for changing the toolbar
+
 
 //        mBadge = (NotificationBadge)findViewById(R.id.notification_badge);
 
