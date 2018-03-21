@@ -23,8 +23,7 @@
             android:id="@+id/stopwatch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="StopWatch" />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/textView"
@@ -72,7 +71,7 @@
             android:layout_below="@+id/button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
-            android:text="Save Lap" />
+            android:text="Save Time" />
 
         <ListView
             android:id="@+id/listview1"
