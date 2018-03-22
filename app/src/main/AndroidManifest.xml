@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".BabyInfoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BabyInfoActivity" />
+        <!--<activity android:name=".BabyInfoActivity" />-->
         <activity
             android:name=".HomeActivity"
             android:parentActivityName=".BabyInfoActivity" />
@@ -60,7 +60,11 @@
             android:name=".NotificationActivity"
             android:label="Notifications" />
         <activity android:name=".TummyTimeActivity" />
-        <activity android:name=".WeighyTrackingActivity"></activity>
+        <activity android:name=".WeighyTrackingActivity" />
+        <activity android:name=".FeedingBottleActivity" />
+        <activity android:name=".BreastFeedingActivity" />
+        <activity android:name=".NutritionActivity" />
+        <activity android:name=".CustomOnItemSelectedListener"></activity>
     </application>
 
 </manifest>

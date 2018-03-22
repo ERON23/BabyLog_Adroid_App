@@ -13,4 +13,61 @@
     <string name="sleep">Sleep</string>
     <string name="camera">Camera</string>
 
+    <string-array name="baby_gender">
+        <item>Choose Gender</item>>
+        <item>Male</item>>
+        <item>Female</item>>
+    </string-array>
+
+    <string name="text">Time</string>
+    <string name="start">Start</string>
+    <string name="info">Info</string>
+    <string name="finish">OZ</string>
+    <string name="woke">Stop</string>
+    <string name="wakeup">Amount in OZ:</string>
+    <string name='notes'>Notes</string>
+    <string name='save'>Save</string>
+    <string name='supp'>Supplement</string>
+    <string name='supple'>Submit Supplement</string>
+    <string name='unit'>Unit</string>
+    <string name='left'>Left</string>
+    <string name='right'>Right</string>
+    <string name='Nursing'>Last Side Start</string>
+    <string name='Submit'>Right</string>
+
+    <string name="country_prompt">Choose a Supplement</string>
+
+    <string-array name="country_arrays">
+        <item>Meat</item>
+        <item> Juice</item>
+        <item>Cereal</item>
+        <item>Finger Foods</item>
+        <item>Veggies</item>
+        <item>Water</item>
+        <item>Fruits</item>
+    </string-array>
+
+    <string-array name="left_time">
+        <item>Choose Time</item>
+        <item>5 MIN</item>
+        <item>10 MIN</item>
+        <item>15MIN </item>
+        <item>30 MIN</item>
+        <item>45MIN</item>
+        <item>50 MIN</item>
+        <item>1 HOUR</item>
+    </string-array>
+
+    <string-array name="right_time">
+        <item>Choose Time</item>
+        <item>5 MIN</item>
+        <item>10 MIN</item>
+        <item>15MIN </item>
+        <item>30 MIN</item>
+        <item>45MIN</item>
+        <item>50 MIN</item>
+        <item>1 HOUR</item>
+    </string-array>
+
+
 </resources>

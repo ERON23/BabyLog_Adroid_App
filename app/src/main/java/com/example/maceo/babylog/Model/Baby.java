@@ -9,6 +9,7 @@ public class Baby {
     private String babyName;
     private String babyBirthDate;
     private int babyWeight;
+    private String babyGender;
 
 
 
@@ -22,11 +23,12 @@ public class Baby {
 
     // constructor
     public Baby (String babyName, String babyBirthDate,
-                 int babyWeight) {
+                 int babyWeight, String babyGender) {
 
         this.babyName = babyName;
         this.babyBirthDate = babyBirthDate;
         this.babyWeight = babyWeight;
+        this.babyGender = babyGender;
 
     }
 
@@ -47,6 +49,10 @@ public class Baby {
 
     public int getBabyWeight() {
         return babyWeight;
+    }
+
+    public String getBabyGender() {
+        return babyGender;
     }
 }
 

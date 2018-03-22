@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.maceo.babylog.Tab3">
+    tools:context=".Tab3">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -11,6 +11,7 @@
         android:text="Today's Chart"
         android:layout_centerInParent="true"
         android:textSize="60dp"
+        android:textAlignment="center"
         />
 
 </RelativeLayout>

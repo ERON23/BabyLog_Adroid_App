@@ -14,7 +14,7 @@ import java.util.Locale;
  */
 
 public class TummyTimeActivity extends AppCompatActivity {
-    private static final long START_TIME_IN_MILLIS = 600000;
+    private static final long START_TIME_IN_MILLIS = 300000;
 
     private TextView mTextViewCountDown;
     private Button mButtonStartPause;
@@ -75,7 +75,7 @@ public class TummyTimeActivity extends AppCompatActivity {
         }.start();
 
         mTimerRunning = true;
-        mButtonStartPause.setText("pause");
+        mButtonStartPause.setText("Pause");
         mButtonReset.setVisibility(View.INVISIBLE);
     }
 

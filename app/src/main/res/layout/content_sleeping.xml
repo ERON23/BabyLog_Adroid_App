@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_sleeping"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".SleepActivity"
-    tools:showIn="@layout/activity_sleep"
-    android:id="@+id/content_sleeping">
+    tools:showIn="@layout/activity_sleep">
 
     <RelativeLayout
 
-        android:layout_width="fill_parent"
-        android:layout_height="367dp">
+        android:id="@+id/relativeLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/stopwatch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="StopWatch" />
+            android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/textview"
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -39,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/timer"
+            android:layout_below="@+id/textView"
             android:layout_marginTop="41dp"
             android:text="Start" />
 
@@ -68,7 +71,7 @@
             android:layout_below="@+id/button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
-            android:text="Save Lap" />
+            android:text="Save Time" />
 
         <ListView
             android:id="@+id/listview1"
@@ -79,30 +82,39 @@
             android:layout_marginTop="12dp" />
 
 
-
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
         android:layout_height="400dp"
+        android:layout_centerHorizontal="true"
         android:gravity="bottom"
-        android:layout_centerHorizontal="true">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/relativeLayout">
 
         <EditText
             android:id="@+id/editText"
             android:layout_width="fill_parent"
             android:layout_height="45dp"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Notes:" />
+            android:hint="Notes:"
+            android:inputType="textPersonName" />
 
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="500dp"
-        android:gravity="bottom"
-        android:layout_centerHorizontal="true">
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="3dp"
+        android:gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/relativeLayout">
 
 
         <Button
@@ -119,6 +131,5 @@
             />
 
     </RelativeLayout>
-
 
 </android.support.constraint.ConstraintLayout>

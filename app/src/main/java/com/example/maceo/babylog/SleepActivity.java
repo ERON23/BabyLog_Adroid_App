@@ -47,7 +47,7 @@ public class SleepActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
 
-        textView = (TextView)findViewById(R.id.textview);
+        textView = (TextView)findViewById(R.id.textView);
         start = (Button)findViewById(R.id.button);
         pause = (Button)findViewById(R.id.button2);
         reset = (Button)findViewById(R.id.button3);

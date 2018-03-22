@@ -9,11 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -28,6 +31,7 @@ public class BabyInfoActivity extends AppCompatActivity {
     private EditText mBabyBirthDate;
     private EditText mBabyWeight;
     private EditText mBabyName;
+    private Spinner mBabyGender;
     private ImageButton mImageButton;
     Button mSaveButton;
     private TextView mTextView;
@@ -37,7 +41,7 @@ public class BabyInfoActivity extends AppCompatActivity {
     Uri imageUri;
 
     //declare firebase database
-    //comment
+    // App 63 - part 2
     FirebaseDatabase firebaseDatabaseInstance; //helps gets firebase intance
     DatabaseReference databaseReference; // helps us find the reference
 
@@ -48,12 +52,15 @@ public class BabyInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baby_info);
 
+
+
         mImageButton = (ImageButton) findViewById(R.id.cal_button);
         mBabyName = (EditText) findViewById(R.id.baby_name);
         mBabyBirthDate = (EditText)findViewById(R.id.baby_birthday);
         mBabyWeight = (EditText) findViewById(R.id.baby_weight);
         mSaveButton = (Button) findViewById(R.id.savebaby_info_button);
         mTextView = (TextView)findViewById(R.id.textView5);
+        mBabyGender = (Spinner) findViewById(R.id.baby_gender);
         String babyInfo = "Enter your baby's information";
 
         mImageView = (ImageView)findViewById(R.id.add_pic);
@@ -105,15 +112,29 @@ public class BabyInfoActivity extends AppCompatActivity {
                 String babyName = mBabyName.getText().toString();
                 String babyBirthdate = mBabyBirthDate.getText().toString();
                 String babyWeight = mBabyWeight.getText().toString();
+                String babyGender = mBabyGender.getSelectedItem().toString();
 
                 int babyWeightIntegerValue = 0;
+
+                //spinner value and grabs the string selected from the Gender option
+                mBabyGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                         String babyGender = adapterView.getItemAtPosition(i).toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
 
 
                 Intent r = new Intent(BabyInfoActivity.this,HomeActivity.class);
                 startActivity(r);
 
 
-                // we conver the string weight value into an integer
+                // we conver the string weight value into an integer for baby weight
                 try {
                     babyWeightIntegerValue = Integer.parseInt(babyWeight);
                 } catch (Exception e) {
@@ -122,9 +143,9 @@ public class BabyInfoActivity extends AppCompatActivity {
                 }
 
 
-
+                // here we pass the constructor from baby.java
                 produceANewBabyIntoDatabase(babyName,babyBirthdate,
-                        babyWeightIntegerValue);
+                        babyWeightIntegerValue, babyGender);
 
             }
         });
@@ -138,12 +159,13 @@ public class BabyInfoActivity extends AppCompatActivity {
     }
 
     // function to make a new baby Category
-    private void produceANewBabyIntoDatabase(String babyName, String babyBirthDate, int babyWeight) {
+    private void produceANewBabyIntoDatabase(String babyName, String babyBirthDate,
+                                             int babyWeight, String babyGender) {
         if(TextUtils.isEmpty(uniqueBabyID)){
             uniqueBabyID = databaseReference.push().getKey();
         }
         // here we are creating a new baby object
-        Baby baby = new Baby(babyName, babyBirthDate , babyWeight);
+        Baby baby = new Baby(babyName, babyBirthDate , babyWeight, babyGender);
         // here we are creating a category called "Baby"
         databaseReference.child(uniqueBabyID).setValue(baby);
     }
