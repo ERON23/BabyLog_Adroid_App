@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.firebase.auth.FirebaseAuth;
 import com.nex3z.notificationbadge.NotificationBadge;
 
 import com.example.maceo.babylog.Model.Baby;
@@ -33,6 +34,9 @@ public class HomeActivity extends AppCompatActivity
     // for fragment pages
     private PagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
+
+    private FirebaseAuth mAuth;
+
     // for camera
     private static final int CAM_REQUEST=1313;
     ImageView imgTakenPic;
@@ -41,6 +45,8 @@ public class HomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        mAuth = FirebaseAuth.getInstance();
 
 
         // for changing the toolbar
@@ -180,6 +186,12 @@ public class HomeActivity extends AppCompatActivity
             case R.id.weightT:
                 /*Intent t= new Intent(this,.class);
                 startActivity(t);*/
+                break;
+
+            case R.id.logOut:
+                mAuth.signOut();
+                Intent intent = new Intent(this, SignUpActivity.class);
+                startActivity(intent);
                 break;
         }
 
