@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,9 +19,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button buttonLogin;
+    private Button buttonLogin, btnSignup, btnReset;
     private EditText editEmail;
     private EditText editPassword;
+    private ProgressBar progressBar;
+
 
     private FirebaseAuth mAuth;
 
@@ -33,13 +36,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
 
+        progressBar = (ProgressBar) findViewById(R.id.LoginProgressBar);
+        progressBar.setVisibility(View.GONE);
+
         mAuth = FirebaseAuth.getInstance();
         buttonLogin.setOnClickListener(this);
+
     }
 
     private void Login(){
         String email = editEmail.getText().toString().trim();
-        String password = editPassword.getText().toString().trim();
+        final String password = editPassword.getText().toString().trim();
 
         if(TextUtils.isEmpty(email)){
             Toast.makeText(LoginActivity.this, "E-mail address required", Toast.LENGTH_SHORT).show();
@@ -49,15 +56,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(LoginActivity.this, "Password required", Toast.LENGTH_SHORT).show();
         }
 
+        progressBar.setVisibility(View.VISIBLE);
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             FirebaseUser user = mAuth.getCurrentUser();
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                         else{
-                            Toast.makeText(LoginActivity.this, "Login Unsuccessful", Toast.LENGTH_SHORT).show();
+                            if (password.length() < 6){
+                                editPassword.setError(getString(R.string.minimum_password));
+                            }else {
+                                Toast.makeText(LoginActivity.this, "Login Unsuccessful", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });

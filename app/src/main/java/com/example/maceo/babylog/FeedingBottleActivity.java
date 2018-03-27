@@ -94,7 +94,7 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
         hourFinal =i;
         minuteFinal =i1;
 
-        start_result.setText(yearFinal + "/"+ monthFinal + "/"+ dayFinal + " "+ hourFinal + ":"+minuteFinal);
+        start_result.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " "+ hourFinal + ":"+minuteFinal);
 
 
     }

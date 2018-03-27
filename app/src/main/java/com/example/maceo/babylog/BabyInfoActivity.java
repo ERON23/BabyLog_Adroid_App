@@ -33,7 +33,7 @@ public class BabyInfoActivity extends AppCompatActivity {
     private EditText mBabyName;
     private Spinner mBabyGender;
     private ImageButton mImageButton;
-    Button mSaveButton;
+    private Button mSaveButton;
     private TextView mTextView;
 
     ImageView mImageView;
@@ -110,7 +110,7 @@ public class BabyInfoActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // here we are declaring what the user types into the edit text
                 String babyName = mBabyName.getText().toString();
-                String babyBirthdate = mBabyBirthDate.getText().toString();
+                String babyBirthday = mBabyBirthDate.getText().toString();
                 String babyWeight = mBabyWeight.getText().toString();
                 String babyGender = mBabyGender.getSelectedItem().toString();
 
@@ -134,7 +134,7 @@ public class BabyInfoActivity extends AppCompatActivity {
                 startActivity(r);
 
 
-                // we conver the string weight value into an integer for baby weight
+                // we convert the string weight value into an integer for baby weight
                 try {
                     babyWeightIntegerValue = Integer.parseInt(babyWeight);
                 } catch (Exception e) {
@@ -144,7 +144,7 @@ public class BabyInfoActivity extends AppCompatActivity {
 
 
                 // here we pass the constructor from baby.java
-                produceANewBabyIntoDatabase(babyName,babyBirthdate,
+                produceANewBabyIntoDatabase(babyName,babyBirthday,
                         babyWeightIntegerValue, babyGender);
 
             }

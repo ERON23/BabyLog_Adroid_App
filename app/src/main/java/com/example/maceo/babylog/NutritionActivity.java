@@ -27,10 +27,8 @@ public class NutritionActivity extends AppCompatActivity implements
     Button save_button;
 
     private Spinner spinner1,spinner2;
-    private Button btnSubmit;
+//    private Button btnSubmit;
 
-
-    int day, month, year, hour, minute;
     int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
     // DatePickerDialog.OnDateSetListener from_dateListener,to_dateListener;
 
@@ -40,7 +38,7 @@ public class NutritionActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_nutrition);
 
         addItemsOnSpinner2();
-        addListenerOnButton();
+//        addListenerOnButton();
         addListenerOnSpinnerItemSelection();
 
         save_button =(Button) findViewById(R.id.save_Button);
@@ -62,9 +60,9 @@ public class NutritionActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
-                year = c.get(Calendar.YEAR);
-                month = c.get(Calendar.MONTH);
-                day =c.get(Calendar.DAY_OF_MONTH);
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day =c.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(NutritionActivity.this, NutritionActivity.this,
                         year,month,day);
@@ -76,15 +74,15 @@ public class NutritionActivity extends AppCompatActivity implements
 
     @Override
 
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
-        yearFinal =i;
-        monthFinal =i1 + 1;
-        dayFinal =i2;
+        int yearFinal = year;
+        int monthFinal = month + 1;
+        int dayFinal = day;
 
         Calendar c = Calendar.getInstance();
-        hour = c.get(Calendar.HOUR_OF_DAY);
-        minute = c.get(Calendar.MINUTE);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog =new TimePickerDialog(NutritionActivity.this, NutritionActivity.this,
                 hour,minute, DateFormat.is24HourFormat(this));
@@ -95,11 +93,11 @@ public class NutritionActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-        hourFinal =i;
-        minuteFinal =i1;
+    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        int hourFinal = hour;
+        int minuteFinal = minute;
 
-        start_result.setText(yearFinal + "/"+ monthFinal + "/"+ dayFinal + " "+ hourFinal + ":"+minuteFinal);
+        start_result.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " "+ hourFinal + ":"+minuteFinal);
 
 
     }
@@ -123,13 +121,13 @@ public class NutritionActivity extends AppCompatActivity implements
         spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
     // get the selected dropdown list value
-    public void addListenerOnButton() {
+    /*public void addListenerOnButton() {
 
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         spinner2 = (Spinner) findViewById(R.id.spinner2);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+//        btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        *//*btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(NutritionActivity.this,
@@ -138,7 +136,7 @@ public class NutritionActivity extends AppCompatActivity implements
                                 "\nSpinner 2 : "+ String.valueOf(spinner2.getSelectedItem()),
                         Toast.LENGTH_SHORT).show();
             }
-        });
+        });*//*
 
-    }
+    }*/
 }

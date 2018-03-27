@@ -1,6 +1,7 @@
 package com.example.maceo.babylog;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,13 +11,56 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.ArrayList;
+
 public class ChartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    PieChart pieChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
+
+        pieChart = (PieChart) findViewById(R.id.pieChart);
+        pieChart.setTouchEnabled(false);
+
+        pieChart.setUsePercentValues(true);
+        pieChart.getDescription().setEnabled(true);
+        pieChart.setExtraOffsets(5, 10, 5, 5);
+
+
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setHoleColor(Color.WHITE);
+        pieChart.setTransparentCircleRadius(61f);
+
+        ArrayList<PieEntry> yValues = new ArrayList<>();
+
+        yValues.add(new PieEntry(34f, "Bottle"));
+        yValues.add(new PieEntry(23f, "Left Breast"));
+        yValues.add(new PieEntry(40f, "Right Breast"));
+        yValues.add(new PieEntry(15f, "Gerber"));
+
+        PieDataSet dataSet = new PieDataSet(yValues, "Baby's Food");
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+
+        pieChart.animateY(1000, Easing.EasingOption.EaseInOutCubic);
+
+        PieData data = new PieData((dataSet));
+        data.setValueTextSize(15f);
+        data.setValueTextColor(Color.BLACK);
+
+        pieChart.setData(data);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);

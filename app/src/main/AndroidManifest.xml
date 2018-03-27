@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.maceo.babylog">
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/babylog_icon"
@@ -9,53 +11,57 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".SignUpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".BabyInfoActivity" />-->
+        <activity android:name=".BabyInfoActivity" />
         <activity
             android:name=".HomeActivity"
-            android:parentActivityName=".BabyInfoActivity" />
+            android:parentActivityName=".BabyInfoActivity" >
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".BabyInfoActivity" />
+        </activity>
         <activity
             android:name=".FeedingActivity"
             android:label="Feeding"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName=".HomeActivity" >
 
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".HomeActivity" />
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        </activity>
         <activity
             android:name=".SleepActivity"
             android:label="Sleep"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName=".HomeActivity"  >
 
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".HomeActivity" />
-        />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        </activity>
         <activity
             android:name=".ChartActivity"
             android:label="Charts"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName=".HomeActivity"  >
 
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".HomeActivity" />
-        />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        </activity>
         <activity
             android:name=".DiaperChangeActivity"
             android:label="Diaper Change"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName=".HomeActivity"  >
 
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".HomeActivity" />
-        />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        </activity>
         <activity
             android:name=".NotificationActivity"
             android:label="Notifications" />
@@ -64,7 +70,7 @@
         <activity android:name=".FeedingBottleActivity" />
         <activity android:name=".BreastFeedingActivity" />
         <activity android:name=".NutritionActivity" />
-        <activity android:name=".CustomOnItemSelectedListener"></activity>
+        <activity android:name=".LoginActivity"/>
     </application>
 
 </manifest>

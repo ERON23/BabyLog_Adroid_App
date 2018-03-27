@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,14 +19,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity {
 
     private Button buttonSignUp;
-    private EditText editEmail;
-    private EditText editPassword;
-    private TextView textLogin;
-    private TextView textSkip;
+    private EditText editEmail, editPassword;
+    private TextView textLogin, textSkip;
 
+    private ProgressBar progressBar;
+
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     private FirebaseAuth mAuth;
 
@@ -34,65 +36,106 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        buttonSignUp = findViewById(R.id.buttonSignUp);
-        editEmail = findViewById(R.id.editEmail);
-        editPassword = findViewById(R.id.editPassword);
-        textLogin = findViewById(R.id.textLogin);
-        textSkip = findViewById(R.id.textSkip);
+        buttonSignUp =(Button) findViewById(R.id.buttonSignUp);
+        editEmail = (EditText) findViewById(R.id.editEmail);
+        editPassword =(EditText) findViewById(R.id.editPassword);
+        textLogin =(TextView) findViewById(R.id.textLogin);
+        textSkip =(TextView) findViewById(R.id.textSkip);
+
+        progressBar =(ProgressBar) findViewById(R.id.SignUpProgressBar);
+        progressBar.setVisibility(View.GONE);
 
         mAuth = FirebaseAuth.getInstance();
-        buttonSignUp.setOnClickListener(this);
-        textLogin.setOnClickListener(this);
-        textSkip.setOnClickListener(this);
-    }
 
-    private void SignUp(){
-        String email = editEmail.getText().toString().trim();
-        String password = editPassword.getText().toString().trim();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user!=null){
+                    Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                }
+            }
+        };
 
-        if(TextUtils.isEmpty(email)){
-            Toast.makeText(SignUpActivity.this, "E-mail address required", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(TextUtils.isEmpty(password)){
-            Toast.makeText(SignUpActivity.this, "Password required", Toast.LENGTH_SHORT).show();
-        }
+        textLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(SignUpActivity.this, "Successfully Signed Up", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Toast.makeText(SignUpActivity.this, "Sign Up Unsuccessful", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+            }
+        });
+        textSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignUpActivity.this, BabyInfoActivity.class));
+            }
+        });
 
-    }
+        buttonSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-    @Override
-    public void onClick(View view){
-        if(view == buttonSignUp){
-            SignUp();
-        }
-        if(view == textSkip){
-            startActivity(new Intent(this, BabyInfoActivity.class));
-        }
+                String email = editEmail.getText().toString().trim();
+                String password = editPassword.getText().toString().trim();
+
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (password.length() < 6) {
+                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                progressBar.setVisibility(View.VISIBLE);
+                //create user
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                                // If sign in fails, display a message to the user. If sign in succeeds
+                                // the auth state listener will be notified and logic to handle the
+                                // signed in user can be handled in the listener.
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
+                                            Toast.LENGTH_SHORT).show();
+                                } else {
+                                    startActivity(new Intent(SignUpActivity.this, BabyInfoActivity.class));
+                                    finish();
+                                }
+                            }
+                        });
+
+            }
+        });
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
 
-
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progressBar.setVisibility(View.GONE);
+    }
 }

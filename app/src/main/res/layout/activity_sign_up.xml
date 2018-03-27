@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.maceo.babylog.WelcomeActivity">
+    tools:context="com.example.maceo.babylog.SignUpActivity">
 
     <ImageView
         android:id="@+id/imageView4"
@@ -84,6 +84,15 @@
         android:layout_alignStart="@+id/editPassword"
         android:layout_below="@+id/editPassword"
         android:text="Sign Up" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:id="@+id/SignUpProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"/>
 
 
 </RelativeLayout>
