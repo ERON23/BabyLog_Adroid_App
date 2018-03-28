@@ -9,10 +9,13 @@
     tools:context=".HomeActivity"
     tools:openDrawer="start">
 
+
     <include
         layout="@layout/app_bar_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bar"/>
+
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

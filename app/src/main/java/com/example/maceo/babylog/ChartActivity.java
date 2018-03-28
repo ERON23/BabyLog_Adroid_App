@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -123,6 +124,11 @@ public class ChartActivity extends AppCompatActivity
             case R.id.weightT:
                 /*Intent t= new Intent(this,.class);
                 startActivity(t);*/
+                break;
+            case R.id.logOut:
+                FirebaseAuth.getInstance().signOut();
+                Intent l = new Intent(this, LoginActivity.class);
+                startActivity(l);
                 break;
         }
 

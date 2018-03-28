@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,15 +27,19 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
     EditText start_result;
     Button save_button;
 
-
-    int day, month, year, hour, minute;
-    int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
+    private int dayFinal, monthFinal, yearFinal;
     // DatePickerDialog.OnDateSetListener from_dateListener,to_dateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feeding_bottle);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         save_button =(Button) findViewById(R.id.save_Button);
 
@@ -54,9 +60,9 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
             @Override
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
-                year = c.get(Calendar.YEAR);
-                month = c.get(Calendar.MONTH);
-                day =c.get(Calendar.DAY_OF_MONTH);
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day =c.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(FeedingBottleActivity.this, FeedingBottleActivity.this,
                         year,month,day);
@@ -64,22 +70,18 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
 
             }
         });
-
-
-
     }
 
     @Override
 
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-
-        yearFinal =i;
-        monthFinal =i1 + 1;
-        dayFinal =i2;
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        yearFinal = year;
+        monthFinal = month + 1;
+        dayFinal = day;
 
         Calendar c = Calendar.getInstance();
-        hour = c.get(Calendar.HOUR_OF_DAY);
-        minute = c.get(Calendar.MINUTE);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog =new TimePickerDialog(FeedingBottleActivity.this, FeedingBottleActivity.this,
                 hour,minute, DateFormat.is24HourFormat(this));
@@ -87,15 +89,21 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
 
     }
 
-
-
     @Override
-    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-        hourFinal =i;
-        minuteFinal =i1;
-
-        start_result.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " "+ hourFinal + ":"+minuteFinal);
-
-
+    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        String amOrPm = " AM";
+        if(hour > 12){
+            hour = hour - 12;
+            amOrPm = " PM";
+        }
+        start_result.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " "+ hour + ":"+ minute + amOrPm);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
