@@ -217,6 +217,8 @@ public class HomeActivity extends AppCompatActivity
             case R.id.tt:
                 /*Intent t= new Intent(this,.class);
                 startActivity(t);*/
+                Intent tt = new Intent(this,TummyTimeActivity.class);
+                startActivity(tt);
                 break;
             case R.id.weightT:
                 Intent t= new Intent(this,WeighyTrackingActivity.class);
