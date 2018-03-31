@@ -5,7 +5,9 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -24,8 +26,8 @@ public class BreastFeedingActivity extends AppCompatActivity implements
     Button save_button;
 
 
-    int day, month, year, hour, minute;
-    int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
+//    int day, month, year, hour, minute;
+    private int dayFinal, monthFinal, yearFinal;
 
     private Spinner spinner1,spinner2;
     private Button btnSubmit;
@@ -34,6 +36,11 @@ public class BreastFeedingActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_breast_feeding);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         addItemsOnSpinner2();
         addListenerOnButton();
@@ -59,9 +66,9 @@ public class BreastFeedingActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
-                year = c.get(Calendar.YEAR);
-                month = c.get(Calendar.MONTH);
-                day =c.get(Calendar.DAY_OF_MONTH);
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day =c.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(BreastFeedingActivity.this, BreastFeedingActivity.this,
                         year,month,day);
@@ -80,8 +87,8 @@ public class BreastFeedingActivity extends AppCompatActivity implements
         dayFinal =i2;
 
         Calendar c = Calendar.getInstance();
-        hour = c.get(Calendar.HOUR_OF_DAY);
-        minute = c.get(Calendar.MINUTE);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog =new TimePickerDialog(BreastFeedingActivity.this, BreastFeedingActivity.this,
                 hour,minute, DateFormat.is24HourFormat(this));
@@ -89,16 +96,14 @@ public class BreastFeedingActivity extends AppCompatActivity implements
 
     }
 
-
-
     @Override
-    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-        hourFinal =i;
-        minuteFinal =i1;
-
-        start_result.setText(yearFinal + "/"+ monthFinal + "/"+ dayFinal + " "+ hourFinal + ":"+minuteFinal);
-
-
+    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        String amOrPm = " AM";
+        if(hour > 12){
+            hour = hour - 12;
+            amOrPm = " PM";
+        }
+        start_result.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " "+ hour + ":"+ minute + amOrPm);
     }
     // add items into spinner dynamically
     public void addItemsOnSpinner2() {
@@ -138,5 +143,15 @@ public class BreastFeedingActivity extends AppCompatActivity implements
             }
         });
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            this.finish();
+            /*startActivity(new Intent(this, HomeActivity.class));
+            return true;*/
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

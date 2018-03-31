@@ -17,7 +17,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+//import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nex3z.notificationbadge.NotificationBadge;
 
 import com.example.maceo.babylog.Model.Baby;
@@ -33,18 +42,41 @@ public class HomeActivity extends AppCompatActivity
     // for fragment pages
     private PagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
+
+
     // for camera
     private static final int CAM_REQUEST=1313;
-    ImageView imgTakenPic;
+    private ImageView imgTakenPic;
+    private TextView babyName, example;
+    private FirebaseAuth mAuth;
+
+    NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        mAuth = FirebaseAuth.getInstance();
 
-        // for changing the toolbar
+        imgTakenPic = (ImageView)findViewById(R.id.profilePicture);
 
+        navigationView = (NavigationView)findViewById(R.id.nav_view);
+        babyName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.babyName);
+        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("Info").child("name");
+        current_user_db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String name = dataSnapshot.getValue(String.class);
+                babyName.setText(name);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 //        mBadge = (NotificationBadge)findViewById(R.id.notification_badge);
 
@@ -98,6 +130,20 @@ public class HomeActivity extends AppCompatActivity
         /* start of the tab layout and navigation view */
     }
 
+    /*private void loadUserInformation() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null){
+            *//*if(user.getPhotoUrl() != null){
+                Glide.with(this).load(user.getPhotoUrl().toString()).into(imgTakenPic);
+            }*//*
+            if (user.getDisplayName() != null){
+//                babyName.setText(user.getDisplayName());
+                DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("name");
+                babyName.setText(current_user_db.getKey());
+            }
+        }
+    }*/
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -135,12 +181,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.home);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        finish();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -176,10 +217,19 @@ public class HomeActivity extends AppCompatActivity
             case R.id.tt:
                 /*Intent t= new Intent(this,.class);
                 startActivity(t);*/
+                Intent tt = new Intent(this,TummyTimeActivity.class);
+                startActivity(tt);
                 break;
             case R.id.weightT:
-                /*Intent t= new Intent(this,.class);
-                startActivity(t);*/
+                Intent t= new Intent(this,WeighyTrackingActivity.class);
+                startActivity(t);
+                break;
+            case R.id.logOut:
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 break;
         }
 
@@ -207,5 +257,16 @@ public class HomeActivity extends AppCompatActivity
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intent, CAM_REQUEST);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuth.getCurrentUser() == null){
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+
+        }
+
     }
 }

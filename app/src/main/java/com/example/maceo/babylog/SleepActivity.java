@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -191,6 +193,11 @@ public class SleepActivity extends AppCompatActivity
             case R.id.weightT:
                 /*Intent t= new Intent(this,.class);
                 startActivity(t);*/
+                break;
+            case R.id.logOut:
+                FirebaseAuth.getInstance().signOut();
+                Intent l = new Intent(this, LoginActivity.class);
+                startActivity(l);
                 break;
         }
 

@@ -60,7 +60,7 @@ public class Tab1 extends Fragment {
         mWeightTracking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent x = new Intent(getActivity(), ChartActivity.class);
+                Intent x = new Intent(getActivity(), WeighyTrackingActivity.class);
                 startActivity(x);
                                             }
                                         });

@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class DiaperChangeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.google.firebase.auth.FirebaseAuth;
+
+public class DiaperChangeActivity extends AppCompatActivity /*AppCombatPreferenceActivity*/
+        /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +23,10 @@ public class DiaperChangeActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        DrawerLayout myDrawer = (DrawerLayout) findViewById(R.id.myDrawer);
+        /*DrawerLayout myDrawer = (DrawerLayout) findViewById(R.id.myDrawer);
         ActionBarDrawerToggle myToggle = new ActionBarDrawerToggle(
                 this, myDrawer, toolbar, R.string.open, R.string.close);
         myDrawer.addDrawerListener(myToggle);
@@ -38,10 +43,10 @@ public class DiaperChangeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
+        }*/
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+   /* @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -61,29 +66,47 @@ public class DiaperChangeActivity extends AppCompatActivity
                 startActivity(i);
                 break;
             case R.id.diaper:
-                /*Intent g= new Intent(this,DiaperChangeActivity.class);
-                startActivity(g);*/
+                *//*Intent g= new Intent(this,DiaperChangeActivity.class);
+                startActivity(g);*//*
                 break;
             case R.id.chart:
                 Intent s= new Intent(this,ChartActivity.class);
                 startActivity(s);
                 break;
             case R.id.journal:
-                /*Intent t= new Intent(this,.class);
-                startActivity(t);*/
+                *//*Intent t= new Intent(this,.class);
+                startActivity(t);*//*
                 break;
             case R.id.tt:
-                /*Intent t= new Intent(this,.class);
-                startActivity(t);*/
+                *//*Intent t= new Intent(this,.class);
+                startActivity(t);*//*
                 break;
             case R.id.weightT:
-                /*Intent t= new Intent(this,.class);
-                startActivity(t);*/
+                *//*Intent t= new Intent(this,.class);
+                startActivity(t);*//*
+                break;
+
+            case R.id.logOut:
+                FirebaseAuth.getInstance().signOut();
+                Intent l = new Intent(this, LoginActivity.class);
+                startActivity(l);
                 break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.myDrawer);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }*/
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            this.finish();
+            /*startActivity(new Intent(this, HomeActivity.class));
+            return true;*/
+        }
+        return super.onOptionsItemSelected(item);
     }
+
 }

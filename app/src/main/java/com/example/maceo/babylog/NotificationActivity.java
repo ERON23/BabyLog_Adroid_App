@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class NotificationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -79,6 +81,11 @@ public class NotificationActivity extends AppCompatActivity
             case R.id.weightT:
                 /*Intent t= new Intent(this,.class);
                 startActivity(t);*/
+                break;
+            case R.id.logOut:
+                FirebaseAuth.getInstance().signOut();
+                Intent l = new Intent(this, LoginActivity.class);
+                startActivity(l);
                 break;
         }
 

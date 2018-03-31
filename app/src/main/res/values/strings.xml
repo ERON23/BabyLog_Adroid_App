@@ -37,7 +37,7 @@
 
     <string name="country_prompt">Choose a Supplement</string>
 
-    <string-array name="country_arrays">
+    <string-array name="meal_arrays">
         <item>Meat</item>
         <item> Juice</item>
         <item>Cereal</item>
@@ -68,6 +68,5 @@
         <item>50 MIN</item>
         <item>1 HOUR</item>
     </string-array>
-
 
 </resources>
