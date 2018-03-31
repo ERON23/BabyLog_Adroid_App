@@ -20,7 +20,7 @@
     </string-array>
 
     <string name="text">Time</string>
-    <string name="start">Start</string>
+
     <string name="info">Info</string>
     <string name="finish">OZ</string>
     <string name="woke">Stop</string>
@@ -34,6 +34,7 @@
     <string name='right'>Right</string>
     <string name='Nursing'>Last Side Start</string>
     <string name='Submit'>Right</string>
+    <string name='status'>Diapher Status</string>
 
     <string name="country_prompt">Choose a Supplement</string>
 
@@ -67,6 +68,12 @@
         <item>45MIN</item>
         <item>50 MIN</item>
         <item>1 HOUR</item>
+    </string-array>
+
+    <string-array name="diapher_status">
+        <item>Choose Status</item>
+        <item>WET</item>
+        <item>DRY</item>
     </string-array>
 
 </resources>

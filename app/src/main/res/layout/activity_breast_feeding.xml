@@ -44,6 +44,7 @@
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="217dp" />
 
+
         <TextView
             android:id="@+id/Nursing"
             android:layout_width="match_parent"
@@ -51,6 +52,7 @@
             android:text="@string/Nursing"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="25dp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"

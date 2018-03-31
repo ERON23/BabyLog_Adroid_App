@@ -123,12 +123,12 @@ public class SleepActivity extends AppCompatActivity
 
             }
         });
-        savebutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v){
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+
+                savebutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i =new Intent(getApplicationContext(),HomeActivity.class);
+                        startActivity(i);
             }
         });
 

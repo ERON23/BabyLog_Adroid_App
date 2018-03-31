@@ -1,5 +1,7 @@
 package com.example.maceo.babylog;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,13 +11,31 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class DiaperChangeActivity extends AppCompatActivity /*AppCombatPreferenceActivity*/
-        /*implements NavigationView.OnNavigationItemSelectedListener*/ {
+import java.util.Calendar;
 
+public class DiaperChangeActivity extends AppCompatActivity implements
+        DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener{
+
+    Button b_start;
+    EditText start_result;
+    Button save_button;
+
+    private int dayFinal, monthFinal, yearFinal;
+
+    private Spinner spinner1;
+    private Button btnSubmit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +46,94 @@ public class DiaperChangeActivity extends AppCompatActivity /*AppCombatPreferenc
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        //addItemsOnSpinner2();
+        addListenerOnButton();
+        addListenerOnSpinnerItemSelection();
+        save_button =(Button) findViewById(R.id.save_Button);
+
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =new Intent(getApplicationContext(),HomeActivity.class);
+                startActivity(i);
+            }
+        });
+
+        b_start =(Button) findViewById(R.id.b_start);
+        //b_finish =(Button) findViewById(R.id.b_finish);
+        start_result =(EditText) findViewById(R.id.start_result);
+        // finish_result =(EditText) findViewById(R.id.finish_result);
+
+        b_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day =c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(DiaperChangeActivity.this, DiaperChangeActivity.this,
+                        year,month,day);
+                datePickerDialog.show();
+
+            }
+        });
+    }
+
+    @Override
+
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
+        yearFinal =i;
+        monthFinal =i1 + 1;
+        dayFinal =i2;
+
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog =new TimePickerDialog(DiaperChangeActivity.this, DiaperChangeActivity.this,
+                hour,minute, DateFormat.is24HourFormat(this));
+        timePickerDialog.show();
+
+    }
+
+    @Override
+    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        String amOrPm = " AM";
+        if(hour > 12){
+            hour = hour - 12;
+            amOrPm = " PM";
+        }
+        start_result.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " "+ hour + ":"+ minute + amOrPm);
+    }
+    // add items into spinner dynamically
+
+
+    public void addListenerOnSpinnerItemSelection() {
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+    }
+    // get the selected dropdown list value
+    public void addListenerOnButton() {
+
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        //spinner2 = (Spinner) findViewById(R.id.spinner2);
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DiaperChangeActivity.this,
+                        "OnClickListener : " +
+                                "\nSpinner 1 : "+ String.valueOf(spinner1.getSelectedItem()) ,
+                               // "\nSpinner 2 : "+ String.valueOf(spinner2.getSelectedItem()),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
         /*DrawerLayout myDrawer = (DrawerLayout) findViewById(R.id.myDrawer);
         ActionBarDrawerToggle myToggle = new ActionBarDrawerToggle(
                 this, myDrawer, toolbar, R.string.open, R.string.close);
@@ -44,7 +152,7 @@ public class DiaperChangeActivity extends AppCompatActivity /*AppCombatPreferenc
         } else {
             super.onBackPressed();
         }*/
-    }
+    //}
 
    /* @SuppressWarnings("StatementWithEmptyBody")
     @Override
