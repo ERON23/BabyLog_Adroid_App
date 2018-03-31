@@ -46,7 +46,6 @@ import java.util.Map;
 
 public class BabyInfoActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private EditText mBabyBirthDate;
     private EditText mBabyWeight;
     private EditText mBabyName;
     private Spinner mBabyGender;
@@ -54,6 +53,7 @@ public class BabyInfoActivity extends AppCompatActivity {
     private Button mSaveButton;
     private TextView mTextView;
     private ProgressBar progressBar;
+    private EditText mBabyBirthDate;
 
     private String babyImgURL;
 
