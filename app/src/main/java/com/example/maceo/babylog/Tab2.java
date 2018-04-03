@@ -38,9 +38,9 @@ public class Tab2 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tab2, container, false);
 
-        mLastBottleFeedingTimeStamp = (TextView) view.findViewById(R.id.last_date_and_time);
-        mLastBFOZ = (TextView) view.findViewById(R.id.last_amount_in_oz);
-        mLastBFNote = (TextView) view.findViewById(R.id.txt_last_bf_note);
+        mLastBottleFeedingTimeStamp = view.findViewById(R.id.last_date_and_time);
+        mLastBFOZ = view.findViewById(R.id.last_amount_in_oz);
+        mLastBFNote = view.findViewById(R.id.txt_last_bf_note);
 
         mAuth = FirebaseAuth.getInstance();
         String user_id = mAuth.getCurrentUser().getUid();
@@ -52,20 +52,20 @@ public class Tab2 extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child: dataSnapshot.getChildren()){
-                    final String Date_and_Time = child.getKey();
+                    final String date = child.getKey();
                     //mLastBottleFeedingTimeStamp.setText(Date_and_Time);
 
-                    current_user_db.child(Date_and_Time).addValueEventListener(new ValueEventListener() {
+                    current_user_db.child(date).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot child: dataSnapshot.getChildren()){
                                 String time = child.getKey();
                                 //String Amount_In_Oz = child.getKey();
-                                mLastBottleFeedingTimeStamp.setText(Date_and_Time +" "+time);
+                                mLastBottleFeedingTimeStamp.setText(date +" "+time);
                                 //mLastBFOZ.setText(Amount_In_Oz);
 
 
-                                current_user_db.child(Date_and_Time).child(time).child("Amount_In_Oz").addValueEventListener(new ValueEventListener() {
+                                current_user_db.child(date).child(time).child("Amount_In_Oz").addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         String Amount_In_Oz = dataSnapshot.getValue(String.class);
