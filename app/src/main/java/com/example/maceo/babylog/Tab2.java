@@ -62,17 +62,19 @@ public class Tab2 extends Fragment {
                                 String time = child.getKey();
                                 //String Amount_In_Oz = child.getKey();
                                 mLastBottleFeedingTimeStamp.setText(Date_and_Time +" "+time);
+                                //mLastBFOZ.setText(Amount_In_Oz);
 
 
                                 current_user_db.child(time).child("Amount_In_Oz").addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String oz = dataSnapshot.getValue(String.class);
-                                        mLastBFOZ.setText(oz);
+                                        String Amount_In_Oz = dataSnapshot.getValue(String.class);
+                                        mLastBFOZ.setText(Amount_In_Oz);
                                     }
 
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
+                                        /////hghghghghghghghghghg
 
                                     }
                                 });
