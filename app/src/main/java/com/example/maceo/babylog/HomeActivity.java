@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
@@ -27,9 +28,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nex3z.notificationbadge.NotificationBadge;
 
 import com.example.maceo.babylog.Model.Baby;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -45,13 +52,14 @@ public class HomeActivity extends AppCompatActivity
 
 
     // for camera
-    private static final int CAM_REQUEST=1313;
+    private static final int CAM_REQUEST = 1313;
     private ImageView imgTakenPic;
-    private TextView babyName, example;
+    private TextView babyName;
+
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabaseRef;
 
-    NavigationView navigationView;
-
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +67,14 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        imgTakenPic = (ImageView)findViewById(R.id.profilePicture);
+        navigationView = findViewById(R.id.nav_view);
+        babyName =  navigationView.getHeaderView(0).findViewById(R.id.babyName);
+        imgTakenPic =  navigationView.getHeaderView(0).findViewById(R.id.profilePicture);
 
-        navigationView = (NavigationView)findViewById(R.id.nav_view);
-        babyName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.babyName);
-        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference()
-                .child("Users").child(mAuth.getCurrentUser().getUid()).child("Info").child("name");
-
-        current_user_db.addValueEventListener(new ValueEventListener() {
+        DatabaseReference current_user_name = mDatabaseRef.child(mAuth.getCurrentUser().getUid()).child("Info").child("name");
+        current_user_name.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String name = dataSnapshot.getValue(String.class);
@@ -76,17 +83,34 @@ public class HomeActivity extends AppCompatActivity
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(HomeActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        DatabaseReference current_user_pic = mDatabaseRef.child(mAuth.getCurrentUser().getUid()).child("Info").child("profile_pic");
+        current_user_pic.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String imageUrl = dataSnapshot.getValue(String.class);
+                String imageKey = dataSnapshot.getKey();
+                System.out.println("++++++++++++ " + imageKey);
+                Picasso.get().load(imageUrl).into(imgTakenPic);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(HomeActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 //        mBadge = (NotificationBadge)findViewById(R.id.notification_badge);
 
         // finds FAB menu
-        floatingActionMenu = (FloatingActionMenu)findViewById(R.id.floatingActionMenu);
-        camera = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_camera);
-        sleep = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_sleep);
-        feeding = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fab_food);
+        floatingActionMenu = findViewById(R.id.floatingActionMenu);
+        camera = findViewById(R.id.fab_camera);
+        sleep = findViewById(R.id.fab_sleep);
+        feeding = findViewById(R.id.fab_food);
 
         /* start of individual button implementation */
         feeding.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +142,7 @@ public class HomeActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mViewPager);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout myDrawer = (DrawerLayout) findViewById(R.id.myDrawer);
@@ -131,20 +155,6 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         /* start of the tab layout and navigation view */
     }
-
-    /*private void loadUserInformation() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null){
-            *//*if(user.getPhotoUrl() != null){
-                Glide.with(this).load(user.getPhotoUrl().toString()).into(imgTakenPic);
-            }*//*
-            if (user.getDisplayName() != null){
-//                babyName.setText(user.getDisplayName());
-                DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("name");
-                babyName.setText(current_user_db.getKey());
-            }
-        }
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -161,9 +171,8 @@ public class HomeActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        // no inspection SimplifiableIfStatement
         if (id == R.id.menu_notification) {
-//            mBadge.setNumber(++count);
             Intent intent= new Intent(this,NotificationActivity.class);
             startActivity(intent);
             return true;
@@ -269,6 +278,5 @@ public class HomeActivity extends AppCompatActivity
             startActivity(new Intent(this, LoginActivity.class));
 
         }
-
     }
 }

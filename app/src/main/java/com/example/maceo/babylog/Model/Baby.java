@@ -14,7 +14,6 @@ public class Baby {
 
 
     //empty constructor
-    // comment
     public Baby() {
 
     }

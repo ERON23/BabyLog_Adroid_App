@@ -143,8 +143,11 @@ public class SignUpActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
-        /*FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);*/
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null){
+            startActivity(new Intent(this, HomeActivity.class));
+        }
+        /*updateUI(currentUser);*/
     }
 
     @Override

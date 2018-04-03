@@ -8,9 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class Tab1 extends Fragment {
-    Button mFeedingButton, mSleepButton, mDiaperChangeButton, mChartButton, mTummyTime, mWeightTracking;
+    private Button mFeedingButton, mSleepButton, mDiaperChangeButton, mChartButton, mTummyTime, mWeightTracking;
+    private ImageView baby_pic;
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabaseRef;
 
     @Nullable
     @Override
@@ -19,12 +33,31 @@ public class Tab1 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
 
-        mFeedingButton = (Button)view.findViewById(R.id.feeding_button);
-        mSleepButton = (Button) view.findViewById(R.id.sleep_button);
-        mDiaperChangeButton = (Button)view.findViewById(R.id.diaper_change_button);
-        mChartButton = (Button) view.findViewById(R.id.chart_button);
-        mTummyTime = (Button) view.findViewById(R.id.tummytime_button);
-        mWeightTracking = (Button) view.findViewById(R.id.weight_tracker_button);
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users");
+
+
+        mFeedingButton = view.findViewById(R.id.feeding_button);
+        mSleepButton = view.findViewById(R.id.sleep_button);
+        mDiaperChangeButton = view.findViewById(R.id.diaper_change_button);
+        mChartButton = view.findViewById(R.id.chart_button);
+        mTummyTime = view.findViewById(R.id.tummytime_button);
+        mWeightTracking = view.findViewById(R.id.weight_tracker_button);
+        baby_pic = view.findViewById(R.id.imageView3);
+
+        DatabaseReference current_user_pic = mDatabaseRef.child(mAuth.getCurrentUser().getUid()).child("Info").child("profile_pic");
+        current_user_pic.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String imageUrl = dataSnapshot.getValue(String.class);
+                Picasso.get().load(imageUrl).into(baby_pic);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getView().getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         mFeedingButton.setOnClickListener(new View.OnClickListener() {
             @Override

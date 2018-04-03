@@ -93,7 +93,7 @@
                 android:layout_width="175dp"
                 android:layout_height="40dp"
 
-                android:entries="@array/left_time"
+                android:entries="@array/feeding_time"
                 android:gravity="center"
                 android:prompt="@string/country_prompt" />
 
@@ -101,7 +101,7 @@
                 android:id="@+id/right_breast_feed_spinner"
                 android:layout_width="200dp"
                 android:layout_height="40dp"
-                android:entries="@array/right_time"
+                android:entries="@array/feeding_time"
 
                 android:gravity="center"
                 android:prompt="@string/country_prompt" />

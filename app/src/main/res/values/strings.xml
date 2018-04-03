@@ -7,8 +7,6 @@
     <string name="reset">Reset</string>
     <string name="Timer">00:00</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="feeding">Feeding</string>
     <string name="sleep">Sleep</string>
     <string name="camera">Camera</string>
@@ -30,17 +28,19 @@
     <string name='supp'>Supplement</string>
     <string name='supple'>Submit Supplement</string>
     <string name='unit'>Unit</string>
-    <string name='left'>Left BreastFeeding</string>
-    <string name='right'>Right BreastFeeding</string>
+    <string name='left'>Left</string>
+    <string name='right'>Right</string>
     <string name='Nursing'>Last Side Start</string>
     <string name='Submit'>Right</string>
     <string name='status'>Diapher Status</string>
 
     <string name="country_prompt">Choose a Supplement</string>
+    <string name="baby_name">Baby Name</string>
 
     <string-array name="meal_arrays">
+        <item>Choose Meal</item>
         <item>Meat</item>
-        <item> Juice</item>
+        <item>Juice</item>
         <item>Cereal</item>
         <item>Finger Foods</item>
         <item>Veggies</item>
@@ -48,18 +48,7 @@
         <item>Fruits</item>
     </string-array>
 
-    <string-array name="left_time">
-        <item>Choose Time</item>
-        <item>5 MIN</item>
-        <item>10 MIN</item>
-        <item>15 MIN </item>
-        <item>30 MIN</item>
-        <item>45 MIN</item>
-        <item>50 MIN</item>
-        <item>1 HOUR</item>
-    </string-array>
-
-    <string-array name="right_time">
+    <string-array name="feeding_time">
         <item>Choose Time</item>
         <item>5 MIN</item>
         <item>10 MIN</item>

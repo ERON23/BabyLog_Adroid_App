@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.maceo.babylog">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -21,16 +21,15 @@
         <activity android:name=".BabyInfoActivity" />
         <activity
             android:name=".HomeActivity"
-            android:parentActivityName=".BabyInfoActivity" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".BabyInfoActivity" />
+            android:parentActivityName=".BabyInfoActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".BabyInfoActivity" />
         </activity>
         <activity
             android:name=".FeedingActivity"
             android:label="Feeding"
-            android:parentActivityName=".HomeActivity" >
-
+            android:parentActivityName=".HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
@@ -38,8 +37,7 @@
         <activity
             android:name=".SleepActivity"
             android:label="Sleep"
-            android:parentActivityName=".HomeActivity"  >
-
+            android:parentActivityName=".HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
@@ -47,8 +45,7 @@
         <activity
             android:name=".ChartActivity"
             android:label="Charts"
-            android:parentActivityName=".HomeActivity"  >
-
+            android:parentActivityName=".HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
@@ -56,7 +53,7 @@
         <activity
             android:name=".DiaperChangeActivity"
             android:label="Diaper Change"
-            android:parentActivityName=".HomeActivity"  >
+            android:parentActivityName=".HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
@@ -66,28 +63,32 @@
             android:label="Notifications" />
         <activity android:name=".TummyTimeActivity" />
         <activity android:name=".WeighyTrackingActivity" />
-        <activity android:name=".FeedingBottleActivity"
+        <activity
+            android:name=".FeedingBottleActivity"
             android:label="Bottle"
-            android:parentActivityName=".FeedingActivity"  >
+            android:parentActivityName=".FeedingActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".FeedingActivity" />
         </activity>
-        <activity android:name=".BreastFeedingActivity"
+        <activity
+            android:name=".BreastFeedingActivity"
             android:label="Breast Feeding"
-            android:parentActivityName=".FeedingActivity"  >
+            android:parentActivityName=".FeedingActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".FeedingActivity" />
         </activity>
-        <activity android:name=".NutritionActivity"
+        <activity
+            android:name=".NutritionActivity"
             android:label="Meal"
-            android:parentActivityName=".FeedingActivity"  >
+            android:parentActivityName=".FeedingActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".FeedingActivity" />
         </activity>
-        <activity android:name=".LoginActivity"/>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".EditProfileActivity"></activity>
     </application>
 
 </manifest>

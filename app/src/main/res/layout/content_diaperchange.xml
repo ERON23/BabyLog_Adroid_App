@@ -27,10 +27,9 @@
 
         <Button
             android:id="@+id/b_start"
-            android:layout_width="wrap_content"
+            android:layout_width="269dp"
             android:layout_height="47dp"
-            android:layout_centerHorizontal="false"
-            android:layout_marginHorizontal="40dp"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/startbtn22"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="52dp" />
@@ -67,8 +66,7 @@
             android:id="@+id/btnSubmit"
             android:layout_width="94dp"
             android:layout_height="52dp"
-            android:layout_centerHorizontal="false"
-            android:layout_marginHorizontal="140dp"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/submitbtn"
             android:orientation="vertical" />
 
@@ -84,10 +82,9 @@
 
         <Button
             android:id="@+id/save_Button"
-            android:layout_width="wrap_content"
+            android:layout_width="269dp"
             android:layout_height="55dp"
-            android:layout_centerHorizontal="false"
-            android:layout_marginHorizontal="20dp"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/savebtn2"
             tools:layout_editor_absoluteX="15dp"
             tools:layout_editor_absoluteY="20dp" />

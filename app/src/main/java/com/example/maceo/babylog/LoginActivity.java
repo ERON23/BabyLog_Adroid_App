@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
 
-        progressBar = (ProgressBar) findViewById(R.id.LoginProgressBar);
+        progressBar = findViewById(R.id.LoginProgressBar);
         progressBar.setVisibility(View.GONE);
 
         mAuth = FirebaseAuth.getInstance();
@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         if(task.isSuccessful()){
-//                            FirebaseUser user = mAuth.getCurrentUser();
                             finish();
                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -86,6 +85,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     @Override

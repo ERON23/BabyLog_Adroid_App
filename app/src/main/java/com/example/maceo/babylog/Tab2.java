@@ -65,7 +65,7 @@ public class Tab2 extends Fragment {
                                 //mLastBFOZ.setText(Amount_In_Oz);
 
 
-                                current_user_db.child(time).child("Amount_In_Oz").addValueEventListener(new ValueEventListener() {
+                                current_user_db.child(Date_and_Time).child(time).child("Amount_In_Oz").addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         String Amount_In_Oz = dataSnapshot.getValue(String.class);

@@ -1,5 +1,6 @@
 package com.example.maceo.babylog;
 import  android.app.DatePickerDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,8 +38,11 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -49,9 +54,6 @@ public class BabyInfoActivity extends AppCompatActivity {
     private EditText mBabyWeight;
     private EditText mBabyName;
     private Spinner mBabyGender;
-    private ImageButton mImageButton;
-    private Button mSaveButton;
-    private TextView mTextView;
     private ProgressBar progressBar;
     private EditText mBabyBirthDate;
 
@@ -63,11 +65,12 @@ public class BabyInfoActivity extends AppCompatActivity {
 
     //declare firebase database
     // App 63 - part 2
-    private FirebaseDatabase firebaseDatabaseInstance; //helps gets firebase intance
-    private DatabaseReference databaseReference; // helps us find the reference
+    private StorageReference mStorageRef; //helps gets firebase intance
+    private DatabaseReference mDatabaseRef; // helps us find the reference
     private FirebaseAuth mAuth;
+    private StorageTask mUploadTask;
+    private Map newPost = new HashMap();
 
-    private String uniqueBabyID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,24 +79,23 @@ public class BabyInfoActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mImageButton = (ImageButton) findViewById(R.id.cal_button);
-        mBabyName = (EditText) findViewById(R.id.baby_name);
-        mBabyBirthDate = (EditText)findViewById(R.id.baby_birthday);
-        mBabyWeight = (EditText) findViewById(R.id.baby_weight);
-        mSaveButton = (Button) findViewById(R.id.savebaby_info_button);
-        mTextView = (TextView)findViewById(R.id.textView5);
-        mBabyGender = (Spinner) findViewById(R.id.baby_gender);
+        ImageButton mImageButton = findViewById(R.id.cal_button);
+        mBabyName = findViewById(R.id.baby_name);
+        mBabyBirthDate = findViewById(R.id.baby_birthday);
+        mBabyWeight = findViewById(R.id.baby_weight);
+        Button mSaveButton = findViewById(R.id.savebaby_info_button);
+        TextView mTextView = findViewById(R.id.textView5);
+        mBabyGender = findViewById(R.id.baby_gender);
         String babyInfo = "Enter your baby's information";
 
-        progressBar = (ProgressBar)findViewById(R.id.progressbarIMG);
+        progressBar = findViewById(R.id.progressbarIMG);
 
-        mImageView = (ImageView)findViewById(R.id.add_pic);
+        mImageView = findViewById(R.id.add_pic);
 
         mTextView.setText(babyInfo);
 
-        firebaseDatabaseInstance = FirebaseDatabase.getInstance();
-        //this line below creates a category in the database
-        databaseReference = firebaseDatabaseInstance.getReference("Baby");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         //this line below will create a child with name key and a value of 123
         //databaseReference.child("key").setValue("123");
 
@@ -185,16 +187,17 @@ public class BabyInfoActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(getApplicationContext(), "Profile updated", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Profile updated", Toast.LENGTH_SHORT)
+                                                .show();
                                     }
                                 }
                             });
                 }
 
                 String user_id = mAuth.getCurrentUser().getUid();
-                DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id).child("Info");
+                DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference()
+                        .child("Users").child(user_id).child("Info");
 
-                Map newPost = new HashMap();
                 newPost.put("name", babyName);
                 newPost.put("birthday", babyBirthday);
                 newPost.put("weight", babyWeight);
@@ -211,7 +214,13 @@ public class BabyInfoActivity extends AppCompatActivity {
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGallery();
+                if(mUploadTask != null && mUploadTask.isInProgress()){
+                    Toast.makeText(BabyInfoActivity.this, "Upload in progress", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                else{
+                    openGallery();
+                }
             }
         });
     }
@@ -242,29 +251,48 @@ public class BabyInfoActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
 //            mImageView.setImageURI(imageUri);
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                mImageView.setImageBitmap(bitmap);
+            /*try {
+                *//*Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                mImageView.setImageBitmap(bitmap);*/
+                Picasso.get().load(imageUri).into(mImageView);
                 
+/*
                 uploadImageToFirebaseStorage();
-                
-            } catch (IOException e) {
+*/
+
+/*            } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
     }
 
+    private String getFileExtension(Uri uri){
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+
     private void uploadImageToFirebaseStorage() {
-        StorageReference babyImg = FirebaseStorage.getInstance().getReference("babypics/" + System.currentTimeMillis() + ".jpg");
 
         if(imageUri != null){
-            progressBar.setVisibility(View.VISIBLE);
-            babyImg.putFile(imageUri)
+            StorageReference babyImg = mStorageRef.child(mAuth.getCurrentUser().getUid())
+                    .child("profile_pic").child(System.currentTimeMillis()+ "." + getFileExtension(imageUri));
+
+            mUploadTask = babyImg.putFile(imageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressBar.setVisibility(View.GONE);
-                            babyImgURL = taskSnapshot.getDownloadUrl().toString();
+                            Upload upload = new Upload(taskSnapshot.getDownloadUrl().toString());
+                            /*String uploadId = mDatabaseRef.push().getKey();*/
+
+                            String user_id = mAuth.getCurrentUser().getUid();
+                            DatabaseReference current_user_db = mDatabaseRef.child("Users").child(user_id).child("Info");
+
+//                            newPost.put("profile_pic", taskSnapshot.getDownloadUrl().toString());
+
+                            current_user_db.setValue(upload);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -272,9 +300,16 @@ public class BabyInfoActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressBar.setVisibility(View.VISIBLE);
                         }
                     });
+        }else{
+            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
 }
