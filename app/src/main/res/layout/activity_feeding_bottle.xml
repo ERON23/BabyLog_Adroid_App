@@ -38,7 +38,7 @@
             app:srcCompat="@drawable/bottlefeedinglogo" />
 
         <Button
-            android:id="@+id/b_start"
+            android:id="@+id/start_bottle_feeding_btn"
             android:layout_width="257dp"
             android:layout_height="59dp"
             android:layout_marginBottom="8dp"
@@ -54,7 +54,7 @@
             app:layout_constraintVertical_bias="0.359" />
 
         <EditText
-            android:id="@+id/start_result"
+            android:id="@+id/date_and_time"
             android:layout_width="300dp"
             android:layout_height="52dp"
             android:layout_marginBottom="8dp"
@@ -97,7 +97,7 @@
 
 
         <EditText
-            android:id="@+id/finish_result"
+            android:id="@+id/amt_in_oz"
             android:layout_width="139dp"
             android:layout_height="37dp"
             android:layout_marginBottom="8dp"
@@ -105,6 +105,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
+            android:gravity="start"
             android:inputType="number"
             android:paddingLeft="10dp"
             android:paddingTop="2dp"
@@ -116,12 +117,11 @@
             app:layout_constraintHorizontal_bias="0.892"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.624"
-            android:gravity="start" />
+            app:layout_constraintVertical_bias="0.624" />
 
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/bottle_feeding_notes_edt"
             android:layout_width="301dp"
             android:layout_height="120dp"
             android:layout_marginBottom="8dp"

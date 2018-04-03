@@ -30,8 +30,8 @@
     <string name='supp'>Supplement</string>
     <string name='supple'>Submit Supplement</string>
     <string name='unit'>Unit</string>
-    <string name='left'>Left</string>
-    <string name='right'>Right</string>
+    <string name='left'>Left BreastFeeding</string>
+    <string name='right'>Right BreastFeeding</string>
     <string name='Nursing'>Last Side Start</string>
     <string name='Submit'>Right</string>
     <string name='status'>Diapher Status</string>
@@ -52,9 +52,9 @@
         <item>Choose Time</item>
         <item>5 MIN</item>
         <item>10 MIN</item>
-        <item>15MIN </item>
+        <item>15 MIN </item>
         <item>30 MIN</item>
-        <item>45MIN</item>
+        <item>45 MIN</item>
         <item>50 MIN</item>
         <item>1 HOUR</item>
     </string-array>
@@ -63,9 +63,9 @@
         <item>Choose Time</item>
         <item>5 MIN</item>
         <item>10 MIN</item>
-        <item>15MIN </item>
+        <item>15 MIN </item>
         <item>30 MIN</item>
-        <item>45MIN</item>
+        <item>45 MIN</item>
         <item>50 MIN</item>
         <item>1 HOUR</item>
     </string-array>

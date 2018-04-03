@@ -58,7 +58,7 @@
             android:layout_height="103dp">
 
             <Spinner
-                android:id="@+id/spinner1"
+                android:id="@+id/left_breast_feed_spinner"
                 android:layout_width="180dp"
                 android:layout_height="51dp"
                 android:layout_marginBottom="8dp"
@@ -75,7 +75,7 @@
                 android:layout_marginRight="8dp" />
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/right_breast_feed_spinner"
                 android:layout_width="180dp"
                 android:layout_height="51dp"
                 android:layout_marginEnd="8dp"
@@ -85,7 +85,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/spinner1"
+                app:layout_constraintTop_toTopOf="@+id/left_breast_feed_spinner"
                 app:layout_constraintVertical_bias="1.0"
                 android:layout_marginRight="8dp" />
 

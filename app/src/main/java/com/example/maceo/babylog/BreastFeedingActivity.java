@@ -6,34 +6,45 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BreastFeedingActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
 
-    Button b_start;
-    EditText start_result;
-    Button save_button;
-
-
-//    int day, month, year, hour, minute;
+    private Button mStartBreastFeedingBTN;
+    private EditText mDateAndTimeResult;
+    private Button mSaveBtn;
+    private EditText mBreastFeedingNotes;
+    private Spinner leftBreastFeedSpinner, rightBreastFeedSpinner;
+    //    int day, month, year, hour, minute;
     private int dayFinal, monthFinal, yearFinal;
+    private FirebaseAuth mAuth;
+    private String uniqueBreastFeedingID;
 
-    private Spinner spinner1,spinner2;
-    private Button btnSubmit;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //database auth
+        mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_breast_feeding);
 
@@ -47,22 +58,73 @@ public class BreastFeedingActivity extends AppCompatActivity implements
         addListenerOnSpinnerItemSelection();
 
 
-        save_button =(Button) findViewById(R.id.save_Button);
+        mSaveBtn =(Button) findViewById(R.id.save_Button);
+        mStartBreastFeedingBTN =(Button) findViewById(R.id.start_breast_feeding_btn);
+        mDateAndTimeResult =(EditText) findViewById(R.id.date_and_time_breastFeeding);
+        leftBreastFeedSpinner = (Spinner) findViewById(R.id.left_breast_feed_spinner);
+        rightBreastFeedSpinner = (Spinner) findViewById(R.id.right_breast_feed_spinner);
+        mBreastFeedingNotes = (EditText) findViewById(R.id.breast_feeding_notes);
 
-        save_button.setOnClickListener(new View.OnClickListener() {
+        mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =new Intent(getApplicationContext(),FeedingActivity.class);
-                startActivity(i);
+                String dateAndTime = mDateAndTimeResult.getText().toString();
+                String breastFeedingNote = mBreastFeedingNotes.getText().toString();
+                String leftBreastFeedingTime = leftBreastFeedSpinner.getSelectedItem().toString();
+                String rightBreastFeedingTime = rightBreastFeedSpinner.getSelectedItem().toString();
+
+                //spinner for left breast feeding
+                leftBreastFeedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        String left_time = adapterView.getItemAtPosition(i).toString();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+                //spinner for right breast feeding
+                rightBreastFeedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        String right_time = adapterView.getItemAtPosition(i).toString();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+
+                //database stuff here
+                String user_id = mAuth.getCurrentUser().getUid();
+                DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users")
+                        .child(user_id).child("Feeding").child("Breast Feeding").child("Time Stamp");
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                if(TextUtils.isEmpty(uniqueBreastFeedingID)){
+                    uniqueBreastFeedingID = current_user_db.push().getKey();
+                }
+
+                Map newPost = new HashMap();
+                newPost.put("Left_Breast_Feeding_Time", leftBreastFeedingTime);
+                newPost.put("Right_Breast_Feeding_Time", rightBreastFeedingTime);
+                newPost.put("Breast_Feeding_Note",breastFeedingNote);
+                newPost.put("Date_and_Time",dateAndTime);
+
+                current_user_db.child(uniqueBreastFeedingID).setValue(newPost);
+
+                /*Intent i =new Intent(getApplicationContext(),FeedingActivity.class);
+                startActivity(i);*/
             }
         });
 
-        b_start =(Button) findViewById(R.id.b_start);
-        //b_finish =(Button) findViewById(R.id.b_finish);
-        start_result =(EditText) findViewById(R.id.start_result);
-        // finish_result =(EditText) findViewById(R.id.finish_result);
-
-        b_start.setOnClickListener(new View.OnClickListener() {
+        mStartBreastFeedingBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
@@ -103,12 +165,12 @@ public class BreastFeedingActivity extends AppCompatActivity implements
             hour = hour - 12;
             amOrPm = " PM";
         }
-        start_result.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " "+ hour + ":"+ minute + amOrPm);
+        mDateAndTimeResult.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " "+ hour + ":"+ minute + amOrPm);
     }
     // add items into spinner dynamically
     public void addItemsOnSpinner2() {
 
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        rightBreastFeedSpinner = (Spinner) findViewById(R.id.right_breast_feed_spinner);
 //        List<String> list = new ArrayList<String>();
 //        list.add(" Choose more option");
 //        list.add("Vitamin");
@@ -116,32 +178,32 @@ public class BreastFeedingActivity extends AppCompatActivity implements
 //        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 //                android.R.layout.simple_spinner_item, list);
 //        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner2.setAdapter(dataAdapter);
-        spinner2.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+//        rightBreastFeedSpinner.setAdapter(dataAdapter);
+        rightBreastFeedSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
 
     }
 
     public void addListenerOnSpinnerItemSelection() {
-        spinner1 = (Spinner) findViewById(R.id.spinner1);
-        spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+        leftBreastFeedSpinner = (Spinner) findViewById(R.id.left_breast_feed_spinner);
+        leftBreastFeedSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
     // get the selected dropdown list value
     public void addListenerOnButton() {
 
-        spinner1 = (Spinner) findViewById(R.id.spinner1);
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+        leftBreastFeedSpinner = (Spinner) findViewById(R.id.left_breast_feed_spinner);
+        rightBreastFeedSpinner = (Spinner) findViewById(R.id.right_breast_feed_spinner);
+        /*btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(BreastFeedingActivity.this,
                         "OnClickListener : " +
-                                "\nSpinner 1 : "+ String.valueOf(spinner1.getSelectedItem()) +
-                                "\nSpinner 2 : "+ String.valueOf(spinner2.getSelectedItem()),
+                                "\nSpinner 1 : "+ String.valueOf(leftBreastFeedSpinner.getSelectedItem()) +
+                                "\nSpinner 2 : "+ String.valueOf(rightBreastFeedSpinner.getSelectedItem()),
                         Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
     }
     @Override

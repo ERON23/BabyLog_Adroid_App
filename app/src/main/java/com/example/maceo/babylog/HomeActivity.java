@@ -64,7 +64,9 @@ public class HomeActivity extends AppCompatActivity
 
         navigationView = (NavigationView)findViewById(R.id.nav_view);
         babyName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.babyName);
-        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("Info").child("name");
+        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(mAuth.getCurrentUser().getUid()).child("Info").child("name");
+
         current_user_db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

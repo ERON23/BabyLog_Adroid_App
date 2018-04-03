@@ -12,11 +12,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -113,7 +111,7 @@ public class NutritionActivity extends AppCompatActivity implements
     // add items into spinner dynamically
     public void addItemsOnSpinner2() {
 
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        spinner2 = (Spinner) findViewById(R.id.right_breast_feed_spinner);
         List<String> list = new ArrayList<String>();
         list.add(" Choose more option");
         list.add("Vitamin");
@@ -125,7 +123,7 @@ public class NutritionActivity extends AppCompatActivity implements
     }
 
     public void addListenerOnSpinnerItemSelection() {
-        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner1 = (Spinner) findViewById(R.id.left_breast_feed_spinner);
         spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
     // get the selected dropdown list value

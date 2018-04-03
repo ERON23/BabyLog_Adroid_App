@@ -6,13 +6,56 @@
     tools:context=".Tab2">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Summary"
-        android:id="@+id/summary"
-        android:layout_centerInParent="true"
-        android:textSize="60dp"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:text="Today's Summary"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/brestFeedingTittle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Breast Feeding"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/last_date_and_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="(last date and time)"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/last_amount_in_oz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="(last amount in oz)"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/txt_last_bf_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="(note)"
+            android:textSize="24sp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

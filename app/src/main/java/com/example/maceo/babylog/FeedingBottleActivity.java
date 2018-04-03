@@ -3,35 +3,48 @@ package com.example.maceo.babylog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.TimePicker;
+import android.text.TextUtils;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FeedingBottleActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener  {
 
-    Button b_start;
-    EditText start_result;
-    Button save_button;
+    Button mStartBottleFeedingBtn;
+    EditText mDateAndTime;
+    Button mSaveButton;
+    private EditText mAmtInOZ;
+    private EditText mBottleFeedingNotes;
+    private FirebaseAuth mAuth;
+    private String uniqueBottleFeedingID;
+    private String mDate;
+    private String mTime;
 
     private int dayFinal, monthFinal, yearFinal;
-    // DatePickerDialog.OnDateSetListener from_dateListener,to_dateListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //database auth
+        mAuth = FirebaseAuth.getInstance();
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feeding_bottle);
 
@@ -41,22 +54,44 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        save_button =(Button) findViewById(R.id.save_Button);
+        mSaveButton = (Button) findViewById(R.id.save_Button);
+        mAmtInOZ = (EditText) findViewById(R.id.amt_in_oz);
+        mBottleFeedingNotes = (EditText) findViewById(R.id.bottle_feeding_notes_edt);
+        mDateAndTime = (EditText) findViewById(R.id.date_and_time);
 
-        save_button.setOnClickListener(new View.OnClickListener() {
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String amountOfOz = mAmtInOZ.getText().toString();
+                String bottleNotes = mBottleFeedingNotes.getText().toString();
+                String dateAndTime = mDateAndTime.getText().toString();
+
+                String user_id = mAuth.getCurrentUser().getUid();
+                DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users")
+                        .child(user_id).child("Feeding").child("Bottle Feeding").child("Time Stamp");
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                /*if(TextUtils.isEmpty(uniqueBottleFeedingID)){
+                    uniqueBottleFeedingID = current_user_db.push().getKey();
+                }*/
+
+                Map newPost = new HashMap();
+                newPost.put("Amount_In_Oz", amountOfOz);
+                newPost.put("Bottle_Feeding_Notes",bottleNotes);
+                newPost.put("Date_and_Time",dateAndTime);
+
+                current_user_db.child(mDate).child(mTime).setValue(newPost);
+
+
                 Intent i =new Intent(getApplicationContext(),FeedingActivity.class);
                 startActivity(i);
             }
         });
 
-        b_start =(Button) findViewById(R.id.b_start);
-        //b_finish =(Button) findViewById(R.id.b_finish);
-        start_result =(EditText) findViewById(R.id.start_result);
-        // finish_result =(EditText) findViewById(R.id.finish_result);
+        mStartBottleFeedingBtn =(Button) findViewById(R.id.start_bottle_feeding_btn);
+        mDateAndTime =(EditText) findViewById(R.id.date_and_time);
 
-        b_start.setOnClickListener(new View.OnClickListener() {
+        mStartBottleFeedingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
@@ -70,6 +105,8 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
 
             }
         });
+
+
     }
 
     @Override
@@ -87,6 +124,8 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
                 hour,minute, DateFormat.is24HourFormat(this));
         timePickerDialog.show();
 
+        mDate = monthFinal + "-"+dayFinal+ "-"+yearFinal;
+
     }
 
     @Override
@@ -96,7 +135,9 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
             hour = hour - 12;
             amOrPm = " PM";
         }
-        start_result.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " "+ hour + ":"+ minute + amOrPm);
+        mDateAndTime.setText(monthFinal + "-"+ dayFinal + "-"+ yearFinal + " "+ hour + ":"+ minute + amOrPm);
+
+        mTime = hour + ":" + minute + amOrPm;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -3,11 +3,6 @@ package com.example.maceo.babylog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,8 +15,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
 
@@ -112,13 +105,13 @@ public class DiaperChangeActivity extends AppCompatActivity implements
 
 
     public void addListenerOnSpinnerItemSelection() {
-        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner1 = (Spinner) findViewById(R.id.left_breast_feed_spinner);
         spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
     // get the selected dropdown list value
     public void addListenerOnButton() {
 
-        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner1 = (Spinner) findViewById(R.id.left_breast_feed_spinner);
         //spinner2 = (Spinner) findViewById(R.id.spinner2);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
