@@ -45,10 +45,11 @@ public class NutritionActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nutrition);
 
-        mAuth = FirebaseAuth.getInstance();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
@@ -105,10 +106,10 @@ public class NutritionActivity extends AppCompatActivity implements
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
 
                 Map newPost = new HashMap();
-                newPost.put("Meal_Consumed", mMealSpinner);
-                newPost.put("Supplement_Consumed", mSupplementSpinner);
-                newPost.put("Date_and_Time", mDateAndTimeMeal);
-                newPost.put("Meal_Note", mMealNote);
+                newPost.put("Meal_Consumed", mealChosen);
+                newPost.put("Supplement_Consumed", supplementChosen);
+                newPost.put("Date_and_Time", dateAndTime);
+                newPost.put("Meal_Note", mealNote);
 
                 current_user_db.child(mDate).child(mTime).setValue(newPost);
 
