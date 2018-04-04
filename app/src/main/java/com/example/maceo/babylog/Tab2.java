@@ -30,6 +30,9 @@ public class Tab2 extends Fragment {
 */
     private TextView mLastBottleFeedingTimeStamp, mLastBFOZ,mLastBFNote;
     private TextView mLastBreastFeedTimeStamp, mLeftBreastFeed, mRightBreastFeed, mLastBreastFeedNote;
+    private TextView mLastMealFeedTimeStamp, mLastMealConsumed, mLastSupplementConsumed, mLastMealNote;
+    private TextView mLastDiaperTimeStamp, mLastDiaperStatus, mLastDiaperNote;
+
 
     FirebaseAuth mAuth;
 
@@ -47,6 +50,13 @@ public class Tab2 extends Fragment {
         mLeftBreastFeed = (TextView) view.findViewById(R.id.left_breast_feed_time);
         mRightBreastFeed = (TextView) view.findViewById(R.id.right_breast_feed_time);
         mLastBreastFeedNote = (TextView) view.findViewById(R.id.txt_note_breast_feed);
+        mLastMealFeedTimeStamp = (TextView) view.findViewById(R.id.last_time_stamp_meals);
+        mLastMealConsumed = (TextView) view.findViewById(R.id.last_meal_consumed);
+        mLastSupplementConsumed = (TextView) view.findViewById(R.id.last_supplement_consumed);
+        mLastMealNote = (TextView) view.findViewById(R.id.txt_note_meal);
+        mLastDiaperTimeStamp = (TextView) view.findViewById(R.id.diaper_last_timestamp);
+        mLastDiaperStatus = (TextView) view.findViewById(R.id.edt_diaper_status);
+        mLastDiaperNote = (TextView) view.findViewById(R.id.edt_diaper_note);
 
         mAuth = FirebaseAuth.getInstance();
         String user_id = mAuth.getCurrentUser().getUid();
@@ -117,14 +127,13 @@ public class Tab2 extends Fragment {
 
             }
         });
-
-
+        // end of bottle feeding
 
         /*
         ***********************************************************************************************************
          */
 
-        // for brest feeding
+        // beginning of brest feeding
         final DatabaseReference current_user_db2 = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(mAuth.getCurrentUser().getUid())
                 .child("Feeding").child("Breast Feeding").child("Time Stamp");
@@ -203,19 +212,151 @@ public class Tab2 extends Fragment {
 
             }
         });
+        //end of breast feeding
+
+        /*
+        ***********************************************************************************************************
+         */
+
+        // beginning of meal feeding
+        final DatabaseReference current_user_db3 = FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(mAuth.getCurrentUser().getUid())
+                .child("Feeding").child("Meal Feeding").child("Time Stamp");
+
+        current_user_db3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child: dataSnapshot.getChildren()){
+                    final String date = child.getKey();
+
+                    current_user_db3.child(date).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot child: dataSnapshot.getChildren()){
+                                String time = child.getKey();
+                                mLastMealFeedTimeStamp.setText(date + " "+ time);
+
+                                current_user_db3.child(date).child(time).child("Meal_Consumed").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String Meal_Consumed = dataSnapshot.getValue(String.class);
+                                        mLastMealConsumed.setText(Meal_Consumed);
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                current_user_db3.child(date).child(time).child("Supplement_Consumed").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String Supplement_Consumed = dataSnapshot.getValue(String.class);
+                                        mLastSupplementConsumed.setText(Supplement_Consumed);
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                current_user_db3.child(date).child(time).child("Meal_Note").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String Meal_Note = dataSnapshot.getValue(String.class);
+                                        mLastMealNote.setText(Meal_Note);
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        //end of meal feeding
+
+        /*
+        ***********************************************************************************************************
+         */
+
+        // beginning of Diaper Status
+        final DatabaseReference current_user_db4 = FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(mAuth.getCurrentUser().getUid())
+                .child("Diaper Status").child("Time Stamp");
+
+        current_user_db4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child: dataSnapshot.getChildren()){
+                    final String date = child.getKey();
+
+                    current_user_db4.child(date).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot child: dataSnapshot.getChildren()){
+                                String time = child.getKey();
+                                mLastDiaperTimeStamp.setText(date + " "+ time);
+
+                                current_user_db4.child(date).child(time).child("last_diaper_status").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String last_diaper_status = dataSnapshot.getValue(String.class);
+                                        mLastDiaperStatus.setText(last_diaper_status);
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                                current_user_db4.child(date).child(time).child("last_diaper_note").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String last_diaper_note = dataSnapshot.getValue(String.class);
+                                        mLastDiaperNote.setText(last_diaper_note);
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        //end of Diaper Status
 
 
 
+
+
+
+
+
+
+
+
+
+
+        //end of on create method
         return view;
-
-
-
-
-
-
-
-
-
     }
 
 }

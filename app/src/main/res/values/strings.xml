@@ -32,7 +32,7 @@
     <string name='right'>Right</string>
     <string name='Nursing'>Last Side Start</string>
     <string name='Submit'>Right</string>
-    <string name='status'>Diapher Status</string>
+    <string name='status'>Diaper Status</string>
 
     <string name="country_prompt">Choose a Supplement</string>
     <string name="baby_name">Baby Name</string>
@@ -46,6 +46,7 @@
         <item>Veggies</item>
         <item>Water</item>
         <item>Fruits</item>
+        <item>None</item>
     </string-array>
 
     <string-array name="supplement_arrays">
@@ -55,10 +56,12 @@
         <item>Iron</item>
         <item>Vitamind D</item>
         <item>Fluoride</item>
+        <item>None</item>
     </string-array>
 
     <string-array name="feeding_time">
         <item>Choose Time</item>
+        <item>None</item>
         <item>5 MIN</item>
         <item>10 MIN</item>
         <item>15 MIN </item>
@@ -68,7 +71,7 @@
         <item>1 HOUR</item>
     </string-array>
 
-    <string-array name="diapher_status">
+    <string-array name="diaper_status">
         <item>Choose Status</item>
         <item>WET</item>
         <item>DRY</item>

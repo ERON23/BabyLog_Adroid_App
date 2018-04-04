@@ -2,6 +2,7 @@ package com.example.maceo.babylog;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -115,8 +116,8 @@ public class BreastFeedingActivity extends AppCompatActivity implements
 
                 current_user_db.child(mDate).child(mTime).setValue(newPost);
 
-                /*Intent i =new Intent(getApplicationContext(),FeedingActivity.class);
-                startActivity(i);*/
+                Intent i =new Intent(getApplicationContext(),FeedingActivity.class);
+                startActivity(i);
             }
         });
 
@@ -152,7 +153,7 @@ public class BreastFeedingActivity extends AppCompatActivity implements
                 hour,minute, DateFormat.is24HourFormat(this));
         timePickerDialog.show();
 
-        mDate = monthFinal + "-"+dayFinal+ "-"+yearFinal;
+        mDate = monthFinal + "-" + dayFinal + "-" + yearFinal;
 
     }
 

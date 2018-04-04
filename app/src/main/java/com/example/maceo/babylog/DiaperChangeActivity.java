@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -16,23 +17,35 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DiaperChangeActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener{
 
-    Button b_start;
-    EditText start_result;
-    Button save_button;
+    Button mStartDiaperChange;
+    EditText mLastDiaperChangeTimeStamp, mDiaperNote;
+    Button mDiaperSaveButton;
+    private FirebaseAuth mAuth;
+    private String mDate;
+    private String mTime;
+
 
     private int dayFinal, monthFinal, yearFinal;
 
-    private Spinner spinner1;
-    private Button btnSubmit;
+    private Spinner mDiaperStatusSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diaper_change);
+
+        mAuth = FirebaseAuth.getInstance();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
@@ -43,22 +56,54 @@ public class DiaperChangeActivity extends AppCompatActivity implements
         //addItemsOnSpinner2();
         addListenerOnButton();
         addListenerOnSpinnerItemSelection();
-        save_button =(Button) findViewById(R.id.save_Button);
+        mDiaperSaveButton =(Button) findViewById(R.id.btn_diaper_save_status);
 
-        save_button.setOnClickListener(new View.OnClickListener() {
+        mDiaperSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String dateAndTime = mLastDiaperChangeTimeStamp.getText().toString();
+                String diaperStatus = mDiaperStatusSpinner.getSelectedItem().toString();
+                String diaperNote = mDiaperNote.getText().toString();
+
+                //spinner for diaper status
+                mDiaperStatusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        String diaper_status = adapterView.getItemAtPosition(i).toString();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+                //database stuff here
+                String user_id = mAuth.getCurrentUser().getUid();
+                DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users")
+                        .child(user_id).child("Diaper Status").child("Time Stamp");
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                Map newPost = new HashMap();
+                newPost.put("last_diaper_status", diaperStatus);
+                newPost.put("last_diaper_note",diaperNote);
+                newPost.put("Date_and_Time",dateAndTime);
+
+                current_user_db.child(mDate).child(mTime).setValue(newPost);
+                //end of database stuff
+
+
                 Intent i =new Intent(getApplicationContext(),HomeActivity.class);
                 startActivity(i);
             }
         });
 
-        b_start =(Button) findViewById(R.id.b_start);
-        //b_finish =(Button) findViewById(R.id.b_finish);
-        start_result =(EditText) findViewById(R.id.start_result);
-        // finish_result =(EditText) findViewById(R.id.finish_result);
+        mStartDiaperChange =(Button) findViewById(R.id.btn_start_diaper_change);
+        mLastDiaperChangeTimeStamp =(EditText) findViewById(R.id.edt_last_diaper_change_timestamp);
+        mDiaperNote = (EditText) findViewById(R.id.edt_diaper_note);
 
-        b_start.setOnClickListener(new View.OnClickListener() {
+        mStartDiaperChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
@@ -90,6 +135,7 @@ public class DiaperChangeActivity extends AppCompatActivity implements
                 hour,minute, DateFormat.is24HourFormat(this));
         timePickerDialog.show();
 
+        mDate = monthFinal + "-" + dayFinal + "-" + yearFinal;
     }
 
     @Override
@@ -99,105 +145,22 @@ public class DiaperChangeActivity extends AppCompatActivity implements
             hour = hour - 12;
             amOrPm = " PM";
         }
-        start_result.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " "+ hour + ":"+ minute + amOrPm);
-    }
-    // add items into spinner dynamically
+        mLastDiaperChangeTimeStamp.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ hour + ":"+ minute + amOrPm +")");
 
+        mTime = " ("+ hour + ":"+ minute + amOrPm+")";
+    }
 
     public void addListenerOnSpinnerItemSelection() {
-        spinner1 = (Spinner) findViewById(R.id.left_breast_feed_spinner);
-        spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+        mDiaperStatusSpinner = (Spinner) findViewById(R.id.sp_diaper_status);
+        mDiaperStatusSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
     // get the selected dropdown list value
     public void addListenerOnButton() {
 
-        spinner1 = (Spinner) findViewById(R.id.left_breast_feed_spinner);
-        //spinner2 = (Spinner) findViewById(R.id.spinner2);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(DiaperChangeActivity.this,
-                        "OnClickListener : " +
-                                "\nSpinner 1 : "+ String.valueOf(spinner1.getSelectedItem()) ,
-                               // "\nSpinner 2 : "+ String.valueOf(spinner2.getSelectedItem()),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        mDiaperStatusSpinner = (Spinner) findViewById(R.id.sp_diaper_status);
 
     }
-        /*DrawerLayout myDrawer = (DrawerLayout) findViewById(R.id.myDrawer);
-        ActionBarDrawerToggle myToggle = new ActionBarDrawerToggle(
-                this, myDrawer, toolbar, R.string.open, R.string.close);
-        myDrawer.addDrawerListener(myToggle);
-        myToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.myDrawer);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }*/
-    //}
-
-   /* @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        //here is the main place where we need to work on.
-        int id=item.getItemId();
-        switch (id){
-            case R.id.home:
-                Intent intent = new Intent(this,HomeActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.feed:
-                Intent h= new Intent(this,FeedingActivity.class);
-                startActivity(h);
-                break;
-            case R.id.sleep:
-                Intent i= new Intent(this,SleepActivity.class);
-                startActivity(i);
-                break;
-            case R.id.diaper:
-                *//*Intent g= new Intent(this,DiaperChangeActivity.class);
-                startActivity(g);*//*
-                break;
-            case R.id.chart:
-                Intent s= new Intent(this,ChartActivity.class);
-                startActivity(s);
-                break;
-            case R.id.journal:
-                *//*Intent t= new Intent(this,.class);
-                startActivity(t);*//*
-                break;
-            case R.id.tt:
-                *//*Intent t= new Intent(this,.class);
-                startActivity(t);*//*
-                break;
-            case R.id.weightT:
-                *//*Intent t= new Intent(this,.class);
-                startActivity(t);*//*
-                break;
-
-            case R.id.logOut:
-                FirebaseAuth.getInstance().signOut();
-                Intent l = new Intent(this, LoginActivity.class);
-                startActivity(l);
-                break;
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.myDrawer);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

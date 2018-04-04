@@ -113,8 +113,8 @@ public class NutritionActivity extends AppCompatActivity implements
 
                 current_user_db.child(mDate).child(mTime).setValue(newPost);
 
-                /*Intent i =new Intent(getApplicationContext(),FeedingActivity.class);
-                startActivity(i);*/
+                Intent i =new Intent(getApplicationContext(),FeedingActivity.class);
+                startActivity(i);
             }
         });
 
