@@ -29,6 +29,8 @@ public class Tab2 extends Fragment {
     int count = 0;
 */
     private TextView mLastBottleFeedingTimeStamp, mLastBFOZ,mLastBFNote;
+    private TextView mLastBreastFeedTimeStamp, mLeftBreastFeed, mRightBreastFeed, mLastBreastFeedNote;
+
     FirebaseAuth mAuth;
 
     @Override
@@ -41,6 +43,10 @@ public class Tab2 extends Fragment {
         mLastBottleFeedingTimeStamp = view.findViewById(R.id.last_date_and_time);
         mLastBFOZ = view.findViewById(R.id.last_amount_in_oz);
         mLastBFNote = view.findViewById(R.id.txt_last_bf_note);
+        mLastBreastFeedTimeStamp = (TextView) view.findViewById(R.id.last_date_and_time_breast_feed);
+        mLeftBreastFeed = (TextView) view.findViewById(R.id.left_breast_feed_time);
+        mRightBreastFeed = (TextView) view.findViewById(R.id.right_breast_feed_time);
+        mLastBreastFeedNote = (TextView) view.findViewById(R.id.txt_note_breast_feed);
 
         mAuth = FirebaseAuth.getInstance();
         String user_id = mAuth.getCurrentUser().getUid();
@@ -74,10 +80,23 @@ public class Tab2 extends Fragment {
 
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
-                                        /////hghghghghghghghghghg
 
                                     }
                                 });
+                                current_user_db.child(date).child(time).child("Bottle_Feeding_Notes").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String Bottle_Feeding_Notes = dataSnapshot.getValue(String.class);
+                                        mLastBFNote.setText(Bottle_Feeding_Notes);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
 
                             }
                         }
@@ -87,8 +106,6 @@ public class Tab2 extends Fragment {
 
                         }
                     });
-
-                    //System.out.print(Date_and_Time);
 
                 }
 
@@ -101,6 +118,91 @@ public class Tab2 extends Fragment {
             }
         });
 
+
+
+        /*
+        ***********************************************************************************************************
+         */
+
+        // for brest feeding
+        final DatabaseReference current_user_db2 = FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(mAuth.getCurrentUser().getUid())
+                .child("Feeding").child("Breast Feeding").child("Time Stamp");
+
+        current_user_db2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child: dataSnapshot.getChildren()){
+                    final String date = child.getKey();
+
+                    current_user_db2.child(date).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot child: dataSnapshot.getChildren()){
+                                String time = child.getKey();
+                                mLastBreastFeedTimeStamp.setText(date + " "+ time);
+
+                                current_user_db2.child(date).child(time).child("Left_Breast_Feeding_Time").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String Left_Breast_Feeding_Time = dataSnapshot.getValue(String.class);
+                                        mLeftBreastFeed.setText(Left_Breast_Feeding_Time);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                                current_user_db2.child(date).child(time).child("Right_Breast_Feeding_Time").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String Right_Breast_Feeding_Time = dataSnapshot.getValue(String.class);
+                                        mRightBreastFeed.setText(Right_Breast_Feeding_Time);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+                                current_user_db2.child(date).child(time).child("Breast_Feeding_Note").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String Breast_Feeding_Note = dataSnapshot.getValue(String.class);
+                                        mLastBreastFeedNote.setText(Breast_Feeding_Note);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
 

@@ -48,6 +48,15 @@
         <item>Fruits</item>
     </string-array>
 
+    <string-array name="supplement_arrays">
+        <item>Choose Supplement</item>
+        <item>Vitamin 12</item>
+        <item>Liquid</item>
+        <item>Iron</item>
+        <item>Vitamind D</item>
+        <item>Fluoride</item>
+    </string-array>
+
     <string-array name="feeding_time">
         <item>Choose Time</item>
         <item>5 MIN</item>

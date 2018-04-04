@@ -2,11 +2,9 @@ package com.example.maceo.babylog;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +35,8 @@ public class BreastFeedingActivity extends AppCompatActivity implements
     private int dayFinal, monthFinal, yearFinal;
     private FirebaseAuth mAuth;
     private String uniqueBreastFeedingID;
+    private String mDate;
+    private String mTime;
 
 
 
@@ -107,17 +107,13 @@ public class BreastFeedingActivity extends AppCompatActivity implements
                         .child(user_id).child("Feeding").child("Breast Feeding").child("Time Stamp");
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-                if(TextUtils.isEmpty(uniqueBreastFeedingID)){
-                    uniqueBreastFeedingID = current_user_db.push().getKey();
-                }
-
                 Map newPost = new HashMap();
                 newPost.put("Left_Breast_Feeding_Time", leftBreastFeedingTime);
                 newPost.put("Right_Breast_Feeding_Time", rightBreastFeedingTime);
                 newPost.put("Breast_Feeding_Note",breastFeedingNote);
                 newPost.put("Date_and_Time",dateAndTime);
 
-                current_user_db.child(uniqueBreastFeedingID).setValue(newPost);
+                current_user_db.child(mDate).child(mTime).setValue(newPost);
 
                 /*Intent i =new Intent(getApplicationContext(),FeedingActivity.class);
                 startActivity(i);*/
@@ -156,6 +152,8 @@ public class BreastFeedingActivity extends AppCompatActivity implements
                 hour,minute, DateFormat.is24HourFormat(this));
         timePickerDialog.show();
 
+        mDate = monthFinal + "-"+dayFinal+ "-"+yearFinal;
+
     }
 
     @Override
@@ -165,20 +163,13 @@ public class BreastFeedingActivity extends AppCompatActivity implements
             hour = hour - 12;
             amOrPm = " PM";
         }
-        mDateAndTimeResult.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " "+ hour + ":"+ minute + amOrPm);
+        mDateAndTimeResult.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ hour + ":"+ minute + amOrPm +")");
+
+        mTime = " ("+ hour + ":"+ minute + amOrPm+")";
     }
     // add items into spinner dynamically
     public void addItemsOnSpinner2() {
-
         rightBreastFeedSpinner = (Spinner) findViewById(R.id.right_breast_feed_spinner);
-//        List<String> list = new ArrayList<String>();
-//        list.add(" Choose more option");
-//        list.add("Vitamin");
-//        list.add("Liquid");
-//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_spinner_item, list);
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        rightBreastFeedSpinner.setAdapter(dataAdapter);
         rightBreastFeedSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
 
     }
@@ -192,18 +183,6 @@ public class BreastFeedingActivity extends AppCompatActivity implements
 
         leftBreastFeedSpinner = (Spinner) findViewById(R.id.left_breast_feed_spinner);
         rightBreastFeedSpinner = (Spinner) findViewById(R.id.right_breast_feed_spinner);
-        /*btnSubmit = (Button) findViewById(R.id.btnSubmit);
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(BreastFeedingActivity.this,
-                        "OnClickListener : " +
-                                "\nSpinner 1 : "+ String.valueOf(leftBreastFeedSpinner.getSelectedItem()) +
-                                "\nSpinner 2 : "+ String.valueOf(rightBreastFeedSpinner.getSelectedItem()),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
     }
     @Override

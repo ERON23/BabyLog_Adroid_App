@@ -135,9 +135,9 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
             hour = hour - 12;
             amOrPm = " PM";
         }
-        mDateAndTime.setText(monthFinal + "-"+ dayFinal + "-"+ yearFinal + " "+ hour + ":"+ minute + amOrPm);
+        mDateAndTime.setText(monthFinal + "-"+ dayFinal + "-"+ yearFinal + " ("+ hour + ":"+ minute + amOrPm+")");
 
-        mTime = hour + ":" + minute + amOrPm;
+        mTime = " ("+ hour + ":"+ minute + amOrPm+")";
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
