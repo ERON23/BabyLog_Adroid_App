@@ -71,8 +71,8 @@
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:entries="@array/diaper_status"
-
             android:gravity="center"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:prompt="@string/country_prompt" />
 
         <EditText
