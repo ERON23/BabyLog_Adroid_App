@@ -32,6 +32,7 @@ public class Tab2 extends Fragment {
     private TextView mLastBreastFeedTimeStamp, mLeftBreastFeed, mRightBreastFeed, mLastBreastFeedNote;
     private TextView mLastMealFeedTimeStamp, mLastMealConsumed, mLastSupplementConsumed, mLastMealNote;
     private TextView mLastDiaperTimeStamp, mLastDiaperStatus, mLastDiaperNote;
+    private String time;
 
 
     FirebaseAuth mAuth;
@@ -177,7 +178,6 @@ public class Tab2 extends Fragment {
                                     }
                                 });
 
-
                                 current_user_db2.child(date).child(time).child("Breast_Feeding_Note").addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -233,43 +233,41 @@ public class Tab2 extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot child: dataSnapshot.getChildren()){
-                                String time = child.getKey();
+                                time = child.getKey();
                                 mLastMealFeedTimeStamp.setText(date + " "+ time);
-
-                                current_user_db3.child(date).child(time).child("Meal_Consumed").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String Meal_Consumed = dataSnapshot.getValue(String.class);
-                                        mLastMealConsumed.setText(Meal_Consumed);
-                                    }
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                    }
-                                });
-
-                                current_user_db3.child(date).child(time).child("Supplement_Consumed").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String Supplement_Consumed = dataSnapshot.getValue(String.class);
-                                        mLastSupplementConsumed.setText(Supplement_Consumed);
-                                    }
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                    }
-                                });
-
-                                current_user_db3.child(date).child(time).child("Meal_Note").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String Meal_Note = dataSnapshot.getValue(String.class);
-                                        mLastMealNote.setText(Meal_Note);
-                                    }
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                    }
-                                });
-
                             }
+                            current_user_db3.child(date).child(time).child("Meal_Consumed").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    String Meal_Consumed = dataSnapshot.getValue(String.class);
+                                    mLastMealConsumed.setText(Meal_Consumed);
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
+
+                            current_user_db3.child(date).child(time).child("Supplement_Consumed").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    String Supplement_Consumed = dataSnapshot.getValue(String.class);
+                                    mLastSupplementConsumed.setText(Supplement_Consumed);
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
+
+                            current_user_db3.child(date).child(time).child("Meal_Note").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    String Meal_Note = dataSnapshot.getValue(String.class);
+                                    mLastMealNote.setText(Meal_Note);
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
                         }
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
@@ -327,7 +325,6 @@ public class Tab2 extends Fragment {
                                     public void onCancelled(DatabaseError databaseError) {
                                     }
                                 });
-
                             }
                         }
                         @Override
@@ -339,24 +336,12 @@ public class Tab2 extends Fragment {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
         //end of Diaper Status
 
-
-
-
-
-
-
-
-
-
-
-
-
         //end of on create method
         return view;
     }
-
 }

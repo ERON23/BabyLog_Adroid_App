@@ -1,13 +1,20 @@
 package com.example.maceo.babylog;
+import android.Manifest;
+import android.app.Activity;
 import  android.app.DatePickerDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +63,8 @@ public class BabyInfoActivity extends AppCompatActivity {
     private Spinner mBabyGender;
     private ProgressBar progressBar;
     private EditText mBabyBirthDate;
+
+    private int STORAGE_PERMISSION_CODE = 1;
 
     private String babyImgURL;
 
@@ -203,7 +212,9 @@ public class BabyInfoActivity extends AppCompatActivity {
                 newPost.put("weight", babyWeight);
                 newPost.put("gender", babyGender);
 
+                uploadImageToFirebaseStorage();
                 current_user_db.setValue(newPost);
+
 
                 Intent r = new Intent(BabyInfoActivity.this,HomeActivity.class);
                 startActivity(r);
@@ -214,6 +225,50 @@ public class BabyInfoActivity extends AppCompatActivity {
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(ContextCompat.checkSelfPermission(BabyInfoActivity.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    if(mUploadTask != null && mUploadTask.isInProgress()){
+                        Toast.makeText(BabyInfoActivity.this, "Upload in progress", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                    else{
+                        openGallery();
+                    }
+                }else{
+                    requestStoragePermission();
+                }
+            }
+        });
+    }
+
+    private void requestStoragePermission() {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
+            new AlertDialog.Builder(this)
+                    .setTitle("Permission Needed")
+                    .setMessage("This permission is needed in order to select a photo from your gallery")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(BabyInfoActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+            .create().show();
+        }else{
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == STORAGE_PERMISSION_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 if(mUploadTask != null && mUploadTask.isInProgress()){
                     Toast.makeText(BabyInfoActivity.this, "Upload in progress", Toast.LENGTH_SHORT)
                             .show();
@@ -221,8 +276,10 @@ public class BabyInfoActivity extends AppCompatActivity {
                 else{
                     openGallery();
                 }
+            }else {
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
-        });
+        }
     }
 
     /*// function to make a new baby Category
@@ -256,9 +313,7 @@ public class BabyInfoActivity extends AppCompatActivity {
                 mImageView.setImageBitmap(bitmap);*/
                 Picasso.get().load(imageUri).into(mImageView);
                 
-/*
-                uploadImageToFirebaseStorage();
-*/
+//                uploadImageToFirebaseStorage();
 
 /*            } catch (IOException e) {
                 e.printStackTrace();
@@ -284,15 +339,15 @@ public class BabyInfoActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressBar.setVisibility(View.GONE);
-                            Upload upload = new Upload(taskSnapshot.getDownloadUrl().toString());
+//                            Upload upload = new Upload(taskSnapshot.getDownloadUrl().toString());
                             /*String uploadId = mDatabaseRef.push().getKey();*/
 
-                            String user_id = mAuth.getCurrentUser().getUid();
-                            DatabaseReference current_user_db = mDatabaseRef.child("Users").child(user_id).child("Info");
+//                            String user_id = mAuth.getCurrentUser().getUid();
+//                            DatabaseReference current_user_db = mDatabaseRef.child("Users").child(user_id);
 
-//                            newPost.put("profile_pic", taskSnapshot.getDownloadUrl().toString());
+                            newPost.put("profile_pic", taskSnapshot.getDownloadUrl().toString());
 
-                            current_user_db.setValue(upload);
+//                            current_user_db.setValue(upload);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -311,5 +366,10 @@ public class BabyInfoActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
