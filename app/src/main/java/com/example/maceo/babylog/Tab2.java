@@ -32,7 +32,8 @@ public class Tab2 extends Fragment {
     private TextView mLastBreastFeedTimeStamp, mLeftBreastFeed, mRightBreastFeed, mLastBreastFeedNote;
     private TextView mLastMealFeedTimeStamp, mLastMealConsumed, mLastSupplementConsumed, mLastMealNote;
     private TextView mLastDiaperTimeStamp, mLastDiaperStatus, mLastDiaperNote;
-    private String time;
+    private TextView mLastNapTimeStamp, mLastNapDuration, mLastNapNote;
+
 
 
     FirebaseAuth mAuth;
@@ -58,6 +59,9 @@ public class Tab2 extends Fragment {
         mLastDiaperTimeStamp = (TextView) view.findViewById(R.id.diaper_last_timestamp);
         mLastDiaperStatus = (TextView) view.findViewById(R.id.edt_diaper_status);
         mLastDiaperNote = (TextView) view.findViewById(R.id.edt_diaper_note);
+        mLastNapTimeStamp = (TextView) view.findViewById(R.id.nap_last_timestamp);
+        mLastNapDuration = (TextView) view.findViewById(R.id.edt_nap_duration);
+        mLastNapNote = (TextView) view.findViewById(R.id.edt_nap_notes);
 
         mAuth = FirebaseAuth.getInstance();
         String user_id = mAuth.getCurrentUser().getUid();
@@ -80,52 +84,25 @@ public class Tab2 extends Fragment {
                                 //String Amount_In_Oz = child.getKey();
                                 mLastBottleFeedingTimeStamp.setText(date +" "+time);
                                 //mLastBFOZ.setText(Amount_In_Oz);
-
-
-                                current_user_db.child(date).child(time).child("Amount_In_Oz").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String Amount_In_Oz = dataSnapshot.getValue(String.class);
-                                        mLastBFOZ.setText(Amount_In_Oz);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-                                current_user_db.child(date).child(time).child("Bottle_Feeding_Notes").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String Bottle_Feeding_Notes = dataSnapshot.getValue(String.class);
-                                        mLastBFNote.setText(Bottle_Feeding_Notes);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-
-
-
+                                String Amount_In_Oz = child.child("Amount_In_Oz").getValue(String.class);
+                                mLastBFOZ.setText(Amount_In_Oz);
+                                String Bottle_Feeding_Notes = child.child("Bottle_Feeding_Notes").getValue(String.class);
+                                mLastBFNote.setText(Bottle_Feeding_Notes);
                             }
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
                         }
                     });
 
+
+
                 }
-
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
         // end of bottle feeding
@@ -151,48 +128,12 @@ public class Tab2 extends Fragment {
                             for (DataSnapshot child: dataSnapshot.getChildren()){
                                 String time = child.getKey();
                                 mLastBreastFeedTimeStamp.setText(date + " "+ time);
-
-                                current_user_db2.child(date).child(time).child("Left_Breast_Feeding_Time").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String Left_Breast_Feeding_Time = dataSnapshot.getValue(String.class);
-                                        mLeftBreastFeed.setText(Left_Breast_Feeding_Time);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-
-                                current_user_db2.child(date).child(time).child("Right_Breast_Feeding_Time").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String Right_Breast_Feeding_Time = dataSnapshot.getValue(String.class);
-                                        mRightBreastFeed.setText(Right_Breast_Feeding_Time);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-
-                                current_user_db2.child(date).child(time).child("Breast_Feeding_Note").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String Breast_Feeding_Note = dataSnapshot.getValue(String.class);
-                                        mLastBreastFeedNote.setText(Breast_Feeding_Note);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-
-
-
+                                String Left_Breast_Feeding_Time = child.child("Left_Breast_Feeding_Time").getValue(String.class);
+                                mLeftBreastFeed.setText(Left_Breast_Feeding_Time);
+                                String Right_Breast_Feeding_Time = child.child("Right_Breast_Feeding_Time").getValue(String.class);
+                                mRightBreastFeed.setText(Right_Breast_Feeding_Time);
+                                String Breast_Feeding_Note = child.child("Breast_Feeding_Note").getValue(String.class);
+                                mLastBreastFeedNote.setText(Breast_Feeding_Note);
                             }
                         }
 
@@ -202,9 +143,9 @@ public class Tab2 extends Fragment {
                         }
                     });
 
+
+
                 }
-
-
             }
 
             @Override
@@ -223,7 +164,7 @@ public class Tab2 extends Fragment {
                 .child("Users").child(mAuth.getCurrentUser().getUid())
                 .child("Feeding").child("Meal Feeding").child("Time Stamp");
 
-        current_user_db3.addValueEventListener(new ValueEventListener() {
+       current_user_db3.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child: dataSnapshot.getChildren()){
@@ -233,42 +174,17 @@ public class Tab2 extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot child: dataSnapshot.getChildren()){
-                                time = child.getKey();
+                                String time = child.getKey();
                                 mLastMealFeedTimeStamp.setText(date + " "+ time);
+                                String Meal_Consumed = child.child("Meal_Consumed").getValue(String.class);
+                                mLastMealConsumed.setText(Meal_Consumed);
+                                String Supplement_Consumed = child.child("Supplement_Consumed").getValue(String.class);
+                                mLastSupplementConsumed.setText(Supplement_Consumed);
+                                String Meal_Note = child.child("Meal_Note").getValue(String.class);
+                                mLastMealNote.setText(Meal_Note);
                             }
-                            current_user_db3.child(date).child(time).child("Meal_Consumed").addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    String Meal_Consumed = dataSnapshot.getValue(String.class);
-                                    mLastMealConsumed.setText(Meal_Consumed);
-                                }
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                }
-                            });
-
-                            current_user_db3.child(date).child(time).child("Supplement_Consumed").addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    String Supplement_Consumed = dataSnapshot.getValue(String.class);
-                                    mLastSupplementConsumed.setText(Supplement_Consumed);
-                                }
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                }
-                            });
-
-                            current_user_db3.child(date).child(time).child("Meal_Note").addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    String Meal_Note = dataSnapshot.getValue(String.class);
-                                    mLastMealNote.setText(Meal_Note);
-                                }
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                }
-                            });
                         }
+
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
 
@@ -300,48 +216,73 @@ public class Tab2 extends Fragment {
                     current_user_db4.child(date).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot child: dataSnapshot.getChildren()){
+                            for (DataSnapshot child : dataSnapshot.getChildren()) {
                                 String time = child.getKey();
-                                mLastDiaperTimeStamp.setText(date + " "+ time);
-
-                                current_user_db4.child(date).child(time).child("last_diaper_status").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String last_diaper_status = dataSnapshot.getValue(String.class);
-                                        mLastDiaperStatus.setText(last_diaper_status);
-                                    }
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                    }
-                                });
-
-                                current_user_db4.child(date).child(time).child("last_diaper_note").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String last_diaper_note = dataSnapshot.getValue(String.class);
-                                        mLastDiaperNote.setText(last_diaper_note);
-                                    }
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                    }
-                                });
+                                mLastDiaperTimeStamp.setText(date + " " + time);
+                                String last_diaper_status = child.child("last_diaper_status").getValue(String.class);
+                                mLastDiaperStatus.setText(last_diaper_status);
+                                String last_diaper_note = child.child("last_diaper_note").getValue(String.class);
+                                mLastDiaperNote.setText(last_diaper_note);
                             }
                         }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
 
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        //end of Diaper Status
+        /*
+        ***********************************************************************************************************
+         */
+
+        // Beginning of Sleep Status
+
+        final DatabaseReference current_user_db5 = FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(mAuth.getCurrentUser().getUid())
+                .child("Nap Entry").child("Time Stamp");
+
+        current_user_db5.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child: dataSnapshot.getChildren()){
+                final String date = child.getKey();
+
+                current_user_db5.child(date).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()){
+                            String time = child.getKey();
+                            mLastNapTimeStamp.setText(date + " " + time);
+                            String lastNapDuration = child.child("Nap_Duration").getValue(String.class);
+                            mLastNapDuration.setText(lastNapDuration);
+                            String lastNapNote = child.child("Nap_Notes").getValue(String.class);
+                            mLastNapNote.setText(lastNapNote);
                         }
-                    });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-        //end of Diaper Status
+        // End of Sleep Status
 
         //end of on create method
         return view;
     }
+
 }
