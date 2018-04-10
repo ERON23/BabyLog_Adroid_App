@@ -1,5 +1,7 @@
 package com.example.maceo.babylog;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -10,25 +12,35 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SleepActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
 
     TextView textView ;
-
-    Button start, pause, reset, lap,savebutton ;
+    EditText editText;
+    Button start, pause, reset, lap, savebutton;
 
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
 
@@ -43,13 +55,20 @@ public class SleepActivity extends AppCompatActivity
     List<String> ListElementsArrayList ;
 
     ArrayAdapter<String> adapter ;
+    private FirebaseAuth mAuth;
+    private String mDate;
+    private String mTime;
+    private int dayFinal, monthFinal, yearFinal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
 
+        mAuth = FirebaseAuth.getInstance();
+
         textView = (TextView)findViewById(R.id.textView);
+        editText = (EditText) findViewById(R.id.editText);
         start = (Button)findViewById(R.id.button);
         pause = (Button)findViewById(R.id.button2);
         reset = (Button)findViewById(R.id.button3);
@@ -71,6 +90,14 @@ public class SleepActivity extends AppCompatActivity
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day =c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SleepActivity.this,
+                        SleepActivity.this, year,month,day);
+                datePickerDialog.show();
 
                 StartTime = SystemClock.uptimeMillis();
                 handler.postDelayed(runnable, 0);
@@ -124,11 +151,24 @@ public class SleepActivity extends AppCompatActivity
             }
         });
 
-                savebutton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i =new Intent(getApplicationContext(),HomeActivity.class);
-                        startActivity(i);
+        savebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String duration = textView.getText().toString();
+                String notes = editText.getText().toString();
+                String user_id = mAuth.getCurrentUser().getUid();
+                DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users")
+                        .child(user_id).child("Nap Entry").child("Time Stamp");
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                Map newPost = new HashMap();
+                newPost.put("Nap_Duration", duration);
+                newPost.put("Nap_Notes", notes);
+
+                current_user_db.child(mDate).child(mTime).setValue(newPost);
+
+                Intent i =new Intent(getApplicationContext(),HomeActivity.class);
+                startActivity(i);
             }
         });
 
@@ -143,6 +183,34 @@ public class SleepActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        yearFinal = year;
+        monthFinal = month + 1;
+        dayFinal = day;
+
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog =new TimePickerDialog(SleepActivity.this, SleepActivity.this,
+                hour,minute, DateFormat.is24HourFormat(this));
+        timePickerDialog.show();
+
+        mDate = monthFinal + "-" +dayFinal+ "-" +yearFinal;
+
+    }
+
+    @Override
+    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        String amOrPm = " AM";
+        if(hour > 12){
+            hour = hour - 12;
+            amOrPm = " PM";
+        }
+        mTime = " (" + hour + ":" + minute + amOrPm + ")";
     }
 
     @Override
