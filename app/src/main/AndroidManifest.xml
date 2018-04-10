@@ -3,7 +3,7 @@
     package="com.example.maceo.babylog">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -89,7 +89,8 @@
                 android:value=".FeedingActivity" />
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".MemoriesActivity"></activity>
     </application>
 
 </manifest>

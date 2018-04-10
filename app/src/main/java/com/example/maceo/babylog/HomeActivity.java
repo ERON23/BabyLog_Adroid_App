@@ -12,9 +12,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,8 @@ import com.nex3z.notificationbadge.NotificationBadge;
 
 import com.example.maceo.babylog.Model.Baby;
 import com.squareup.picasso.Picasso;
+
+import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -279,4 +283,9 @@ public class HomeActivity extends AppCompatActivity
 
         }
     }
+
+
+
+
+    // end of main
 }
