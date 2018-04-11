@@ -94,10 +94,10 @@ public class FeedingActivity extends AppCompatActivity
             }
         });*/
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        Toolbar toolbar = findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
 
-        DrawerLayout myDrawer = (DrawerLayout) findViewById(R.id.myDrawer);
+        DrawerLayout myDrawer = findViewById(R.id.myDrawer);
         ActionBarDrawerToggle myToggle = new ActionBarDrawerToggle(this, myDrawer, toolbar, R.string.open, R.string.close);
 
         myDrawer.addDrawerListener(myToggle);
@@ -107,13 +107,13 @@ public class FeedingActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.notification, menu);
 
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -135,7 +135,7 @@ public class FeedingActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.myDrawer);
+        DrawerLayout drawer = findViewById(R.id.myDrawer);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

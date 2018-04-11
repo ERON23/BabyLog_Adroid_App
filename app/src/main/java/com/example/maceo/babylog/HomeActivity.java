@@ -196,7 +196,12 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        finish();
+        DrawerLayout drawer = findViewById(R.id.myDrawer);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            finish();
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -283,9 +288,4 @@ public class HomeActivity extends AppCompatActivity
 
         }
     }
-
-
-
-
-    // end of main
 }

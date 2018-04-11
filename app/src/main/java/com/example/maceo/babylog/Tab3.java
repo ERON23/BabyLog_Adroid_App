@@ -72,6 +72,7 @@ public class Tab3 extends Fragment {
                 for (DataSnapshot child: dataSnapshot.getChildren()){
                     final String date = child.getKey();
                     //String newDate = date;
+                    System.out.println("+++++++++++++ " + date);
 
 
 
@@ -80,40 +81,27 @@ public class Tab3 extends Fragment {
                                 //Calendar cal = Calendar.getInstance();
 
                                 //String date = dataSnapshot.getValue(String.class);
-                                String xValues [] = {"s"};
+                                String xValues [] = {date, "First"};
 
-                                int currentSize = xValues.length;
+                                /*int currentSize = xValues.length;
                                 int newSize = currentSize+1;
                                 String[] tempArray = new String[newSize];
                                 for (int i=0; i<currentSize; i++){
                                     tempArray[i] = xValues[i];
                                 }
                                 tempArray[newSize-1] = date;
-                                xValues = tempArray;
+                                xValues = tempArray;*/
 
 
 
 
-                                float yValues [] = {50};
+                                float yValues [] = {50, 60};
                                 //String xValues [] = {"Frist","Second","Third", "fourth","fifth"};
 
                                 XAxis xAxis = mBottleFeedingChart.getXAxis();
                                 xAxis.setGranularity(1f);
                                 xAxis.setGranularityEnabled(true);
                                 drawLineGraph(yValues,xValues);
-
-
-                                /*String time = child.getKey();
-                                mLastDiaperTimeStamp.setText(date + " " + time);
-                                String last_diaper_status = child.child("last_diaper_status").getValue(String.class);
-                                mLastDiaperStatus.setText(last_diaper_status);
-                                String last_diaper_note = child.child("last_diaper_note").getValue(String.class);
-                                mLastDiaperNote.setText(last_diaper_note);*/
-
-
-
-
-
 
                 }
             }
@@ -128,7 +116,7 @@ public class Tab3 extends Fragment {
 
 
 
-        /*current_user_name2.addValueEventListener(new ValueEventListener() {
+       /* current_user_name2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -136,7 +124,7 @@ public class Tab3 extends Fragment {
 
                 //Calendar cal = Calendar.getInstance();
 
-                String date = dataSnapshot.getValue(String.class);
+                *//*String date = dataSnapshot.getValue(String.class);
                 String xValues [] = {" "};
 
                 int currentSize = xValues.length;
@@ -146,13 +134,13 @@ public class Tab3 extends Fragment {
                     tempArray[i] = xValues[i];
                 }
                 tempArray[newSize-1] = date;
-                xValues = tempArray;
+                xValues = tempArray;*//*
 
 
 
 
                 float yValues [] = {10,20,30,40,50};
-                //String xValues [] = {"First","Second","Third", "fourth","fifth"};
+                String xValues [] = {"First","Second","Third","fourth","fifth"};
 
                 XAxis xAxis = mBottleFeedingChart.getXAxis();
                 xAxis.setGranularity(1f);
@@ -259,10 +247,10 @@ public class Tab3 extends Fragment {
 
 
     public class LabelFormatter implements IAxisValueFormatter {
-        private final String[ ] mLabels;
+        private final String[] mLabels;
 
         public LabelFormatter(String[] labels) {
-            mLabels = labels;;
+            mLabels = labels;
         }
 
         @Override
