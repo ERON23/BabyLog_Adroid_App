@@ -41,17 +41,14 @@ import java.util.Calendar;
 
 public class Tab3 extends Fragment {
 
-    //PieChart pieChart;
     LineChart mBottleFeedingChart;
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabaseRef;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users");
 
 
         // __________________START FOR CREATING BABY BOTTLE GRAPH_________________________________
