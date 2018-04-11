@@ -50,10 +50,9 @@ public class Tab3 extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
 
+        View view = inflater.inflate(R.layout.fragment_tab3, container, false);
 
         // __________________START FOR CREATING BABY BOTTLE GRAPH_________________________________
-
-        View view = inflater.inflate(R.layout.fragment_tab3, container, false);
         mBottleFeedingChart = (LineChart) view.findViewById(R.id.line_chart_bottle_feeding);
 
         // __________________START FOR Retrieving database(bottle time and amount in OZ) information_________________________________
@@ -133,6 +132,13 @@ public class Tab3 extends Fragment {
 
         // __________________ENDING FOR CREATING BABY BOTTLE GRAPH_________________________________
 
+
+
+
+
+
+
+        // end of on create method.
         return view;
     }
 
