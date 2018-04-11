@@ -33,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -44,7 +45,6 @@ public class Tab3 extends Fragment {
     LineChart mBottleFeedingChart;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,34 +59,70 @@ public class Tab3 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab3, container, false);
         mBottleFeedingChart = (LineChart) view.findViewById(R.id.line_chart_bottle_feeding);
 
-        // __________________FOR Retrieving database information_________________________________
+        // __________________START FOR Retrieving database(bottle time and amount in OZ) information_________________________________
 
-        final DatabaseReference current_user_name2 = FirebaseDatabase.getInstance().getReference()
+        final DatabaseReference current_user_db4 = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(mAuth.getCurrentUser().getUid())
                 .child("Feeding").child("Bottle Feeding").child("Time Stamp");
 
-
-        current_user_name2.addValueEventListener(new ValueEventListener() {
+        current_user_db4.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child: dataSnapshot.getChildren()){
                     final String date = child.getKey();
-                    //String newDate = date;
 
+                    current_user_db4.child(date).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
 
+                            String time1= "0";
+                            String[] xValues={time1};
+                            float amtInOZ1 = 0;
+                            float[] yValues={amtInOZ1};
 
+                            // for loop to iterate timestamps of all database records
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String time2 = snapshot.getKey();
 
-                                //Calendar cal = Calendar.getInstance();
+                                int currentSize = xValues.length;
+                                int newSize = currentSize+1;
+                                String[] tempArray = new String[newSize];
+                                for (int i=0; i<currentSize; i++){
+                                    tempArray[i] = xValues[i];
+                                }
+                                tempArray[newSize-1] = time2;
+                                xValues = tempArray;
 
-                                //String date = dataSnapshot.getValue(String.class);
-                                String xValues [] = {date, "First"};
-                                float yValues [] = {50, 60};
-                                //String xValues [] = {"Frist","Second","Third", "fourth","fifth"};
+                            }
 
-                                XAxis xAxis = mBottleFeedingChart.getXAxis();
-                                xAxis.setGranularity(1f);
-                                xAxis.setGranularityEnabled(true);
-                                drawLineGraph(yValues,xValues);
+                            // for loop to iterate all amount in OZ recorded on database
+                            for (DataSnapshot child: dataSnapshot.getChildren()){
+                                String Amount_In_Oz2 = child.child("Amount_In_Oz").getValue(String.class);
+                                float Amount_In_Oz2_f = Float.parseFloat(Amount_In_Oz2);
+
+                                int currentSize = yValues.length;
+                                int newSize = currentSize+1;
+                                float[] tempArray = new float[newSize];
+                                for (int i=0; i<currentSize; i++){
+                                    tempArray[i] = yValues[i];
+                                }
+                                tempArray[newSize-1] = Amount_In_Oz2_f;
+                                yValues = tempArray;
+
+                            }
+
+                            //here we can change graph features and settings
+                            XAxis xAxis = mBottleFeedingChart.getXAxis();
+                            xAxis.setGranularity(1f);
+                            xAxis.setGranularityEnabled(true);
+                            drawLineGraph(yValues,xValues);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
 
                 }
             }
@@ -96,123 +132,14 @@ public class Tab3 extends Fragment {
             }
         });
 
-
-
-
-
-
-       /* current_user_name2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-
-                //Calendar cal = Calendar.getInstance();
-
-                *//*String date = dataSnapshot.getValue(String.class);
-                String xValues [] = {" "};
-
-                int currentSize = xValues.length;
-                int newSize = currentSize+1;
-                String[] tempArray = new String[newSize];
-                for (int i=0; i<currentSize; i++){
-                    tempArray[i] = xValues[i];
-                }
-                tempArray[newSize-1] = date;
-                xValues = tempArray;*//*
-
-
-
-
-                float yValues [] = {10,20,30,40,50};
-                String xValues [] = {"First","Second","Third","fourth","fifth"};
-
-                XAxis xAxis = mBottleFeedingChart.getXAxis();
-                xAxis.setGranularity(1f);
-                xAxis.setGranularityEnabled(true);
-                drawLineGraph(yValues,xValues);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                //Toast.makeText(HomeActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });*/
-        // __________________FOR Retrieving database information_________________________________
-
-
-
-        /*float yValues [] = {10,20,30,40,50};
-        String xValues [] = {"Frist","Second","Third", "fourth","fifth"};
-
-        XAxis xAxis = mBottleFeedingChart.getXAxis();
-        xAxis.setGranularity(1f);
-        xAxis.setGranularityEnabled(true);
-        drawLineGraph(yValues,xValues);*/
+        // __________________ENDING FOR Retrieving database(bottle time and amount in OZ) information_________________________________
 
         // __________________ENDING FOR CREATING BABY BOTTLE GRAPH_________________________________
-
-        /*setData(10,20);
-        mBottleFeedingChart.animateX(1000);*/
-
-
-
-
-
-
-        /*// Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tab3, container, false);
-
-        pieChart = (PieChart) view.findViewById(R.id.pieChart);
-        pieChart.setTouchEnabled(false);
-
-        pieChart.setUsePercentValues(true);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setExtraOffsets(5, 10, 5, 5);
-
-
-        pieChart.setDrawHoleEnabled(false);
-        pieChart.setHoleColor(Color.WHITE);
-        pieChart.setTransparentCircleRadius(61f);
-
-        ArrayList<PieEntry> yValues = new ArrayList<>();
-
-        yValues.add(new PieEntry(34f, "Bottle"));
-        yValues.add(new PieEntry(23f, "Left Breast"));
-        yValues.add(new PieEntry(40f, "Right Breast"));
-        yValues.add(new PieEntry(15f, "Gerber"));
-
-        *//*Description description = new Description();
-        description.setText("Percentages of what baby has eaten.");
-        description.setTextSize(15);
-        pieChart.setDescription(description);*//*
-
-
-//        description.setGravity(Gravity.CENTER);
-
-        PieDataSet dataSet = new PieDataSet(yValues, "Baby's Food");
-        dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
-        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-
-        pieChart.animateY(1000, Easing.EasingOption.EaseInOutCubic);
-
-        PieData data = new PieData((dataSet));
-        data.setValueTextSize(15f);
-        data.setValueTextColor(Color.BLACK);
-
-        pieChart.setData(data);
-*/
-
-
 
         return view;
     }
 
-
-
-    // __________________FOR CREATING BABY BOTTLE GRAPH_________________________________
+    // __________________START FOR CREATING BABY BOTTLE GRAPH_________________________________
 
     private void drawLineGraph(float [] yValues, String [] xValues){
         ArrayList<Entry> yData = new ArrayList<>();
@@ -225,11 +152,9 @@ public class Tab3 extends Fragment {
         set1.setColor(Color.RED);
         LineData data = new LineData(set1);
         mBottleFeedingChart.getXAxis().setValueFormatter(new LabelFormatter(xValues));
-
         mBottleFeedingChart.setData(data);
 
     }
-
 
     public class LabelFormatter implements IAxisValueFormatter {
         private final String[] mLabels;
@@ -244,37 +169,6 @@ public class Tab3 extends Fragment {
         }
     }
 
-    // __________________FOR CREATING BABY BOTTLE GRAPH_________________________________
-
-
-
-    /*private void setData(int xrange, int yrange){
-        ArrayList<Entry> yVals1 = new ArrayList<>();
-
-
-        yVals1.add(new Entry(2,3));
-        yVals1.add(new Entry(1,2));
-        yVals1.add(new Entry(5,7));
-        yVals1.add(new Entry(6,4));
-
-
-
-
-        *//*for (int i = 0; i<count; i++){
-
-            float val = (float) (Math.random()*range)+50;
-            yVals1.add(new Entry(i,val));
-
-        }*//*
-
-
-        LineDataSet set1;
-        set1 = new LineDataSet(yVals1,"Bottle Feeding");
-        set1.setColor(Color.RED);
-        LineData data = new LineData(set1);
-        mBottleFeedingChart.setData(data);
-
-
-    }*/
+    // __________________ENDING FOR CREATING BABY BOTTLE GRAPH_________________________________
 
 }
