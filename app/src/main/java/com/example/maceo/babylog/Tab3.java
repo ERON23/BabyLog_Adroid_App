@@ -72,8 +72,6 @@ public class Tab3 extends Fragment {
                 for (DataSnapshot child: dataSnapshot.getChildren()){
                     final String date = child.getKey();
                     //String newDate = date;
-                    System.out.println("+++++++++++++ " + date);
-
 
 
 
@@ -82,19 +80,6 @@ public class Tab3 extends Fragment {
 
                                 //String date = dataSnapshot.getValue(String.class);
                                 String xValues [] = {date, "First"};
-
-                                /*int currentSize = xValues.length;
-                                int newSize = currentSize+1;
-                                String[] tempArray = new String[newSize];
-                                for (int i=0; i<currentSize; i++){
-                                    tempArray[i] = xValues[i];
-                                }
-                                tempArray[newSize-1] = date;
-                                xValues = tempArray;*/
-
-
-
-
                                 float yValues [] = {50, 60};
                                 //String xValues [] = {"Frist","Second","Third", "fourth","fifth"};
 

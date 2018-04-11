@@ -97,7 +97,6 @@ public class HomeActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String imageUrl = dataSnapshot.getValue(String.class);
                 String imageKey = dataSnapshot.getKey();
-                System.out.println("++++++++++++ " + imageKey);
                 Picasso.get().load(imageUrl).into(imgTakenPic);
             }
 
@@ -149,13 +148,13 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout myDrawer = (DrawerLayout) findViewById(R.id.myDrawer);
+        DrawerLayout myDrawer = findViewById(R.id.myDrawer);
         ActionBarDrawerToggle myToggle = new ActionBarDrawerToggle(this,myDrawer,toolbar,R.string.open,R.string.close);
 
         myDrawer.addDrawerListener(myToggle);
         myToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         /* start of the tab layout and navigation view */
     }
@@ -235,8 +234,6 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(t);*/
                 break;
             case R.id.tt:
-                /*Intent t= new Intent(this,.class);
-                startActivity(t);*/
                 Intent tt = new Intent(this,TummyTimeActivity.class);
                 startActivity(tt);
                 break;

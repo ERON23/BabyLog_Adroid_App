@@ -212,7 +212,7 @@ public class BabyInfoActivity extends AppCompatActivity {
                 newPost.put("weight", babyWeight);
                 newPost.put("gender", babyGender);
 
-                uploadImageToFirebaseStorage();
+//                uploadImageToFirebaseStorage();
                 current_user_db.setValue(newPost);
 
 
@@ -313,7 +313,7 @@ public class BabyInfoActivity extends AppCompatActivity {
                 mImageView.setImageBitmap(bitmap);*/
                 Picasso.get().load(imageUri).into(mImageView);
                 
-//                uploadImageToFirebaseStorage();
+                uploadImageToFirebaseStorage();
 
 /*            } catch (IOException e) {
                 e.printStackTrace();
