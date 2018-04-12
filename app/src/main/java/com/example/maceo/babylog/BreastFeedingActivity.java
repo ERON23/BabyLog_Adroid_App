@@ -171,13 +171,13 @@ public class BreastFeedingActivity extends AppCompatActivity implements
     // add items into spinner dynamically
     public void addItemsOnSpinner2() {
         rightBreastFeedSpinner = (Spinner) findViewById(R.id.right_breast_feed_spinner);
-        rightBreastFeedSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+        //rightBreastFeedSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
 
     }
 
     public void addListenerOnSpinnerItemSelection() {
         leftBreastFeedSpinner = (Spinner) findViewById(R.id.left_breast_feed_spinner);
-        leftBreastFeedSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+        //leftBreastFeedSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
     // get the selected dropdown list value
     public void addListenerOnButton() {

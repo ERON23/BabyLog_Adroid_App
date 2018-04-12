@@ -33,38 +33,37 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity=""
-            android:text="00:00:00"
-            android:textColor="#009688"
+            android:text="00:00"
+            android:textColor="@color/colorAccent"
             android:textSize="50dp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView"
             android:layout_marginTop="41dp"
-            android:text="Start" />
+            android:background="@drawable/start_timer_sleeping" />
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/button"
-            android:layout_alignBottom="@+id/button"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_above="@+id/button4"
             android:layout_centerHorizontal="true"
-            android:text="Pause" />
+            android:background="@drawable/pause_timer_sleeping" />
 
         <Button
             android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/button2"
-            android:text="Reset" />
+            android:background="@drawable/reset_timer_sleeping" />
 
         <Button
             android:id="@+id/button4"
@@ -121,16 +120,13 @@
 
         <Button
             android:id="@+id/savebutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginRight="41dp"
-            android:layout_marginTop="41dp"
-            android:text="Save"
 
-            />
+            android:layout_marginLeft="100dp"
+            android:background="@drawable/save_button" />
 
     </RelativeLayout>
 

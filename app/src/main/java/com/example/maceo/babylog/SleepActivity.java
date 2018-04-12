@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -80,6 +81,10 @@ public class SleepActivity extends AppCompatActivity
 
         ListElementsArrayList = new ArrayList<String>(Arrays.asList(ListElements));
 
+        //this line hides keyboard until the keyboard in the edit text is needed
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 ListElementsArrayList
@@ -132,7 +137,8 @@ public class SleepActivity extends AppCompatActivity
                 Minutes = 0 ;
                 MilliSeconds = 0 ;
 
-                textView.setText("00:00:00");
+                textView.setText("00:00");
+                //textView.setText("00:00:00");
 
                 ListElementsArrayList.clear();
 
@@ -290,9 +296,12 @@ public class SleepActivity extends AppCompatActivity
 
             MilliSeconds = (int) (UpdateTime % 1000);
 
-            textView.setText("" + Minutes + ":"
+            /*textView.setText("" + Minutes + ":"
                     + String.format("%02d", Seconds) + ":"
-                    + String.format("%03d", MilliSeconds));
+                    + String.format("%03d", MilliSeconds));*/
+
+            textView.setText("" + Minutes + ":"
+                    + String.format("%02d", Seconds));
 
             handler.postDelayed(this, 0);
         }

@@ -152,7 +152,7 @@ public class DiaperChangeActivity extends AppCompatActivity implements
 
     public void addListenerOnSpinnerItemSelection() {
         mDiaperStatusSpinner = (Spinner) findViewById(R.id.sp_diaper_status);
-        mDiaperStatusSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+        //mDiaperStatusSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
     // get the selected dropdown list value
     public void addListenerOnButton() {

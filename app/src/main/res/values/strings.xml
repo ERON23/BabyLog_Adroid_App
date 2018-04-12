@@ -28,8 +28,8 @@
     <string name='supp'>Supplement</string>
     <string name='supple'>Submit Supplement</string>
     <string name='unit'>Unit</string>
-    <string name='left'>Left</string>
-    <string name='right'>Right</string>
+    <string name='left'>Left Breast</string>
+    <string name='right'>Right Breast</string>
     <string name='Nursing'>Last Side Start</string>
     <string name='Submit'>Right</string>
     <string name='status'>Diaper Status</string>

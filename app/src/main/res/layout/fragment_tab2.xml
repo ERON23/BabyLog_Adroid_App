@@ -24,16 +24,25 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="60dp"
+                android:layout_marginTop="5dp"
                 android:text="Today's Summary"
                 android:textColor="@android:color/background_dark"
                 android:textSize="30sp"
                 android:textStyle="bold|italic" />
 
             <ImageView
+                android:id="@+id/blank_space1"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:paddingStart="10dp"
+                android:scaleType="fitStart" />
+
+            <ImageView
                 android:id="@+id/imageView11"
                 android:layout_width="181dp"
                 android:layout_height="32dp"
-                android:paddingStart="3dp"
+                android:paddingStart="10dp"
                 android:scaleType="fitStart"
                 android:src="@drawable/bottle_feeding_nametag" />
 
@@ -113,17 +122,17 @@
                     android:hint="(note)"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
+
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/brestFeedingTittle2"
+            <ImageView
+                android:id="@+id/imageView12"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="Breast Feeding"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:paddingStart="10dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/breast_feeding_nametag" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -229,15 +238,14 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/Meal_Tittle"
+            <ImageView
+                android:id="@+id/imageView13"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="Meal Feeding"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:paddingStart="10dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/meal_feeding_nametag" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -343,15 +351,14 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/bottle_Feeding_Title"
+            <ImageView
+                android:id="@+id/imageView14"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="Diaper Change"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:paddingStart="10dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/diaper_change_nametag" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -431,14 +438,14 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/brestFeedingTittle2"
+            <ImageView
+                android:id="@+id/imageView15"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="Nap Information"
-                android:textColor="@android:color/holo_blue_dark"                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:paddingStart="10dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/nap_information_nametag" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -516,6 +523,30 @@
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/blank_space4"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:paddingStart="10dp"
+                android:scaleType="fitStart" />
+
+            <ImageView
+                android:id="@+id/blank_space2"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:paddingStart="10dp"
+                android:scaleType="fitStart" />
+
+            <ImageView
+                android:id="@+id/blank_space3"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:paddingStart="10dp"
+                android:scaleType="fitStart" />
 
         </LinearLayout>
 

@@ -114,24 +114,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="85dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/feedingbtn"
+                android:translationX="-10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.319"
-                android:layout_marginRight="8dp" />
+                app:layout_constraintVertical_bias="0.319" />
 
             <Button
                 android:id="@+id/diaper_change_button"
                 android:layout_width="match_parent"
-                android:layout_height="85dp"
+                android:layout_height="86dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/diapertbn"
+                android:translationX="-10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -140,18 +140,19 @@
             <Button
                 android:id="@+id/sleep_button"
                 android:layout_width="match_parent"
-                android:layout_height="85dp"
+                android:layout_height="89dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/sleeptbn"
+                android:translationX="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.778"
-                android:layout_marginRight="8dp" />
+                app:layout_constraintVertical_bias="0.778" />
 
             <Button
                 android:id="@+id/chart_button"
@@ -159,15 +160,16 @@
                 android:layout_height="85dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/charttbn"
+                android:translationX="-10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0"
-                android:layout_marginRight="8dp" />
+                app:layout_constraintVertical_bias="1.0" />
 
             <Button
                 android:id="@+id/btn_memories"
@@ -177,7 +179,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/memories_1" />
+                android:background="@drawable/memories_1"
+                android:elevation="0dp" />
 
             <Button
                 android:id="@+id/tummytime_button"
@@ -185,9 +188,10 @@
                 android:layout_height="85dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/tummytime"
-                android:layout_marginRight="8dp" />
+                android:translationX="-10dp" />
 
             <Button
                 android:id="@+id/weight_tracker_button"
@@ -195,9 +199,16 @@
                 android:layout_height="85dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/weighttrackericon"
-                android:layout_marginRight="8dp" />
+                android:translationX="-10dp" />
+
+            <ImageView
+                android:id="@+id/blank_space"
+                android:layout_width="match_parent"
+                android:layout_height="59dp" />
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
