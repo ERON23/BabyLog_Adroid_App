@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.time.LocalDate;
 import java.util.Calendar;
 
 
@@ -153,15 +155,36 @@ public class Tab1 extends Fragment {
                 String birthdate = dataSnapshot.getValue(String.class);
                 String[] output = birthdate.split("\\/");
                 int mMonthBorn = Integer.parseInt(output[0]);
-                int mCurrentMonth = cal.get(Calendar.MONTH)+1;
-                int mActualMonthAge = mCurrentMonth - mMonthBorn;
+                int mDayBorn = Integer.parseInt(output[1]);
+                int mYearBorn = Integer.parseInt(output[2]);
 
-                if (mActualMonthAge == 0) {
-                    mDisplayBabyBirthAge.setText(0 + " months old");
-                } else if (mActualMonthAge == 1) {
-                    mDisplayBabyBirthAge.setText(mActualMonthAge + " month old");
-                } else {
-                    mDisplayBabyBirthAge.setText(mActualMonthAge + " months old");
+                Calendar dob = Calendar.getInstance();
+                Calendar today = Calendar.getInstance();
+
+                dob.set(mYearBorn, mMonthBorn-1, mDayBorn);
+
+                int years = today.get(Calendar.YEAR) - dob.get((Calendar.YEAR));
+                int months = today.get(Calendar.MONTH) - dob.get(Calendar.MONTH);
+
+                if (today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH)){
+                    months--;
+                }
+                if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
+                    years--;
+                }
+
+                if(years != 0){
+                    Integer monthsInt = months;
+                    Integer yearsInt = years;
+                    String ageS =yearsInt.toString() + " year " + monthsInt.toString() + " months old";
+                    mDisplayBabyBirthAge.setText(ageS);
+
+
+                }else {
+                    Integer monthsInt = months;
+                    String ageS = monthsInt.toString() + " months old";
+
+                    mDisplayBabyBirthAge.setText(ageS);
                 }
             }
 

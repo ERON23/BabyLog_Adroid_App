@@ -1,4 +1,5 @@
 package com.example.maceo.babylog;
+
 import android.Manifest;
 import android.app.Activity;
 import  android.app.DatePickerDialog;
@@ -75,7 +76,6 @@ public class BabyInfoActivity extends AppCompatActivity {
     //declare firebase database
     // App 63 - part 2
     private StorageReference mStorageRef; //helps gets firebase intance
-    private DatabaseReference mDatabaseRef; // helps us find the reference
     private FirebaseAuth mAuth;
     private StorageTask mUploadTask;
     private Map newPost = new HashMap();
@@ -88,7 +88,7 @@ public class BabyInfoActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        ImageButton mImageButton = findViewById(R.id.cal_button);
+        ImageButton mCalButton = findViewById(R.id.cal_button);
         mBabyName = findViewById(R.id.baby_name);
         mBabyBirthDate = findViewById(R.id.baby_birthday);
         mBabyWeight = findViewById(R.id.baby_weight);
@@ -103,12 +103,12 @@ public class BabyInfoActivity extends AppCompatActivity {
 
         mTextView.setText(babyInfo);
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+//        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         //this line below will create a child with name key and a value of 123
         //databaseReference.child("key").setValue("123");
 
-        mImageButton.setOnClickListener(new View.OnClickListener() {
+        mCalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
@@ -145,7 +145,7 @@ public class BabyInfoActivity extends AppCompatActivity {
                 String babyWeight = mBabyWeight.getText().toString();
                 String babyGender = mBabyGender.getSelectedItem().toString();
 
-                int babyWeightIntegerValue = 0;
+//                int babyWeightIntegerValue = 0;
 
                 if(babyName.isEmpty()){
                     mBabyName.setError("Name required");
@@ -177,15 +177,15 @@ public class BabyInfoActivity extends AppCompatActivity {
                 });
 
                 // we convert the string weight value into an integer for baby weight
-                try {
+                /*try {
                     babyWeightIntegerValue = Integer.parseInt(babyWeight);
                 } catch (Exception e) {
 
                     Log.i("TAG", e.getMessage());
-                }
+                }*/
 
 
-                FirebaseUser user = mAuth.getCurrentUser();
+                /*FirebaseUser user = mAuth.getCurrentUser();
                 if (user != null && babyImgURL != null){
                     UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
                             .setDisplayName(babyName)
@@ -201,7 +201,7 @@ public class BabyInfoActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                }
+                }*/
 
                 String user_id = mAuth.getCurrentUser().getUid();
                 DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference()
@@ -212,7 +212,6 @@ public class BabyInfoActivity extends AppCompatActivity {
                 newPost.put("weight", babyWeight);
                 newPost.put("gender", babyGender);
 
-//                uploadImageToFirebaseStorage();
                 current_user_db.setValue(newPost);
 
 

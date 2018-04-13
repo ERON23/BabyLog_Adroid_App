@@ -36,7 +36,7 @@ public class Tab2 extends Fragment {
 
 
 
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +66,7 @@ public class Tab2 extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         String user_id = mAuth.getCurrentUser().getUid();
         final DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference()
-                .child("Users").child(mAuth.getCurrentUser().getUid())
+                .child("Users").child(user_id)
                 .child("Feeding").child("Bottle Feeding").child("Time Stamp");
 
         current_user_db.addValueEventListener(new ValueEventListener() {

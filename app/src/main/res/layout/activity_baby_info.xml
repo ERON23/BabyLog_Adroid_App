@@ -18,7 +18,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
-            android:backgroundTint="@android:color/transparent"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
@@ -27,7 +26,7 @@
             app:srcCompat="@drawable/addbabypic" />
 
         <ProgressBar
-            android:visibility="gone"
+            android:visibility="invisible"
             android:indeterminate="true"
             android:id="@+id/progressbarIMG"
             android:layout_width="wrap_content"

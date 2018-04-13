@@ -42,13 +42,10 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
     protected void onCreate(Bundle savedInstanceState) {
         //database auth
         mAuth = FirebaseAuth.getInstance();
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feeding_bottle);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        Toolbar toolbar = findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -88,8 +85,8 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
             }
         });
 
-        mStartBottleFeedingBtn =(Button) findViewById(R.id.start_bottle_feeding_btn);
-        mDateAndTime =(EditText) findViewById(R.id.date_and_time);
+        mStartBottleFeedingBtn = findViewById(R.id.start_bottle_feeding_btn);
+        mDateAndTime = findViewById(R.id.date_and_time);
 
         mStartBottleFeedingBtn.setOnClickListener(new View.OnClickListener() {
             @Override

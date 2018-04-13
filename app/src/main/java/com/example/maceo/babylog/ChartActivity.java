@@ -31,7 +31,7 @@ public class ChartActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
 
-        pieChart = (PieChart) findViewById(R.id.pieChart);
+        pieChart = findViewById(R.id.pieChart);
         pieChart.setTouchEnabled(false);
 
         pieChart.setUsePercentValues(true);

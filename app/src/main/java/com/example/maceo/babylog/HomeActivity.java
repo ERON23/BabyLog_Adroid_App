@@ -96,7 +96,6 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String imageUrl = dataSnapshot.getValue(String.class);
-                String imageKey = dataSnapshot.getKey();
                 Picasso.get().load(imageUrl).into(imgTakenPic);
             }
 
@@ -138,7 +137,7 @@ public class HomeActivity extends AppCompatActivity
         // sets up PagerAdapter Class
         mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
         // Setup the ViewPager with the sections adapter
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         setupViewPager(mViewPager);
 
         /* start of the tab layout and navigation view */
@@ -240,6 +239,9 @@ public class HomeActivity extends AppCompatActivity
             case R.id.weightT:
                 Intent t= new Intent(this,WeighyTrackingActivity.class);
                 startActivity(t);
+                break;
+            case R.id.editProfile:
+                startActivity(new Intent(this, EditProfileActivity.class));
                 break;
             case R.id.logOut:
                 FirebaseAuth.getInstance().signOut();
