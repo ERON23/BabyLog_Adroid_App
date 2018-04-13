@@ -207,8 +207,6 @@ public class ChangeProfilePicFragment extends Fragment {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
             Picasso.get().load(imageUri).into(mDisplayPic);
-//            uploadImageToFirebaseStorage();
-
         }
     }
 

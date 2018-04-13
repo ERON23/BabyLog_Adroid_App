@@ -46,9 +46,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     public void selectFrag(View view){
         Fragment fragment;
-//        FragmentManager fm = getSupportFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//        ft.hide(fragment).commit();
 
         if(view == findViewById(R.id.change_pic_btn)){
             fragment = new ChangeProfilePicFragment();
@@ -68,8 +65,6 @@ public class EditProfileActivity extends AppCompatActivity {
             ft.commit();*/
 
     }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

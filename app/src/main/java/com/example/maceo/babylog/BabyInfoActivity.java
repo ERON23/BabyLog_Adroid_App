@@ -184,25 +184,6 @@ public class BabyInfoActivity extends AppCompatActivity {
                     Log.i("TAG", e.getMessage());
                 }*/
 
-
-                /*FirebaseUser user = mAuth.getCurrentUser();
-                if (user != null && babyImgURL != null){
-                    UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
-                            .setDisplayName(babyName)
-                            .setPhotoUri(Uri.parse(babyImgURL))
-                            .build();
-                    user.updateProfile(profile)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        Toast.makeText(getApplicationContext(), "Profile updated", Toast.LENGTH_SHORT)
-                                                .show();
-                                    }
-                                }
-                            });
-                }*/
-
                 String user_id = mAuth.getCurrentUser().getUid();
                 DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference()
                         .child("Users").child(user_id).child("Info");
