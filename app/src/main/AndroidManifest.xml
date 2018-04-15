@@ -8,7 +8,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/babylog_icon"
-        android:label="@string/app_name"
+        android:label= "@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -21,82 +21,48 @@
         </activity>
         <activity android:name=".BabyInfoActivity" />
         <activity
-            android:name=".HomeActivity"
-            android:parentActivityName=".BabyInfoActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".BabyInfoActivity" />
-        </activity>
+            android:name=".HomeActivity"/>
+
         <activity
             android:name=".FeedingActivity"
-            android:label="Feeding"
-            android:parentActivityName=".HomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />
-        </activity>
+            android:label="Feeding"/>
+
         <activity
             android:name=".SleepActivity"
-            android:label="Sleep"
-            android:parentActivityName=".HomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />
-        </activity>
+            android:label="Sleep"/>
+
         <activity
             android:name=".ChartActivity"
-            android:label="Charts"
-            android:parentActivityName=".HomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />
-        </activity>
+            android:label="Charts"/>
+
         <activity
             android:name=".DiaperChangeActivity"
-            android:label="Diaper Change"
-            android:parentActivityName=".HomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />
-        </activity>
+            android:label="Diaper Change"/>
+
         <activity
             android:name=".NotificationActivity"
             android:label="Notifications" />
+
         <activity android:name=".TummyTimeActivity" />
         <activity android:name=".WeighyTrackingActivity" />
+
         <activity
             android:name=".FeedingBottleActivity"
-            android:label="Bottle"
-            android:parentActivityName=".FeedingActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FeedingActivity" />
-        </activity>
+            android:label="Bottle"/>
         <activity
             android:name=".BreastFeedingActivity"
-            android:label="Breast Feeding"
-            android:parentActivityName=".FeedingActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FeedingActivity" />
-        </activity>
+            android:label="Breast Feeding"/>
         <activity
             android:name=".NutritionActivity"
-            android:label="Meal"
-            android:parentActivityName=".FeedingActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FeedingActivity" />
-        </activity>
+            android:label="Meal"/>
+
         <activity android:name=".LoginActivity" />
+
         <activity android:name=".EditProfileActivity"
-            android:label="Meal"
-            android:parentActivityName=".HomeActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".HomeActivity"/>
-        </activity>
-        <activity android:name=".MemoriesActivity"></activity>
+            android:label="Edit Profile"/>
+
+        <activity android:name=".MemoriesActivity"
+            android:label="Memories"/>
     </application>
 
 </manifest>

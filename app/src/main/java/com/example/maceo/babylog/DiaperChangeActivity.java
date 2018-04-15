@@ -3,8 +3,8 @@ package com.example.maceo.babylog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
@@ -15,7 +15,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -121,11 +120,11 @@ public class DiaperChangeActivity extends AppCompatActivity implements
 
     @Override
 
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
-        yearFinal =i;
-        monthFinal =i1 + 1;
-        dayFinal =i2;
+        yearFinal =year;
+        monthFinal =month + 1;
+        dayFinal =day;
 
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -140,14 +139,14 @@ public class DiaperChangeActivity extends AppCompatActivity implements
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        String amOrPm = " AM";
-        if(hour > 12){
-            hour = hour - 12;
-            amOrPm = " PM";
-        }
-        mLastDiaperChangeTimeStamp.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ hour + ":"+ minute + amOrPm +")");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        String updateTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(calendar.getTime());
+        mLastDiaperChangeTimeStamp.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ updateTime +")");
 
-        mTime = " ("+ hour + ":"+ minute + amOrPm+")";
+        mTime = " ("+ updateTime+")";
     }
 
     public void addListenerOnSpinnerItemSelection() {

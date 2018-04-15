@@ -3,8 +3,8 @@ package com.example.maceo.babylog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.text.TextUtils;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +30,6 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
     private EditText mAmtInOZ;
     private EditText mBottleFeedingNotes;
     private FirebaseAuth mAuth;
-    private String uniqueBottleFeedingID;
     private String mDate;
     private String mTime;
 
@@ -51,10 +49,10 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        mSaveButton = (Button) findViewById(R.id.save_Button);
-        mAmtInOZ = (EditText) findViewById(R.id.amt_in_oz);
-        mBottleFeedingNotes = (EditText) findViewById(R.id.bottle_feeding_notes_edt);
-        mDateAndTime = (EditText) findViewById(R.id.date_and_time);
+        mSaveButton = findViewById(R.id.save_Button);
+        mAmtInOZ = findViewById(R.id.amt_in_oz);
+        mBottleFeedingNotes = findViewById(R.id.bottle_feeding_notes_edt);
+        mDateAndTime = findViewById(R.id.date_and_time);
 
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,11 +64,6 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
                 String user_id = mAuth.getCurrentUser().getUid();
                 DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users")
                         .child(user_id).child("Feeding").child("Bottle Feeding").child("Time Stamp");
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-                /*if(TextUtils.isEmpty(uniqueBottleFeedingID)){
-                    uniqueBottleFeedingID = current_user_db.push().getKey();
-                }*/
 
                 Map newPost = new HashMap();
                 newPost.put("Amount_In_Oz", amountOfOz);
@@ -78,7 +71,6 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
                 newPost.put("Date_and_Time",dateAndTime);
 
                 current_user_db.child(mDate).child(mTime).setValue(newPost);
-
 
                 Intent i =new Intent(getApplicationContext(),FeedingActivity.class);
                 startActivity(i);
@@ -99,11 +91,8 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
                 DatePickerDialog datePickerDialog = new DatePickerDialog(FeedingBottleActivity.this, FeedingBottleActivity.this,
                         year,month,day);
                 datePickerDialog.show();
-
             }
         });
-
-
     }
 
     @Override
@@ -117,24 +106,24 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog =new TimePickerDialog(FeedingBottleActivity.this, FeedingBottleActivity.this,
+        TimePickerDialog timePickerDialog = new TimePickerDialog(FeedingBottleActivity.this, FeedingBottleActivity.this,
                 hour,minute, DateFormat.is24HourFormat(this));
         timePickerDialog.show();
 
-        mDate = monthFinal + "-"+dayFinal+ "-"+yearFinal;
+        mDate = monthFinal + "-" + dayFinal + "-" + yearFinal;
 
     }
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        String amOrPm = " AM";
-        if(hour > 12){
-            hour = hour - 12;
-            amOrPm = " PM";
-        }
-        mDateAndTime.setText(monthFinal + "-"+ dayFinal + "-"+ yearFinal + " ("+ hour + ":"+ minute + amOrPm+")");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        String updateTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(calendar.getTime());
+        mDateAndTime.setText(monthFinal + "-"+ dayFinal + "-"+ yearFinal + " ("+ hour + ":"+ minute + updateTime +")");
 
-        mTime = " ("+ hour + ":"+ minute + amOrPm+")";
+        mTime = " ("+ updateTime +")";
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

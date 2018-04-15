@@ -3,8 +3,8 @@ package com.example.maceo.babylog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
@@ -139,11 +139,11 @@ public class BreastFeedingActivity extends AppCompatActivity implements
 
     @Override
 
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
-        yearFinal =i;
-        monthFinal =i1 + 1;
-        dayFinal =i2;
+        yearFinal =year;
+        monthFinal =month + 1;
+        dayFinal =day;
 
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -159,31 +159,31 @@ public class BreastFeedingActivity extends AppCompatActivity implements
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        String amOrPm = " AM";
-        if(hour > 12){
-            hour = hour - 12;
-            amOrPm = " PM";
-        }
-        mDateAndTimeResult.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ hour + ":"+ minute + amOrPm +")");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        String updateTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(calendar.getTime());
+        mDateAndTimeResult.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ updateTime+")");
 
-        mTime = " ("+ hour + ":"+ minute + amOrPm+")";
+        mTime = " ("+ updateTime+")";
     }
     // add items into spinner dynamically
     public void addItemsOnSpinner2() {
-        rightBreastFeedSpinner = (Spinner) findViewById(R.id.right_breast_feed_spinner);
+        rightBreastFeedSpinner = findViewById(R.id.right_breast_feed_spinner);
         //rightBreastFeedSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
 
     }
 
     public void addListenerOnSpinnerItemSelection() {
-        leftBreastFeedSpinner = (Spinner) findViewById(R.id.left_breast_feed_spinner);
+        leftBreastFeedSpinner = findViewById(R.id.left_breast_feed_spinner);
         //leftBreastFeedSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
     // get the selected dropdown list value
     public void addListenerOnButton() {
 
-        leftBreastFeedSpinner = (Spinner) findViewById(R.id.left_breast_feed_spinner);
-        rightBreastFeedSpinner = (Spinner) findViewById(R.id.right_breast_feed_spinner);
+        leftBreastFeedSpinner = findViewById(R.id.left_breast_feed_spinner);
+        rightBreastFeedSpinner = findViewById(R.id.right_breast_feed_spinner);
 
     }
     @Override

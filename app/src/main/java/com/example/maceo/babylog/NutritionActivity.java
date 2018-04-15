@@ -10,7 +10,6 @@ import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -22,10 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class NutritionActivity extends AppCompatActivity implements
@@ -51,17 +48,17 @@ public class NutritionActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_nutrition);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        Toolbar toolbar = findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mStartButtonMeal =(Button) findViewById(R.id.btn_start_meal);
-        mDateAndTimeMeal =(TextView) findViewById(R.id.txt_time_and_date_meal);
-        mSaveToDataBaseBtn =(Button) findViewById(R.id.btn_save_to_database);
-        mMealSpinner = (Spinner) findViewById(R.id.meal_spinner);
-        mSupplementSpinner = (Spinner) findViewById(R.id.supplement_spinner);
-        mMealNote = (EditText) findViewById(R.id.meal_notes_txt);
+        mStartButtonMeal = findViewById(R.id.btn_start_meal);
+        mDateAndTimeMeal = findViewById(R.id.txt_time_and_date_meal);
+        mSaveToDataBaseBtn = findViewById(R.id.btn_save_to_database);
+        mMealSpinner = findViewById(R.id.meal_spinner);
+        mSupplementSpinner = findViewById(R.id.supplement_spinner);
+        mMealNote = findViewById(R.id.meal_notes_txt);
 
 
         mSaveToDataBaseBtn.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +115,6 @@ public class NutritionActivity extends AppCompatActivity implements
             }
         });
 
-
         mStartButtonMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,7 +132,6 @@ public class NutritionActivity extends AppCompatActivity implements
     }
 
     @Override
-
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
         yearFinal = year;
@@ -152,11 +147,7 @@ public class NutritionActivity extends AppCompatActivity implements
         timePickerDialog.show();
 
         mDate = monthFinal + "-"+dayFinal+ "-"+yearFinal;
-
-
     }
-
-
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
@@ -168,9 +159,6 @@ public class NutritionActivity extends AppCompatActivity implements
         mDateAndTimeMeal.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ hour + ":"+ minute + amOrPm +")");
         mTime = " ("+ hour + ":"+ minute + amOrPm+")";
     }
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

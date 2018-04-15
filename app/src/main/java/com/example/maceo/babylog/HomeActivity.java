@@ -1,45 +1,33 @@
 package com.example.maceo.babylog;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.nex3z.notificationbadge.NotificationBadge;
-
-import com.example.maceo.babylog.Model.Baby;
 import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+//import com.bumptech.glide.Glide;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -175,7 +163,7 @@ public class HomeActivity extends AppCompatActivity
 
         // no inspection SimplifiableIfStatement
         if (id == R.id.menu_notification) {
-            Intent intent= new Intent(this,NotificationActivity.class);
+            Intent intent= new Intent(this, NotificationActivity.class);
             startActivity(intent);
             return true;
         }
