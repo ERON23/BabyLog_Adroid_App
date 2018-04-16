@@ -41,7 +41,7 @@
 
         <activity
             android:name=".NotificationActivity"
-            android:label="Notifications" />
+            android:label="Daily Reminders" />
 
         <activity android:name=".TummyTimeActivity" />
         <activity android:name=".WeighyTrackingActivity" />
@@ -63,6 +63,10 @@
 
         <activity android:name=".MemoriesActivity"
             android:label="Memories"/>
+
+        <receiver android:name=".AlertReceiver"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

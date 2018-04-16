@@ -27,7 +27,9 @@ public class AddNotification extends DialogFragment {
     private TextView mDate, mTime;
     private CalendarView calendarView;
     private TimePicker timePicker;
-    private String saveDate, saveTime;
+    private String saveDate;
+    private String saveTime;
+    private long inMillis;
     private int global_year,  global_month, global_dayOfMonth;
 
     private FirebaseAuth mAuth;
@@ -38,7 +40,7 @@ public class AddNotification extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view= inflater.inflate(R.layout.add_notification, container, false);
-        getDialog().setTitle("Add New Notification");
+        getDialog().setTitle("Add New Reminder");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -83,6 +85,7 @@ public class AddNotification extends DialogFragment {
                 calendar.set(Calendar.MINUTE, minute);
                 calendar.set(Calendar.SECOND, 0);
 
+
                 mTimeOk.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -90,6 +93,7 @@ public class AddNotification extends DialogFragment {
                         mTime.setText("Time: " +  saveTime);
                         timePicker.setVisibility(View.GONE);
                         mTimeOk.setVisibility(View.GONE);
+                        inMillis = calendar.getTimeInMillis();
                     }
                 });
             }
@@ -135,7 +139,7 @@ public class AddNotification extends DialogFragment {
                         .child("Users").child(user_id).child("Notifications").child(String.valueOf(System.currentTimeMillis()));
 
                 String title = mAddTitle.getText().toString();
-                ListItem listItem = new ListItem(title, saveDate, saveTime);
+                ListItem listItem = new ListItem(title, saveDate, saveTime, inMillis);
 
                 current_user_db.setValue(listItem);
 

@@ -7,15 +7,18 @@ public class ListItem {
     private String Title;
     private String Date;
     private String Time;
+    private long inMillis;
 
     private String key;
+    public ListItem() {}
 
-    public ListItem(){}
 
-    public ListItem(String Title, String Date, String Time) {
+    public ListItem(String Title, String Date, String Time, long Millis) {
         this.Title = Title;
         this.Date = Date;
         this.Time = Time;
+        this.inMillis = Millis;
+
     }
 
     public String getTime() {
@@ -49,5 +52,13 @@ public class ListItem {
     @Exclude
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public long getInMillis() {
+        return inMillis;
+    }
+
+    public void setInMillis(long inMillis) {
+        this.inMillis = inMillis;
     }
 }

@@ -1,7 +1,13 @@
 package com.example.maceo.babylog;
 
+import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +40,7 @@ public class NotificationActivity extends AppCompatActivity implements ListAdapt
     private ValueEventListener valueEventListener;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,10 +80,39 @@ public class NotificationActivity extends AppCompatActivity implements ListAdapt
             }
         });
 
+
         Toolbar toolbar = findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    private void startAlarm(int id, long time) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, intent, 0);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (alarmManager != null) {
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, AlarmManager.INTERVAL_DAY, pendingIntent);
+            }
+        }
+
+        Toast.makeText(this, "Start reminder", Toast.LENGTH_SHORT).show();
+    }
+
+    private void cancelAlarm(int id) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, intent, 0);
+
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+        }
+
+        Toast.makeText(this, "Cancel reminder", Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -114,6 +150,21 @@ public class NotificationActivity extends AppCompatActivity implements ListAdapt
     }
 
     @Override
+    public void onCheckSwitch(int position, Boolean onOff) {
+        ListItem selectedItem = listItems.get(position);
+        long selectedKey = Long.valueOf(selectedItem.getKey());
+
+        long timeInMillis = selectedItem.getInMillis();
+
+        if(onOff){         // means it is on
+            startAlarm((int) selectedKey, timeInMillis);
+
+        }else{        // means it is off
+            cancelAlarm((int) selectedKey);
+        }
+    }
+
+    @Override
     public void onEditClick(int position) {
         ListItem selectedItem = listItems.get(position);
         String selectedKey = selectedItem.getKey();
@@ -124,6 +175,9 @@ public class NotificationActivity extends AppCompatActivity implements ListAdapt
     public void onDeleteClick(int position){
         ListItem selectedItem = listItems.get(position);
         String selectedKey = selectedItem.getKey();
+        long selKey = Long.valueOf(selectedKey);
+
+        cancelAlarm((int) selKey);
 
         mDbRef.child(selectedKey).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

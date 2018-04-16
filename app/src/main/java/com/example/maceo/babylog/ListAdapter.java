@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.List;
@@ -46,9 +47,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         return listItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
 
         public TextView textViewTitle, textViewDate, textViewTime;
+        private Switch mSwitch;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -56,21 +59,35 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             textViewTitle = itemView.findViewById(R.id.title);
             textViewDate = itemView.findViewById(R.id.date);
             textViewTime = itemView.findViewById(R.id.time);
+            mSwitch = itemView.findViewById(R.id.onOffSwitch);
 
-            itemView.setOnClickListener(this);
-            itemView.setOnCreateContextMenuListener(this);
-        }
 
-        //@Override
-        public void onClick(View v) {
-
-            if (mListener != null){
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION){
-                    mListener.onItemClick(position);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            mListener.onItemClick(position);
+                        }
+                    }
                 }
-            }
+            });
+            itemView.setOnCreateContextMenuListener(this);
+
+            mSwitch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            mListener.onCheckSwitch(position, mSwitch.isChecked());
+                        }
+                    }
+                }
+            });
         }
+
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -105,6 +122,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     public interface OnItemClickListener{
         void onItemClick(int position);
+
+        void onCheckSwitch(int position, Boolean onOff);
 
         void onEditClick(int position);
 
