@@ -1,6 +1,11 @@
 package com.example.maceo.babylog;
 
+import android.app.AlarmManager;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -135,19 +140,36 @@ public class AddNotification extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String user_id = mAuth.getCurrentUser().getUid();
+                String time_millis = String.valueOf(System.currentTimeMillis());
                 DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference()
-                        .child("Users").child(user_id).child("Notifications").child(String.valueOf(System.currentTimeMillis()));
+                        .child("Users").child(user_id).child("Notifications").child(time_millis);
 
                 String title = mAddTitle.getText().toString();
                 ListItem listItem = new ListItem(title, saveDate, saveTime, inMillis);
 
                 current_user_db.setValue(listItem);
+                long id = Long.valueOf(time_millis);
+                startAlarm((int) id, inMillis);
 
                 dismiss();
             }
         });
 
         return view;
+    }
+
+    private void startAlarm(int id, long time) {
+        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, intent, 0);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (alarmManager != null) {
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, AlarmManager.INTERVAL_DAY, pendingIntent);
+            }
+        }
+
+        Toast.makeText(getActivity(), "Start reminder", Toast.LENGTH_SHORT).show();
     }
 
 }
