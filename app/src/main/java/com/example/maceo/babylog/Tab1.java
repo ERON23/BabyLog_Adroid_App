@@ -65,7 +65,7 @@ public class Tab1 extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                birthdayt.makeText(getView().getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getView().getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
