@@ -39,6 +39,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         holder.textViewTitle.setText(listItem.getTitle());
         holder.textViewDate.setText(listItem.getDate());
         holder.textViewTime.setText(listItem.getTime());
+        System.out.println("++++++++++" + listItem.getOnOff());
+        holder.mSwitch.setChecked(listItem.getOnOff());
 
     }
 
@@ -81,13 +83,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION){
+                            System.out.println("+++++++++++ switched to " + mSwitch.isChecked());
                             mListener.onCheckSwitch(position, mSwitch.isChecked());
                         }
                     }
                 }
             });
         }
-
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

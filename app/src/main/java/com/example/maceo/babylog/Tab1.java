@@ -150,8 +150,8 @@ public class Tab1 extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Calendar cal = Calendar.getInstance();
 
-                String birthdate = dataSnapshot.getValue(String.class);
-                String[] output = birthdate.split("\\/");
+                String birthday = dataSnapshot.getValue(String.class);
+                String[] output = birthday.split("\\/");
                 int mMonthBorn = Integer.parseInt(output[0]);
                 int mDayBorn = Integer.parseInt(output[1]);
                 int mYearBorn = Integer.parseInt(output[2]);

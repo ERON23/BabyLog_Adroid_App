@@ -67,6 +67,11 @@ public class AddNotification extends DialogFragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
                 global_year = year;
                 global_month = month + 1;
                 global_dayOfMonth = dayOfMonth;
@@ -89,6 +94,7 @@ public class AddNotification extends DialogFragment {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
                 calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
 
 
                 mTimeOk.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +104,6 @@ public class AddNotification extends DialogFragment {
                         mTime.setText("Time: " +  saveTime);
                         timePicker.setVisibility(View.GONE);
                         mTimeOk.setVisibility(View.GONE);
-                        inMillis = calendar.getTimeInMillis();
                     }
                 });
             }
@@ -145,11 +150,15 @@ public class AddNotification extends DialogFragment {
                         .child("Users").child(user_id).child("Notifications").child(time_millis);
 
                 String title = mAddTitle.getText().toString();
-                ListItem listItem = new ListItem(title, saveDate, saveTime, inMillis);
+                if(calendar.before(Calendar.getInstance())) {
+                    calendar.add(Calendar.DATE, 1);
+                }
+                inMillis = calendar.getTimeInMillis();
+                ListItem listItem = new ListItem(title, saveDate, saveTime, inMillis, true);
 
                 current_user_db.setValue(listItem);
                 long id = Long.valueOf(time_millis);
-                startAlarm((int) id, inMillis);
+                startAlarm((int) id, inMillis, saveTime, title);
 
                 dismiss();
             }
@@ -158,18 +167,27 @@ public class AddNotification extends DialogFragment {
         return view;
     }
 
-    private void startAlarm(int id, long time) {
-        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+    private void startAlarm(int id, long time, String body, String title) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();
+        if(diff > 0){
+            calendar.add(Calendar.DATE, 1);
+        }
+        time = calendar.getTimeInMillis();
+
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getActivity(), AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, intent, 0);
+        intent.putExtra("body", body);
+        intent.putExtra("title", title);
+        intent.putExtra("id", id);
+        intent.putExtra("time", time);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (alarmManager != null) {
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, AlarmManager.INTERVAL_DAY, pendingIntent);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, pendingIntent);
             }
         }
-
-        Toast.makeText(getActivity(), "Start reminder", Toast.LENGTH_SHORT).show();
     }
-
 }

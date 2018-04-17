@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class NotificationActivity extends AppCompatActivity implements ListAdapter.OnItemClickListener{
@@ -59,6 +62,7 @@ public class NotificationActivity extends AppCompatActivity implements ListAdapt
         String user_id = mAuth.getUid();
         mDbRef = FirebaseDatabase.getInstance().getReference("Users/" + user_id + "/Notifications");
 
+
         valueEventListener = mDbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -88,14 +92,26 @@ public class NotificationActivity extends AppCompatActivity implements ListAdapt
 
     }
 
-    private void startAlarm(int id, long time) {
+    private void startAlarm(int id, long time, String body, String title) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();
+        if(diff > 0){
+            calendar.add(Calendar.DATE, 1);
+        }
+        time = calendar.getTimeInMillis();
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, intent, 0);
+        intent.putExtra("body", body);
+        intent.putExtra("title", title);
+        intent.putExtra("id", id);
+        intent.putExtra("time", time);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (alarmManager != null) {
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, AlarmManager.INTERVAL_DAY, pendingIntent);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, pendingIntent);
             }
         }
 
@@ -157,9 +173,21 @@ public class NotificationActivity extends AppCompatActivity implements ListAdapt
         long timeInMillis = selectedItem.getInMillis();
 
         if(onOff){         // means it is on
-            startAlarm((int) selectedKey, timeInMillis);
+            mDbRef.child(String.valueOf(selectedKey)).child("onOff").setValue(true).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(NotificationActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            startAlarm((int) selectedKey, timeInMillis, selectedItem.getTime(), selectedItem.getTitle());
 
         }else{        // means it is off
+            mDbRef.child(String.valueOf(selectedKey)).child("onOff").setValue(false).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(NotificationActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
             cancelAlarm((int) selectedKey);
         }
     }

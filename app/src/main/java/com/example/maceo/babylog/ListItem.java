@@ -8,17 +8,27 @@ public class ListItem {
     private String Date;
     private String Time;
     private long inMillis;
+    private Boolean OnOff;
 
     private String key;
     public ListItem() {}
 
 
-    public ListItem(String Title, String Date, String Time, long Millis) {
+    public ListItem(String Title, String Date, String Time, long Millis, Boolean onOff) {
         this.Title = Title;
         this.Date = Date;
         this.Time = Time;
         this.inMillis = Millis;
 
+        this.OnOff = onOff;
+    }
+
+    public Boolean getOnOff() {
+        return OnOff;
+    }
+
+    public void setOnOff(Boolean onOff) {
+        this.OnOff = onOff;
     }
 
     public String getTime() {
