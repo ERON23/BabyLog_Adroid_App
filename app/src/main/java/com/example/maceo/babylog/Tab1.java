@@ -23,15 +23,8 @@ import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 
 public class Tab1 extends Fragment {
-    private Button mFeedingButton, mSleepButton,
-                   mDiaperChangeButton, mChartButton,
-                   mTummyTime, mWeightTracking,
-                   mMemoriesBtn;
     private ImageView baby_pic;
     private TextView mDisplayBabyName, mDisplayBabyBirthAge;
-
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabaseRef;
 
     @Nullable
     @Override
@@ -40,20 +33,20 @@ public class Tab1 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
 
-        mAuth = FirebaseAuth.getInstance();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users");
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users");
 
 
-        mFeedingButton = view.findViewById(R.id.feeding_button);
-        mSleepButton = view.findViewById(R.id.sleep_button);
-        mDiaperChangeButton = view.findViewById(R.id.diaper_change_button);
-        mChartButton = view.findViewById(R.id.chart_button);
-        mTummyTime = view.findViewById(R.id.tummytime_button);
-        mWeightTracking = view.findViewById(R.id.weight_tracker_button);
+        Button mFeedingButton = view.findViewById(R.id.feeding_button);
+        Button mSleepButton = view.findViewById(R.id.sleep_button);
+        Button mDiaperChangeButton = view.findViewById(R.id.diaper_change_button);
+        Button mChartButton = view.findViewById(R.id.chart_button);
+        Button mTummyTime = view.findViewById(R.id.tummytime_button);
+        Button mWeightTracking = view.findViewById(R.id.weight_tracker_button);
         baby_pic = view.findViewById(R.id.imageView3);
         mDisplayBabyName = view.findViewById(R.id.txt_view_baby_name);
         mDisplayBabyBirthAge = view.findViewById(R.id.txt_view_birthday);
-        mMemoriesBtn = view.findViewById(R.id.btn_memories);
+        Button mMemoriesBtn = view.findViewById(R.id.btn_memories);
 
         DatabaseReference current_user_pic = mDatabaseRef.child(mAuth.getCurrentUser().getUid()).child("Info").child("profile_pic");
         current_user_pic.addValueEventListener(new ValueEventListener() {
@@ -125,7 +118,7 @@ public class Tab1 extends Fragment {
         }));
 
 
-        // __________________RETRIVE BABY NAME_________________________________
+        // __________________RETRIEVE BABY NAME_________________________________
 
         DatabaseReference current_user_name = mDatabaseRef.child(mAuth.getCurrentUser().getUid()).child("Info").child("name");
         current_user_name.addValueEventListener(new ValueEventListener() {
@@ -140,9 +133,9 @@ public class Tab1 extends Fragment {
                 //Toast.makeText(HomeActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        // __________________RETRIVE BABY NAME_________________________________
+        // __________________RETRIEVE BABY NAME_________________________________
 
-        // __________________RETRIVE BABY BIRTHDATE FOR AGE_________________________________
+        // __________________RETRIEVE BABY BIRTHDATE FOR AGE_________________________________
 
         DatabaseReference current_user_name2 = mDatabaseRef.child(mAuth.getCurrentUser().getUid()).child("Info").child("birthday");
         current_user_name2.addValueEventListener(new ValueEventListener() {
@@ -191,7 +184,7 @@ public class Tab1 extends Fragment {
                 //Toast.makeText(HomeActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        // __________________RETRIVE BABY BIRTHDATE FOR AGE_________________________________
+        // __________________RETRIEVE BABY BIRTHDATE FOR AGE_________________________________
 
 
 

@@ -118,7 +118,11 @@ public class ChangeProfilePicFragment extends Fragment {
                     @Override
                     public void onSuccess(Void aVoid) {
                         uploadImageToFirebaseStorage();
-                        System.out.println("+++++++IMGURL " + mImgURL);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 

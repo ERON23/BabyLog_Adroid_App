@@ -151,13 +151,14 @@ public class NutritionActivity extends AppCompatActivity implements
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        String amOrPm = " AM";
-        if(hour > 12){
-            hour = hour - 12;
-            amOrPm = " PM";
-        }
-        mDateAndTimeMeal.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ hour + ":"+ minute + amOrPm +")");
-        mTime = " ("+ hour + ":"+ minute + amOrPm+")";
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        String updateTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(calendar.getTime());
+        mDateAndTimeMeal.setText(monthFinal + "-"+ dayFinal + "-"+ yearFinal + " ("+ hour + ":"+ minute + updateTime +")");
+
+        mTime = " ("+ updateTime +")";
     }
 
     @Override

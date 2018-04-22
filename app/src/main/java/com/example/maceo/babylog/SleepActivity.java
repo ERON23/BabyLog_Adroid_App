@@ -3,6 +3,7 @@ package com.example.maceo.babylog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
@@ -10,7 +11,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
@@ -211,12 +211,14 @@ public class SleepActivity extends AppCompatActivity
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        String amOrPm = " AM";
-        if(hour > 12){
-            hour = hour - 12;
-            amOrPm = " PM";
-        }
-        mTime = " (" + hour + ":" + minute + amOrPm + ")";
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        String updateTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(calendar.getTime());
+//        mDateAndTime.setText(monthFinal + "-"+ dayFinal + "-"+ yearFinal + " ("+ hour + ":"+ minute + updateTime +")");
+
+        mTime = " ("+ updateTime +")";
     }
 
     @Override

@@ -1,42 +1,31 @@
 package com.example.maceo.babylog;
 
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import com.nex3z.notificationbadge.NotificationBadge;
-
-import java.util.Map;
-
 
 public class Tab2 extends Fragment {
-/*
-    Button mIncrease, mDecrease, mClear;
-    NotificationBadge mbadge;
-    int count = 0;
-*/
+
     private TextView mLastBottleFeedingTimeStamp, mLastBFOZ,mLastBFNote;
     private TextView mLastBreastFeedTimeStamp, mLeftBreastFeed, mRightBreastFeed, mLastBreastFeedNote;
     private TextView mLastMealFeedTimeStamp, mLastMealConsumed, mLastSupplementConsumed, mLastMealNote;
     private TextView mLastDiaperTimeStamp, mLastDiaperStatus, mLastDiaperNote;
     private TextView mLastNapTimeStamp, mLastNapDuration, mLastNapNote;
 
+    private ValueEventListener valueEventListener, valueEventListener2, valueEventListener3, valueEventListener4, valueEventListener5;
 
-
-    private FirebaseAuth mAuth;
+    private DatabaseReference current_user_db, current_user_db2, current_user_db3, current_user_db4, current_user_db5;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,28 +37,28 @@ public class Tab2 extends Fragment {
         mLastBottleFeedingTimeStamp = view.findViewById(R.id.last_date_and_time);
         mLastBFOZ = view.findViewById(R.id.last_amount_in_oz);
         mLastBFNote = view.findViewById(R.id.txt_last_bf_note);
-        mLastBreastFeedTimeStamp = (TextView) view.findViewById(R.id.last_date_and_time_breast_feed);
-        mLeftBreastFeed = (TextView) view.findViewById(R.id.left_breast_feed_time);
-        mRightBreastFeed = (TextView) view.findViewById(R.id.right_breast_feed_time);
-        mLastBreastFeedNote = (TextView) view.findViewById(R.id.txt_note_breast_feed);
-        mLastMealFeedTimeStamp = (TextView) view.findViewById(R.id.last_time_stamp_meals);
-        mLastMealConsumed = (TextView) view.findViewById(R.id.last_meal_consumed);
-        mLastSupplementConsumed = (TextView) view.findViewById(R.id.last_supplement_consumed);
-        mLastMealNote = (TextView) view.findViewById(R.id.txt_note_meal);
-        mLastDiaperTimeStamp = (TextView) view.findViewById(R.id.diaper_last_timestamp);
-        mLastDiaperStatus = (TextView) view.findViewById(R.id.edt_diaper_status);
-        mLastDiaperNote = (TextView) view.findViewById(R.id.edt_diaper_note);
-        mLastNapTimeStamp = (TextView) view.findViewById(R.id.nap_last_timestamp);
-        mLastNapDuration = (TextView) view.findViewById(R.id.edt_nap_duration);
-        mLastNapNote = (TextView) view.findViewById(R.id.edt_nap_notes);
+        mLastBreastFeedTimeStamp = view.findViewById(R.id.last_date_and_time_breast_feed);
+        mLeftBreastFeed = view.findViewById(R.id.left_breast_feed_time);
+        mRightBreastFeed = view.findViewById(R.id.right_breast_feed_time);
+        mLastBreastFeedNote = view.findViewById(R.id.txt_note_breast_feed);
+        mLastMealFeedTimeStamp = view.findViewById(R.id.last_time_stamp_meals);
+        mLastMealConsumed = view.findViewById(R.id.last_meal_consumed);
+        mLastSupplementConsumed = view.findViewById(R.id.last_supplement_consumed);
+        mLastMealNote = view.findViewById(R.id.txt_note_meal);
+        mLastDiaperTimeStamp = view.findViewById(R.id.diaper_last_timestamp);
+        mLastDiaperStatus = view.findViewById(R.id.edt_diaper_status);
+        mLastDiaperNote = view.findViewById(R.id.edt_diaper_note);
+        mLastNapTimeStamp = view.findViewById(R.id.nap_last_timestamp);
+        mLastNapDuration = view.findViewById(R.id.edt_nap_duration);
+        mLastNapNote = view.findViewById(R.id.edt_nap_notes);
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String user_id = mAuth.getCurrentUser().getUid();
-        final DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference()
+        current_user_db = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(user_id)
                 .child("Feeding").child("Bottle Feeding").child("Time Stamp");
 
-        current_user_db.addValueEventListener(new ValueEventListener() {
+        valueEventListener = current_user_db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child: dataSnapshot.getChildren()){
@@ -90,14 +79,10 @@ public class Tab2 extends Fragment {
                                 mLastBFNote.setText(Bottle_Feeding_Notes);
                             }
                         }
-
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                         }
                     });
-
-
-
                 }
             }
 
@@ -112,11 +97,11 @@ public class Tab2 extends Fragment {
          */
 
         // beginning of brest feeding
-        final DatabaseReference current_user_db2 = FirebaseDatabase.getInstance().getReference()
+        current_user_db2 = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(mAuth.getCurrentUser().getUid())
                 .child("Feeding").child("Breast Feeding").child("Time Stamp");
 
-        current_user_db2.addValueEventListener(new ValueEventListener() {
+        valueEventListener2 = current_user_db2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child: dataSnapshot.getChildren()){
@@ -142,9 +127,6 @@ public class Tab2 extends Fragment {
 
                         }
                     });
-
-
-
                 }
             }
 
@@ -160,11 +142,11 @@ public class Tab2 extends Fragment {
          */
 
         // beginning of meal feeding
-        final DatabaseReference current_user_db3 = FirebaseDatabase.getInstance().getReference()
+        current_user_db3 = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(mAuth.getCurrentUser().getUid())
                 .child("Feeding").child("Meal Feeding").child("Time Stamp");
 
-       current_user_db3.addValueEventListener(new ValueEventListener() {
+       valueEventListener3 = current_user_db3.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child: dataSnapshot.getChildren()){
@@ -203,11 +185,11 @@ public class Tab2 extends Fragment {
          */
 
         // beginning of Diaper Status
-        final DatabaseReference current_user_db4 = FirebaseDatabase.getInstance().getReference()
+        current_user_db4 = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(mAuth.getCurrentUser().getUid())
                 .child("Diaper Status").child("Time Stamp");
 
-        current_user_db4.addValueEventListener(new ValueEventListener() {
+        valueEventListener4 = current_user_db4.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child: dataSnapshot.getChildren()){
@@ -230,7 +212,6 @@ public class Tab2 extends Fragment {
                             public void onCancelled(DatabaseError databaseError) {
                             }
                         });
-
                     }
                 }
 
@@ -245,11 +226,11 @@ public class Tab2 extends Fragment {
 
         // Beginning of Sleep Status
 
-        final DatabaseReference current_user_db5 = FirebaseDatabase.getInstance().getReference()
+        current_user_db5 = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(mAuth.getCurrentUser().getUid())
                 .child("Nap Entry").child("Time Stamp");
 
-        current_user_db5.addValueEventListener(new ValueEventListener() {
+        valueEventListener5 = current_user_db5.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot child: dataSnapshot.getChildren()){
@@ -283,6 +264,16 @@ public class Tab2 extends Fragment {
 
         //end of on create method
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        current_user_db.removeEventListener(valueEventListener);
+        current_user_db2.removeEventListener(valueEventListener2);
+        current_user_db3.removeEventListener(valueEventListener3);
+        current_user_db4.removeEventListener(valueEventListener4);
+        current_user_db5.removeEventListener(valueEventListener5);
     }
 
 }

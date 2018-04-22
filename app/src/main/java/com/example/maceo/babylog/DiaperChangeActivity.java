@@ -144,9 +144,9 @@ public class DiaperChangeActivity extends AppCompatActivity implements
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         String updateTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(calendar.getTime());
-        mLastDiaperChangeTimeStamp.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ updateTime +")");
+        mLastDiaperChangeTimeStamp.setText(monthFinal + "-"+ dayFinal + "-"+ yearFinal + " ("+ hour + ":"+ minute + updateTime +")");
 
-        mTime = " ("+ updateTime+")";
+        mTime = " ("+ updateTime +")";
     }
 
     public void addListenerOnSpinnerItemSelection() {
