@@ -3,10 +3,10 @@ package com.example.maceo.babylog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -147,7 +147,7 @@ public class MemoriesActivity extends AppCompatActivity {
                                     taskSnapshot.getDownloadUrl().toString());
                             String uploadId = mDatabaseRef.push().getKey();
                             newPost.put("name", mEditTextFileName.getText().toString().trim());
-                            newPost.put("uploadId", taskSnapshot.getDownloadUrl().toString());
+                            newPost.put("imageUrl", taskSnapshot.getDownloadUrl().toString());
                             mDatabaseRef.child(uploadId).setValue(newPost);
                         }
                     })
