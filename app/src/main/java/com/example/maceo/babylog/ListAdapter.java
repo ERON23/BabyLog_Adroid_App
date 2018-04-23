@@ -39,7 +39,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         holder.textViewTitle.setText(listItem.getTitle());
         holder.textViewDate.setText(listItem.getDate());
         holder.textViewTime.setText(listItem.getTime());
-        System.out.println("++++++++++" + listItem.getOnOff());
         holder.mSwitch.setChecked(listItem.getOnOff());
 
     }

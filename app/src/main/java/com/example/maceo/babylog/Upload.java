@@ -10,7 +10,7 @@ public class Upload {
     private String mImageUrl;
     private String mKey;
 
-    public Upload(){
+    public Upload(String trim, String s){
         // empty constructor needed
     }
 

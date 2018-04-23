@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "416547719463-rreru0uh2uq8p6k3l9hn4ov19c851cd6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.maceo.babylog",
+            "certificate_hash": "29a1e23e77e1e12765e639d8d0e23684c44ba9d5"
+          }
+        },
+        {
+          "client_id": "416547719463-06cbcjbai4qesu8jg413c2vrve3vh8uj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.maceo.babylog",
+            "certificate_hash": "516c649679a7c747d46af9f67122445c30defd5d"
+          }
+        },
+        {
           "client_id": "416547719463-lvd3dk1jbmvsm5kqmtjslef6tkunnkbk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
