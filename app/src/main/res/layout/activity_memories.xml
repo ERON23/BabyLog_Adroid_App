@@ -9,19 +9,24 @@
 
     <Button
         android:id="@+id/button_choose_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Choose Memory" />
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/choose_from_gallery_btn" />
 
     <EditText
         android:id="@+id/edit_text_file_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/button_choose_image"
         android:layout_toRightOf="@+id/button_choose_image"
-        android:hint="Memory Name" />
+        android:background="@drawable/rectangle"
+        android:hint="Memory Name"
+        android:paddingLeft="5dp" />
 
     <ImageView
         android:id="@+id/image_view"
@@ -43,21 +48,21 @@
 
     <Button
         android:id="@+id/button_upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Upload" />
+        android:background="@drawable/save_memory_btn" />
 
     <TextView
         android:id="@+id/text_view_show_uploads"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button_upload"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="23dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/view_memories_btn"
         android:gravity="center"
-        android:text="Show Memories"
         android:textSize="16sp" />
 
 </RelativeLayout>
