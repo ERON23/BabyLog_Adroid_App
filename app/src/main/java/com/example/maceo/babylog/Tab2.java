@@ -242,10 +242,16 @@ public class Tab2 extends Fragment {
                         for (DataSnapshot child : dataSnapshot.getChildren()){
                             String time = child.getKey();
                             mLastNapTimeStamp.setText(date + " " + time);
-                            String lastNapDuration = child.child("Nap_Duration").getValue(String.class);
-                            mLastNapDuration.setText(lastNapDuration);
-                            String lastNapNote = child.child("Nap_Notes").getValue(String.class);
-                            mLastNapNote.setText(lastNapNote);
+                            String lastNapDuration = child.child("sleep_time").getValue(String.class);
+                            int lastNapDuration2 = Integer.parseInt(lastNapDuration);
+                            if (lastNapDuration2 > 1){
+                                mLastNapDuration.setText(lastNapDuration2 + " mins");
+                            } else {
+                                mLastNapDuration.setText(lastNapDuration + " min");
+                            }
+                            //mLastNapDuration.setText(lastNapDuration + " mins");
+                            /*String lastNapNote = child.child("Nap_Notes").getValue(String.class);
+                            mLastNapNote.setText(lastNapNote);*/
                         }
                     }
 

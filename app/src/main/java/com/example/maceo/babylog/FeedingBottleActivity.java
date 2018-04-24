@@ -72,7 +72,7 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
 
                 current_user_db.child(mDate).child(mTime).setValue(newPost);
 
-                Intent i =new Intent(getApplicationContext(),FeedingActivity.class);
+                Intent i =new Intent(getApplicationContext(),HomeActivity.class);
                 startActivity(i);
             }
         });
@@ -96,22 +96,21 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
     }
 
     @Override
-
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        yearFinal = year;
-        monthFinal = month + 1;
-        dayFinal = day;
+
+        yearFinal =year;
+        monthFinal =month + 1;
+        dayFinal =day;
 
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(FeedingBottleActivity.this, FeedingBottleActivity.this,
+        TimePickerDialog timePickerDialog =new TimePickerDialog(FeedingBottleActivity.this, FeedingBottleActivity.this,
                 hour,minute, DateFormat.is24HourFormat(this));
         timePickerDialog.show();
 
         mDate = monthFinal + "-" + dayFinal + "-" + yearFinal;
-
     }
 
     @Override
@@ -121,16 +120,16 @@ public class FeedingBottleActivity extends AppCompatActivity implements DatePick
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         String updateTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(calendar.getTime());
-        mDateAndTime.setText(monthFinal + "-"+ dayFinal + "-"+ yearFinal + " ("+ hour + ":"+ minute + updateTime +")");
+        mDateAndTime.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ updateTime +")");
 
-        mTime = " ("+ updateTime +")";
+        mTime = " ("+ updateTime+")";
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    /*@Override
+   *//* public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

@@ -26,9 +26,6 @@ public class WeighyTrackingActivity extends AppCompatActivity {
 
     Button savebutton;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

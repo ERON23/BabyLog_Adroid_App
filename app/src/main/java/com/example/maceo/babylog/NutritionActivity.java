@@ -134,9 +134,9 @@ public class NutritionActivity extends AppCompatActivity implements
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
-        yearFinal = year;
-        monthFinal = month + 1;
-        dayFinal = day;
+        yearFinal =year;
+        monthFinal =month + 1;
+        dayFinal =day;
 
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -146,7 +146,7 @@ public class NutritionActivity extends AppCompatActivity implements
                 hour,minute, DateFormat.is24HourFormat(this));
         timePickerDialog.show();
 
-        mDate = monthFinal + "-"+dayFinal+ "-"+yearFinal;
+        mDate = monthFinal + "-" + dayFinal + "-" + yearFinal;
     }
 
     @Override
@@ -156,9 +156,9 @@ public class NutritionActivity extends AppCompatActivity implements
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         String updateTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(calendar.getTime());
-        mDateAndTimeMeal.setText(monthFinal + "-"+ dayFinal + "-"+ yearFinal + " ("+ hour + ":"+ minute + updateTime +")");
+        mDateAndTimeMeal.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ updateTime +")");
 
-        mTime = " ("+ updateTime +")";
+        mTime = " ("+ updateTime+")";
     }
 
     @Override

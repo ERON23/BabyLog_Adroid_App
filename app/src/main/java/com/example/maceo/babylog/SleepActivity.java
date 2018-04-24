@@ -3,7 +3,6 @@ package com.example.maceo.babylog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
@@ -11,16 +10,20 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -36,26 +39,14 @@ import java.util.List;
 import java.util.Map;
 
 public class SleepActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
+        implements /*NavigationView.OnNavigationItemSelectedListener,*/
         DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
 
-    TextView textView ;
-    EditText editText;
-    Button start, pause, reset, lap, savebutton;
-
-    long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
-
-    Handler handler;
-
-    int Seconds, Minutes, MilliSeconds ;
-
-    ListView listView ;
-
-    String[] ListElements = new String[] {  };
-
-    List<String> ListElementsArrayList ;
-
-    ArrayAdapter<String> adapter ;
+    ImageButton mStartSleepButton;
+    Button mSleepSaveButton;
+    EditText mLastSleepTimeStamp;
+    TextView mSleepTime;
+    NumberPicker noPicker;
     private FirebaseAuth mAuth;
     private String mDate;
     private String mTime;
@@ -66,33 +57,26 @@ public class SleepActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
 
+        //Start code here
         mAuth = FirebaseAuth.getInstance();
+        mStartSleepButton =(ImageButton) findViewById(R.id.start_sleep_timestamp_btn);
+        mSleepSaveButton = (Button) findViewById(R.id.btn_save_sleep);
+        mLastSleepTimeStamp = (EditText) findViewById(R.id.edt_sleep_time_stamp);
+        mSleepTime = (TextView) findViewById(R.id.txt_sleep_time_view);
+        noPicker = findViewById(R.id.number_picker_sleep);
 
-        textView = (TextView)findViewById(R.id.textView);
-        editText = (EditText) findViewById(R.id.editText);
-        start = (Button)findViewById(R.id.button);
-        pause = (Button)findViewById(R.id.button2);
-        reset = (Button)findViewById(R.id.button3);
-        lap = (Button)findViewById(R.id.button4) ;
-        savebutton = (Button)findViewById(R.id.savebutton) ;
-        listView = (ListView)findViewById(R.id.listview1);
+        noPicker.setMaxValue(60);
+        noPicker.setMinValue(0);
+        noPicker.setWrapSelectorWheel(true);
 
-        handler = new Handler() ;
+        noPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                mSleepTime.setText(String.valueOf(newVal));
+            }
+        });
 
-        ListElementsArrayList = new ArrayList<String>(Arrays.asList(ListElements));
-
-        //this line hides keyboard until the keyboard in the edit text is needed
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                ListElementsArrayList
-        );
-
-        listView.setAdapter(adapter);
-
-        start.setOnClickListener(new View.OnClickListener() {
+        mStartSleepButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
@@ -100,85 +84,57 @@ public class SleepActivity extends AppCompatActivity
                 int month = c.get(Calendar.MONTH);
                 int day =c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(SleepActivity.this,
-                        SleepActivity.this, year,month,day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SleepActivity.this, SleepActivity.this,
+                        year,month,day);
                 datePickerDialog.show();
 
-                StartTime = SystemClock.uptimeMillis();
-                handler.postDelayed(runnable, 0);
-
-                reset.setEnabled(false);
-
             }
         });
 
-        pause.setOnClickListener(new View.OnClickListener() {
+
+        mSleepSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                TimeBuff += MillisecondTime;
-
-                handler.removeCallbacks(runnable);
-
-                reset.setEnabled(true);
-
-            }
-        });
-
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                MillisecondTime = 0L ;
-                StartTime = 0L ;
-                TimeBuff = 0L ;
-                UpdateTime = 0L ;
-                Seconds = 0 ;
-                Minutes = 0 ;
-                MilliSeconds = 0 ;
-
-                textView.setText("00:00");
-                //textView.setText("00:00:00");
-
-                ListElementsArrayList.clear();
-
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        lap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                ListElementsArrayList.add(textView.getText().toString());
-
-                adapter.notifyDataSetChanged();
-
-            }
-        });
-
-        savebutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String duration = textView.getText().toString();
-                String notes = editText.getText().toString();
+                String dateAndTime = mLastSleepTimeStamp.getText().toString();
+                String sleep_time = mSleepTime.getText().toString();
+                //database stuff here
                 String user_id = mAuth.getCurrentUser().getUid();
                 DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users")
                         .child(user_id).child("Nap Entry").child("Time Stamp");
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
 
                 Map newPost = new HashMap();
-                newPost.put("Nap_Duration", duration);
-                newPost.put("Nap_Notes", notes);
+                //newPost.put("last_diaper_status", diaperStatus);
+                newPost.put("sleep_time",sleep_time);
+                newPost.put("Date_and_Time",dateAndTime);
 
                 current_user_db.child(mDate).child(mTime).setValue(newPost);
+                //end of database stuff
+
 
                 Intent i =new Intent(getApplicationContext(),HomeActivity.class);
                 startActivity(i);
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        /*NumberPicker noPicker;
+        final TextView lb_w2;*/
+        /*lb_w2 = findViewById(R.id.txt_sleep_time_view);
+        noPicker = findViewById(R.id.number_picker_sleep);
+        noPicker.setMaxValue(60);
+        noPicker.setMinValue(1);
+        noPicker.setWrapSelectorWheel(true);
+
+        noPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                lb_w2.setText(String.valueOf(newVal));
+            }
+        });*/
+
+        //end code here
+
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.myDrawer);
@@ -188,14 +144,16 @@ public class SleepActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
+        navigationView.setNavigationItemSelectedListener(this);*/
+    } // end of oncreae
+
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        yearFinal = year;
-        monthFinal = month + 1;
-        dayFinal = day;
+
+        yearFinal =year;
+        monthFinal =month + 1;
+        dayFinal =day;
 
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -205,8 +163,7 @@ public class SleepActivity extends AppCompatActivity
                 hour,minute, DateFormat.is24HourFormat(this));
         timePickerDialog.show();
 
-        mDate = monthFinal + "-" +dayFinal+ "-" +yearFinal;
-
+        mDate = monthFinal + "-" + dayFinal + "-" + yearFinal;
     }
 
     @Override
@@ -216,97 +173,15 @@ public class SleepActivity extends AppCompatActivity
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         String updateTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(calendar.getTime());
-//        mDateAndTime.setText(monthFinal + "-"+ dayFinal + "-"+ yearFinal + " ("+ hour + ":"+ minute + updateTime +")");
+        mLastSleepTimeStamp.setText(monthFinal + "/"+ dayFinal + "/"+ yearFinal + " ("+ updateTime +")");
 
-        mTime = " ("+ updateTime +")";
+        mTime = " ("+ updateTime+")";
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.myDrawer);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        //here is the main place where we need to work on.
-        int id=item.getItemId();
-        switch (id){
-            case R.id.home:
-                Intent intent = new Intent(this,HomeActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.feed:
-                Intent h= new Intent(this,FeedingActivity.class);
-                startActivity(h);
-                break;
-            case R.id.sleep:
-                /*Intent i= new Intent(this,SleepActivity.class);
-                startActivity(i);*/
-                break;
-            case R.id.diaper:
-                Intent g= new Intent(this,DiaperChangeActivity.class);
-                startActivity(g);
-                break;
-            case R.id.chart:
-                Intent s= new Intent(this,ChartActivity.class);
-                startActivity(s);
-                break;
-            case R.id.journal:
-                /*Intent t= new Intent(this,.class);
-                startActivity(t);*/
-                break;
-            case R.id.tt:
-                /*Intent t= new Intent(this,.class);
-                startActivity(t);*/
-                break;
-            case R.id.weightT:
-                /*Intent t= new Intent(this,.class);
-                startActivity(t);*/
-                break;
-            case R.id.logOut:
-                FirebaseAuth.getInstance().signOut();
-                Intent l = new Intent(this, LoginActivity.class);
-                startActivity(l);
-                break;
-        }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.myDrawer);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
-    public Runnable runnable = new Runnable() {
 
-        public void run() {
 
-            MillisecondTime = SystemClock.uptimeMillis() - StartTime;
 
-            UpdateTime = TimeBuff + MillisecondTime;
-
-            Seconds = (int) (UpdateTime / 1000);
-
-            Minutes = Seconds / 60;
-
-            Seconds = Seconds % 60;
-
-            MilliSeconds = (int) (UpdateTime % 1000);
-
-            /*textView.setText("" + Minutes + ":"
-                    + String.format("%02d", Seconds) + ":"
-                    + String.format("%03d", MilliSeconds));*/
-
-            textView.setText("" + Minutes + ":"
-                    + String.format("%02d", Seconds));
-
-            handler.postDelayed(this, 0);
-        }
-
-    };
 }
