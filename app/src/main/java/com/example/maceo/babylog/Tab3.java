@@ -50,6 +50,7 @@ import java.util.List;
 public class Tab3 extends Fragment {
 
     LineChart mBottleFeedingChart;
+    LineChart mBreastFeeding Chart;
     BarChart mSleepingchart;
     PieChart mDiaperChangeChart;
     private FirebaseAuth mAuth;
@@ -64,6 +65,7 @@ public class Tab3 extends Fragment {
 
         // __________________START FOR CREATING BABY BOTTLE GRAPH_________________________________
         mBottleFeedingChart = (LineChart) view.findViewById(R.id.line_chart_bottle_feeding);
+        mBreastFeedingChart = (LineChart) view.findViewById(R.id.line_chart_breast_feeding);
 
         // __________________START FOR Retrieving database(bottle time and amount in OZ) information_________________________________
 
@@ -397,6 +399,31 @@ public class Tab3 extends Fragment {
         mBottleFeedingChart.invalidate();
         mBottleFeedingChart.animateY(2000);
 
+    }
+    
+    private void drawMultiLineGraph(float[] yValues, float[] yValues2, String[] xValues){
+        ArrayList<Entry> yData = new ArrayList<>();
+        ArrayList<Entry> yData2 = new ArrayList<>();
+        for(int i = 0; i < yValues.length; i++)
+        {
+            yData.add(new Entry(i, yValues[i]));
+            yData2.add(new Entry(i, yValues2[i]));
+        }
+        ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+        LineDataSet setl, setr;
+        setl = new LineDataSet(yData, "Left Breast Feeding");
+        setl.setColor(Color.BLUE);
+        setr = new LineDataSet(yData2, "Right Breast Feeding");
+        setr.setColor(Color.GREEN);
+        lineDataSets.add(setl);
+        lineDataSets.add(setr);
+        LineData data = new LineData(lineDataSets);
+        //LineData data2 = new LineData(setr);
+        mBreastFeedingChart.getXAxis().setValueFormatter(new LabelFormatter(xValues));
+        mBreastFeedingChart.setData(data);
+        mBreastFeedingChart.invalidate();
+        mBreastFeedingChart.animateY(2000);
+        //mBreastFeedingChart.setData(data2);
     }
 
     public class LabelFormatter implements IAxisValueFormatter {
