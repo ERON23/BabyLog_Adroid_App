@@ -140,7 +140,80 @@ public class Tab3 extends Fragment {
 
         // __________________ENDING FOR CREATING BABY BOTTLE GRAPH_________________________________
 
+        final DatabaseReference current_user_db5 = FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(mAuth.getCurrentUser().getUid())
+                .child("Feeding").child("Breast Feeding").child("Time Stamp");
 
+        current_user_db5.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child: dataSnapshot.getChildren()){
+                    final String date = child.getKey();
+
+                    current_user_db5.child(date).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            String time1 = "0";
+                            String[] xValues = {time1};
+                            float lFeedingDuration = 0;
+                            float[] yValues = {lFeedingDuration};
+                            float rFeedingDuration = 0;
+                            float[] yValues2 = {rFeedingDuration};
+
+                            for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                                String time2 = snapshot.getKey();
+
+                                int currentSize = xValues.length;
+                                int newSize = currentSize + 1;
+                                String[] tempArray = new String[newSize];
+                                for(int i = 0; i < currentSize; i++)
+                                {
+                                    tempArray[i] = xValues[i];
+                                }
+                                tempArray[newSize - 1] = time2;
+                                xValues = tempArray;
+                            }
+
+                            for(DataSnapshot child: dataSnapshot.getChildren()) {
+                                String lBreastFeedingDuration = child.child("Left_Breast_Feeding_Time").getValue(String.class);
+                                float lBreastDuration = Float.parseFloat(lBreastFeedingDuration);
+                                String rBreastFeedingDuration = child.child("Right_Breast_Feeding_Time").getValue(String.class);
+                                float rBreastDuration = Float.parseFloat(rBreastFeedingDuration);
+
+                                int currentSize = yValues.length;
+                                int newSize = currentSize + 1;
+                                float[] tempArray = new float[newSize];
+                                float[] tempArray2 = new float[newSize];
+                                for (int i = 0; i < currentSize; i++) {
+                                    tempArray[i] = yValues[i];
+                                    tempArray2[i] = yValues2[i];
+                                }
+                                tempArray[newSize - 1] = lBreastDuration;
+                                tempArray2[newSize - 1] = rBreastDuration;
+                                yValues = tempArray;
+                                yValues2 = tempArray2;
+                            }
+
+                            XAxis xAxis = mBreastFeedingChart.getXAxis();
+                            xAxis.setGranularity(1f);
+                            xAxis.setGranularityEnabled(true);
+                            drawMultiLineGraph(yValues, yValues2, xValues);
+                            //drawLineGraph(yValues, xValues);
+                            //drawLineGraph(yValues2, xValues);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError){
+            }
+        });
 
 
         // __________________START FOR CREATING Sleeping GRAPH_________________________________
