@@ -24,7 +24,7 @@ import java.util.Calendar;
 
 public class Tab1 extends Fragment {
     private ImageView baby_pic;
-    private TextView mDisplayBabyName, mDisplayBabyBirthAge;
+    private TextView mDisplayBabyName, mDisplayBabyBirthAge, mDisplayBabyWeight;
 
     @Nullable
     @Override
@@ -40,12 +40,13 @@ public class Tab1 extends Fragment {
         Button mFeedingButton = view.findViewById(R.id.feeding_button);
         Button mSleepButton = view.findViewById(R.id.sleep_button);
         Button mDiaperChangeButton = view.findViewById(R.id.diaper_change_button);
-        Button mChartButton = view.findViewById(R.id.chart_button);
+        //Button mChartButton = view.findViewById(R.id.chart_button);
         Button mTummyTime = view.findViewById(R.id.tummytime_button);
         Button mWeightTracking = view.findViewById(R.id.weight_tracker_button);
         baby_pic = view.findViewById(R.id.imageView3);
         mDisplayBabyName = view.findViewById(R.id.txt_view_baby_name);
         mDisplayBabyBirthAge = view.findViewById(R.id.txt_view_birthday);
+        mDisplayBabyWeight = view.findViewById(R.id.txt_view_weight);
         Button mMemoriesBtn = view.findViewById(R.id.btn_memories);
 
         DatabaseReference current_user_pic = mDatabaseRef.child(mAuth.getCurrentUser().getUid()).child("Info").child("profile_pic");
@@ -94,13 +95,13 @@ public class Tab1 extends Fragment {
             }
         });
 
-        mChartButton.setOnClickListener(new View.OnClickListener() {
+        /*mChartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent x = new Intent(getActivity(),ChartActivity.class);
                 startActivity(x);
             }
-        });
+        });*/
         mWeightTracking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,6 +135,24 @@ public class Tab1 extends Fragment {
             }
         });
         // __________________RETRIEVE BABY NAME_________________________________
+
+        // __________________RETRIEVE BABY WEIGHT_________________________________
+
+        DatabaseReference current_user_name4 = mDatabaseRef.child(mAuth.getCurrentUser().getUid()).child("Info").child("weight");
+        current_user_name4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String weight = dataSnapshot.getValue(String.class);
+                mDisplayBabyWeight.setText(weight+"  lbs");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //Toast.makeText(HomeActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        // __________________RETRIEVE BABY WEIGHT_________________________________
+
 
         // __________________RETRIEVE BABY BIRTHDATE FOR AGE_________________________________
 

@@ -31,6 +31,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +39,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import java.util.stream.*;
+
 
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
@@ -45,12 +48,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.IntStream;
 
 
 public class Tab3 extends Fragment {
 
     LineChart mBottleFeedingChart;
-    LineChart mBreastFeeding Chart;
+    LineChart mBreastFeedingChart;
     BarChart mSleepingchart;
     PieChart mDiaperChangeChart;
     private FirebaseAuth mAuth;
@@ -65,8 +69,6 @@ public class Tab3 extends Fragment {
 
         // __________________START FOR CREATING BABY BOTTLE GRAPH_________________________________
         mBottleFeedingChart = (LineChart) view.findViewById(R.id.line_chart_bottle_feeding);
-        mBreastFeedingChart = (LineChart) view.findViewById(R.id.line_chart_breast_feeding);
-
         // __________________START FOR Retrieving database(bottle time and amount in OZ) information_________________________________
 
         final DatabaseReference current_user_db4 = FirebaseDatabase.getInstance().getReference()
@@ -142,6 +144,13 @@ public class Tab3 extends Fragment {
 
         // __________________ENDING FOR CREATING BABY BOTTLE GRAPH_________________________________
 
+
+
+
+        // __________________START FOR CREATING BREASTFEEDING GRAPH_________________________________
+        mBreastFeedingChart = (LineChart) view.findViewById(R.id.line_chart_breast_feeding);
+
+
         final DatabaseReference current_user_db5 = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(mAuth.getCurrentUser().getUid())
                 .child("Feeding").child("Breast Feeding").child("Time Stamp");
@@ -156,12 +165,12 @@ public class Tab3 extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            String time1 = "0";
-                            String[] xValues = {time1};
-                            float lFeedingDuration = 0;
-                            float[] yValues = {lFeedingDuration};
-                            float rFeedingDuration = 0;
-                            float[] yValues2 = {rFeedingDuration};
+                            //String time1 = "0";
+                            String[] xValues = {};
+                            //float lFeedingDuration = 0;
+                            float[] yValues = {};
+                            //float rFeedingDuration = 0;
+                            float[] yValues2 = {};
 
                             for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                                 String time2 = snapshot.getKey();
@@ -218,6 +227,9 @@ public class Tab3 extends Fragment {
         });
 
 
+        // __________________ENDING FOR CREATING BREASTFEEDING GRAPH_________________________________
+
+
         // __________________START FOR CREATING Sleeping GRAPH_________________________________
         mSleepingchart = (BarChart) view.findViewById(R.id.bar_chart_sleeping);
 
@@ -254,6 +266,8 @@ public class Tab3 extends Fragment {
                                 xValues_bargraph = tempArray;
 
                             }
+
+
 
                             // for loop to iterate all amount in OZ recorded on database
                             for (DataSnapshot child: dataSnapshot.getChildren()){
@@ -316,6 +330,72 @@ public class Tab3 extends Fragment {
                     current_user_db3.child(date).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            String[] yValues_piegraph={};
+                            int count_wet_diaper = 0;
+                            int count_dry_diaper = 0;
+                            int count_wet_diaper2 = 0;
+                            int count_dry_diaper2 = 0;
+                            //String diaper_stat2 = "" ;
+
+                            // for loop to iterate all amount in OZ recorded on database
+                            for (DataSnapshot child: dataSnapshot.getChildren()){
+                                String diaper_stat = child.child("last_diaper_status").getValue(String.class);
+
+                                //
+
+                                if (diaper_stat.equals("WET")){
+                                    count_wet_diaper2++;
+                                } else if (diaper_stat.equals("DRY")) {
+                                    count_dry_diaper2++;
+                                }
+
+
+                                //
+
+                                int currentSize = yValues_piegraph.length; //correct
+                                int newSize = currentSize+1; //correct
+                                String[] tempArray = new String[newSize]; //correct
+                                for (int i=0; i<currentSize; i++){
+                                    tempArray[i] = yValues_piegraph[i];
+                                }
+                                tempArray[newSize-1] = diaper_stat;
+                                yValues_piegraph = tempArray;
+
+
+                            }
+
+                            count_dry_diaper = count_dry_diaper2 + count_dry_diaper;
+                            count_wet_diaper = count_wet_diaper2 + count_wet_diaper;
+
+
+                        mDiaperChangeChart.setUsePercentValues(true);
+                        mDiaperChangeChart.getDescription().setEnabled(false);
+                        mDiaperChangeChart.setExtraOffsets(5,10,5,5);
+
+                        mDiaperChangeChart.setDragDecelerationFrictionCoef(0.15f);
+
+                        mDiaperChangeChart.setDrawHoleEnabled(true);
+                        mDiaperChangeChart.setHoleColor(Color.WHITE);
+                        mDiaperChangeChart.setTransparentCircleRadius(50);
+
+                        ArrayList<PieEntry> yValues_pieChart = new ArrayList<>();
+                        yValues_pieChart.add(new PieEntry(count_wet_diaper,"Wet"));
+                        yValues_pieChart.add(new PieEntry(count_dry_diaper,"Dry"));
+
+                        PieDataSet dataSet = new PieDataSet(yValues_pieChart,"Percentages");
+                        dataSet.setValueTextColor(Color.BLACK);
+                        dataSet.setSliceSpace(3f);
+                        dataSet.setDrawValues(true);
+                        dataSet.setSelectionShift(5f);
+                        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+
+                        PieData data = new PieData((dataSet));
+                        data.setValueTextSize(20f);
+                        data.setDrawValues(true);
+                        data.setValueTextColor(Color.BLACK);
+
+                        mDiaperChangeChart.setData(data);
+                        mDiaperChangeChart.animateY(6000);
 
 
 
@@ -350,6 +430,13 @@ public class Tab3 extends Fragment {
         // end of on create method.
         return view;
     }
+
+
+    // __________________START FOR CREATING DIAPER GRAPH_________________________________
+
+
+    // __________________END FOR CREATING DIAPER GRAPH_________________________________
+
 
 
     // __________________START FOR CREATING BABY SLEEP GRAPH_________________________________
@@ -392,7 +479,7 @@ public class Tab3 extends Fragment {
         set1 = new LineDataSet(yData,"Bottle Feeding In OZ");
         set1.setColor(Color.BLUE);
         set1.setDrawValues(true);
-        set1.setValueTextSize(10f);
+        set1.setValueTextSize(20f);
         LineData data = new LineData(set1);
         mBottleFeedingChart.getXAxis().setValueFormatter(new LabelFormatter(xValues));
         mBottleFeedingChart.setData(data);
@@ -411,10 +498,12 @@ public class Tab3 extends Fragment {
         }
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
         LineDataSet setl, setr;
-        setl = new LineDataSet(yData, "Left Breast Feeding");
-        setl.setColor(Color.BLUE);
-        setr = new LineDataSet(yData2, "Right Breast Feeding");
-        setr.setColor(Color.GREEN);
+        setl = new LineDataSet(yData, "Left Breast Feeding Time in Mins");
+        setl.setColor(Color.MAGENTA);
+        setr = new LineDataSet(yData2, "Right Breast Feeding Time in Mins");
+        setr.setColor(Color.RED);
+        setl.setValueTextSize(20f);
+        setr.setValueTextSize(20f);
         lineDataSets.add(setl);
         lineDataSets.add(setr);
         LineData data = new LineData(lineDataSets);
