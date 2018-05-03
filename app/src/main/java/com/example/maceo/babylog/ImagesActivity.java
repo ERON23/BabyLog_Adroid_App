@@ -57,6 +57,7 @@ public class ImagesActivity extends AppCompatActivity {
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users/" + user_id+ "/Uploads");
 
 
+
         valueEventListener = mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

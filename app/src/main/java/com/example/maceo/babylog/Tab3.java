@@ -453,9 +453,9 @@ public class Tab3 extends Fragment {
         set2.setDrawValues(true);
         set2.setValueTextSize(30f);
         BarData data = new BarData(set2);
-        IAxisValueFormatter xAxisFormatter = new LabelFormatter(xValues_bargraph);
+//        IAxisValueFormatter xAxisFormatter = new LabelFormatter(xValues_bargraph);
         XAxis xAxis = mSleepingchart.getXAxis();
-        xAxis.setValueFormatter(xAxisFormatter);
+//        xAxis.setValueFormatter(xAxisFormatter);
         mSleepingchart.setData(data);
         mSleepingchart.invalidate();
 
@@ -481,7 +481,7 @@ public class Tab3 extends Fragment {
         set1.setDrawValues(true);
         set1.setValueTextSize(20f);
         LineData data = new LineData(set1);
-        mBottleFeedingChart.getXAxis().setValueFormatter(new LabelFormatter(xValues));
+//       mBottleFeedingChart.getXAxis().setValueFormatter(new LabelFormatter(xValues));
         mBottleFeedingChart.setData(data);
         mBottleFeedingChart.invalidate();
         mBottleFeedingChart.animateY(2000);
@@ -507,26 +507,27 @@ public class Tab3 extends Fragment {
         lineDataSets.add(setl);
         lineDataSets.add(setr);
         LineData data = new LineData(lineDataSets);
-        //LineData data2 = new LineData(setr);
-        mBreastFeedingChart.getXAxis().setValueFormatter(new LabelFormatter(xValues));
+        LineData data2 = new LineData(setr);
+//        mBreastFeedingChart.getXAxis().setValueFormatter(new LabelFormatter(xValues));
         mBreastFeedingChart.setData(data);
         mBreastFeedingChart.invalidate();
         mBreastFeedingChart.animateY(2000);
         //mBreastFeedingChart.setData(data2);
     }
 
-    public class LabelFormatter implements IAxisValueFormatter {
-        private final String[] mLabels;
-
-        public LabelFormatter(String[] labels) {
-            mLabels = labels;
-        }
-
-        @Override
-        public String getFormattedValue(float value, AxisBase axis) {
-            return mLabels[(int) value];
-        }
-    }
+//    public class LabelFormatter implements IAxisValueFormatter {
+//        private final String[] mLabels;
+//
+//        public LabelFormatter(String[] labels) {
+//            mLabels = labels;
+//        }
+//
+//        @Override
+//        public String getFormattedValue(float value, AxisBase axis) {
+//
+//            return mLabels[(int) value];
+//        }
+//    }
 
     // __________________ENDING FOR CREATING BABY BOTTLE GRAPH_________________________________
 
