@@ -28,13 +28,9 @@ To make sure the code is working, open android studio and open the BabyLog folde
 * [Android Studio](https://developer.android.com/studio/index.html) - The IDE
 * [Firebase](https://firebase.google.com/) - Database
 
-## Authors
+## Video Demo
 
-* **Danny Salas** - *Contributor* - [DannyBoyGit](https://github.com/DannyBoiGit)
-* **Erick Ortiz** - *Contributor* - [ERON23](https://github.com/ERON23)
-* **Pedro Miranda** - *Contributor* - [pmiranda08](https://github.com/pmiranda08)
-* **Aisha Shrestha** - *Contributor* - [aishashrestha1](https://github.com/aishashrestha1)
-* **Arthur Rodriguez** - *Contributor* - [Fr3shm3n](https://github.com/Fr3shm3n)
+* [YouTube Video Link Here](https://www.youtube.com/watch?v=dazFfhWnpk8&t=11s)
 
 
 ## Screenshots
@@ -63,9 +59,13 @@ To make sure the code is working, open android studio and open the BabyLog folde
 </p>
 
 
-## Video Demo
+## Authors
 
-* [YouTube Video Link Here](https://www.youtube.com/watch?v=dazFfhWnpk8&t=11s)
+* **Danny Salas** - *Contributor* - [DannyBoyGit](https://github.com/DannyBoiGit)
+* **Erick Ortiz** - *Contributor* - [ERON23](https://github.com/ERON23)
+* **Pedro Miranda** - *Contributor* - [pmiranda08](https://github.com/pmiranda08)
+* **Aisha Shrestha** - *Contributor* - [aishashrestha1](https://github.com/aishashrestha1)
+* **Arthur Rodriguez** - *Contributor* - [Fr3shm3n](https://github.com/Fr3shm3n)
 
 ## Acknowledgments
 
