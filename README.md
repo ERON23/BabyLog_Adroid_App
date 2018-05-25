@@ -39,8 +39,34 @@ To make sure the code is working, open android studio and open the BabyLog folde
 
 ## Screenshots
 
+* HomeScreen
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/19144547/40564548-bba6cb40-602e-11e8-8f67-6f96ca2ca691.png" width="300"/>
+</p>
 
+* Summary Screen
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/19144547/40564582-cfe89b9c-602e-11e8-90fd-c13fdfea97ff.png" width="300"/>
+</p>
+
+* Graph View Screens
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/19144547/40564607-e9322f96-602e-11e8-914b-49bed4022521.png" width="300"/>
+</p>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/19144547/40564616-f307dd9a-602e-11e8-8508-012a1b966c72.png" width="300"/>
+</p>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/19144547/40564636-01d6a3c4-602f-11e8-80ae-9b46fdd1c3d3.png" width="300"/>
+</p>
+
+
+## Video Demo
+
+* [YouTube Video Link Here](https://www.youtube.com/watch?v=dazFfhWnpk8&t=11s)
 
 ## Acknowledgments
 
-* Big Thank You to our capstone professor for guiding us in our project. 
+* Big Thank You to our capstone professor for guiding us on this project. 
